@@ -1,0 +1,128 @@
+{
+    "metadata": {
+      "uploadedAt": "2025-11-19T05:54:20.245Z",
+      "totalImages": 18,
+      "successful": 18,
+      "failed": 0
+    },
+    "images": {
+      "handrails": {
+        "main_installation": {
+          "url": "https://res.cloudinary.com/jp79/image/upload/v1763531620/giralt/handrails/main_installation.jpg",
+          "width": 909,
+          "height": 682,
+          "format": "jpg"
+        },
+        "main_installation_optimized": {
+          "url": "https://res.cloudinary.com/jp79/image/upload/v1763522933/giralt/handrails/main_installation_optimized.jpg",
+          "width": 640,
+          "height": 480,
+          "format": "jpg"
+        },
+        "pedestrian_bridge": {
+          "url": "https://res.cloudinary.com/jp79/image/upload/v1763522933/giralt/handrails/pedestrian_bridge.jpg",
+          "width": 640,
+          "height": 479,
+          "format": "jpg"
+        },
+        "griffin_road": {
+          "url": "https://res.cloudinary.com/jp79/image/upload/v1763522319/giralt/handrails/griffin_road.jpg",
+          "width": 640,
+          "height": 424,
+          "format": "jpg"
+        },
+        "donald_ross_road": {
+          "url": "https://res.cloudinary.com/jp79/image/upload/v1763531620/giralt/handrails/donald_ross_road.jpg",
+          "width": 798,
+          "height": 538,
+          "format": "jpg"
+        },
+        "donald_ross_road_optimized": {
+          "url": "https://res.cloudinary.com/jp79/image/upload/v1763522933/giralt/handrails/donald_ross_road_optimized.jpg",
+          "width": 640,
+          "height": 431,
+          "format": "jpg"
+        },
+        "evans_crary_bridge": {
+          "url": "https://res.cloudinary.com/jp79/image/upload/v1763531620/giralt/handrails/evans_crary_bridge.jpg",
+          "width": 880,
+          "height": 597,
+          "format": "jpg"
+        },
+        "evans_crary_bridge_optimized": {
+          "url": "https://res.cloudinary.com/jp79/image/upload/v1763522933/giralt/handrails/evans_crary_bridge_optimized.jpg",
+          "width": 640,
+          "height": 434,
+          "format": "jpg"
+        }
+      },
+      "docks": {
+        "lafayette_hart_park": {
+          "url": "https://res.cloudinary.com/jp79/image/upload/v1763531620/giralt/docks/lafayette_hart_park.jpg",
+          "width": 512,
+          "height": 341,
+          "format": "jpg"
+        },
+        "woodland_beach_fishing_pier": {
+          "url": "https://res.cloudinary.com/jp79/image/upload/v1763522933/giralt/docks/woodland_beach_fishing_pier.jpg",
+          "width": 640,
+          "height": 480,
+          "format": "jpg"
+        },
+        "miramar_floating_gazebo": {
+          "url": "https://res.cloudinary.com/jp79/image/upload/v1763522933/giralt/docks/miramar_floating_gazebo.jpg",
+          "width": 640,
+          "height": 480,
+          "format": "jpg"
+        }
+      },
+      "seawalls": {
+        "vero_beach": {
+          "url": "https://res.cloudinary.com/jp79/image/upload/v1763522933/giralt/seawalls/vero_beach.jpg",
+          "width": 640,
+          "height": 365,
+          "format": "jpg"
+        },
+        "installation_detail": {
+          "url": "https://res.cloudinary.com/jp79/image/upload/v1763531620/giralt/seawalls/installation_detail.jpg",
+          "width": 576,
+          "height": 432,
+          "format": "jpg"
+        },
+        "chula_vista_canal": {
+          "url": "https://res.cloudinary.com/jp79/image/upload/v1763531658/giralt/seawalls/chula_vista_canal.jpg",
+          "width": 480,
+          "height": 318,
+          "format": "jpg"
+        }
+      },
+      "pedestrian_bridges": {
+        "long_key_natural_area": {
+          "url": "https://res.cloudinary.com/jp79/image/upload/v1763531620/giralt/pedestrian_bridges/long_key_natural_area.jpg",
+          "width": 448,
+          "height": 336,
+          "format": "jpg"
+        },
+        "richardson_park_boardwalk": {
+          "url": "https://res.cloudinary.com/jp79/image/upload/v1763531620/giralt/pedestrian_bridges/richardson_park_boardwalk.jpg",
+          "width": 448,
+          "height": 302,
+          "format": "jpg"
+        }
+      },
+      "wave_attenuators": {
+        "terra_verde": {
+          "url": "https://res.cloudinary.com/jp79/image/upload/v1763531659/giralt/wave_attenuators/terra_verde.jpg",
+          "width": 540,
+          "height": 358,
+          "format": "jpg"
+        },
+        "haulover": {
+          "url": "https://res.cloudinary.com/jp79/image/upload/v1763531620/giralt/wave_attenuators/haulover.jpg",
+          "width": 576,
+          "height": 382,
+          "format": "jpg"
+        }
+      }
+    }
+  }
