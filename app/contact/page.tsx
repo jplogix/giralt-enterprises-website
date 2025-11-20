@@ -27,8 +27,8 @@ export default function ContactPage() {
   }
 
   const contactInfo = [
-    { icon: MapPin, label: 'Address', value: '12260 SW 94 Street, Miami, FL 33186' },
-    { icon: Phone, label: 'Phone', value: '305-596-4454', href: 'tel:305-596-4454' },
+    { icon: MapPin, label: 'Address', value: '1271 SW 124th Court, Unit G, Miami, Florida 33184' },
+    { icon: Phone, label: 'Phone', value: '786-246-7002', href: 'tel:786-246-7002' },
     { icon: Phone, label: 'Fax', value: '305-596-4899' },
     { icon: Mail, label: 'Email', value: 'info@giraltenterprises.com', href: 'mailto:info@giraltenterprises.com' },
   ]

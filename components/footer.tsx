@@ -50,11 +50,11 @@ export function Footer() {
             <ul className="space-y-3 text-sm">
               <li className="flex items-start gap-2">
                 <MapPin size={16} className="mt-1 flex-shrink-0" />
-                <span>12260 SW 94 Street<br />Miami, FL 33186</span>
+                <span>1271 SW 124th Court<br />Unit G<br />Miami, Florida 33184</span>
               </li>
               <li className="flex items-center gap-2">
                 <Phone size={16} />
-                <a href="tel:305-596-4454" className="hover:text-accent transition-colors">305-596-4454</a>
+                <a href="tel:786-246-7002" className="hover:text-accent transition-colors">786-246-7002</a>
               </li>
               <li className="flex items-center gap-2">
                 <Mail size={16} />
