@@ -78,8 +78,8 @@ export default function HomePage() {
             <Badge variant="secondary" className="mb-6 bg-primary-foreground/10 text-primary-foreground border-primary-foreground/20">
               Trusted Since 1988
             </Badge>
-            <h1 className="text-4xl md:text-6xl font-bold mb-6 text-balance">
-              Civil Engineering Construction Products for Difficult Projects
+            <h1 className="text-3xl md:text-5xl font-bold mb-6 leading-tight">
+              Civil Engineering Products<br />for &ldquo;Difficult&rdquo; Projects
             </h1>
             <p className="text-xl md:text-2xl mb-8 text-primary-foreground/90 text-pretty leading-relaxed">
               Since 1988, we have provided manufacturer representation and distribution for quality Civil Engineering construction products. We thrive on those "difficult" projects, where product knowledge and applications expertise become indispensable.

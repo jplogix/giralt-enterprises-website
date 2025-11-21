@@ -4,7 +4,14 @@
       "Bash(vercel --prod:*)",
       "Bash(git init:*)",
       "Bash(gh repo create:*)",
-      "Bash(git add:*)"
+      "Bash(git add:*)",
+      "Bash(git commit:*)",
+      "Bash(git remote add origin:*)",
+      "Bash(git push:*)",
+      "Bash(vercel link:*)",
+      "Bash(gh repo view:*)",
+      "Bash(vercel proj ls:*)",
+      "Bash(curl:*)"
     ],
     "deny": [],
     "ask": []
