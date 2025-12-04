@@ -4,7 +4,7 @@ import { Card, CardContent } from '@/components/ui/card'
 import { Badge } from '@/components/ui/badge'
 import { Button } from '@/components/ui/button'
 import Link from 'next/link'
-import { Badge as Bridge, Download, Zap, Ruler } from 'lucide-react'
+import { Badge as Bridge, Zap, Ruler } from 'lucide-react'
 
 export default function BridgesPage() {
   const installations = [
@@ -126,11 +126,7 @@ export default function BridgesPage() {
               <Card key={model.name} className="hover:shadow-xl transition-shadow">
                 <CardContent className="pt-6 text-center">
                   <h3 className="text-lg font-bold mb-2">{model.name}</h3>
-                  <p className="text-sm text-muted-foreground mb-4">{model.description}</p>
-                  <Button variant="outline" size="sm" className="w-full">
-                    <Download size={14} className="mr-2" />
-                    Specs
-                  </Button>
+                  <p className="text-sm text-muted-foreground">{model.description}</p>
                 </CardContent>
               </Card>
             ))}
@@ -146,22 +142,11 @@ export default function BridgesPage() {
             <Card>
               <CardContent className="pt-6">
                 <p className="text-muted-foreground mb-6">
-                  Download PDF files with technical specifications for each bridge model:
+                  For technical specifications and drawings for our bridge models, please contact us:
                 </p>
-                <div className="grid grid-cols-1 sm:grid-cols-2 gap-3 mb-6">
-                  {models.map((model) => (
-                    <Button key={model.name} variant="outline" className="justify-start">
-                      <Download size={16} className="mr-2" />
-                      {model.name} Specifications
-                    </Button>
-                  ))}
-                </div>
-                <div className="pt-6 border-t">
-                  <Button variant="outline" className="w-full">
-                    <Download size={16} className="mr-2" />
-                    View Manufacturer Website
-                  </Button>
-                </div>
+                <Button size="lg" className="w-full" asChild>
+                  <Link href="/contact">Contact Us for Technical Resources</Link>
+                </Button>
               </CardContent>
             </Card>
           </div>

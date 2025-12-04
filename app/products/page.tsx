@@ -116,10 +116,10 @@ export default function ProductsPage() {
         <div className="container mx-auto px-4 text-center">
           <h2 className="text-3xl font-bold mb-4">Need Technical Specifications?</h2>
           <p className="text-xl text-muted-foreground mb-8 max-w-2xl mx-auto">
-            Download PDF brochures and technical specs for all our products
+            Contact us for PDF brochures and technical specifications for all our products
           </p>
           <Button size="lg" asChild>
-            <Link href="/contact">Contact Us for Documents</Link>
+            <Link href="/contact">Contact Us for Technical Resources</Link>
           </Button>
         </div>
       </section>

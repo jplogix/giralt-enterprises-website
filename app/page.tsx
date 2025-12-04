@@ -210,7 +210,7 @@ export default function HomePage() {
               <Link href="/contact">Request a Quote</Link>
             </Button>
             <Button size="lg" variant="outline" className="bg-transparent border-primary-foreground text-primary-foreground hover:bg-primary-foreground hover:text-primary" asChild>
-              <Link href="/products">Download Technical Specs</Link>
+              <Link href="/contact">Contact Us for Technical Specs</Link>
             </Button>
           </div>
         </div>

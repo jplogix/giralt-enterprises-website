@@ -4,7 +4,7 @@ import { Card, CardContent } from '@/components/ui/card'
 import { Badge } from '@/components/ui/badge'
 import { Button } from '@/components/ui/button'
 import Link from 'next/link'
-import { Shield, Download, AlertCircle } from 'lucide-react'
+import { Shield, AlertCircle } from 'lucide-react'
 
 export default function SeawallsPage() {
   const installations = [
@@ -137,16 +137,6 @@ export default function SeawallsPage() {
                   <p className="text-muted-foreground mb-4">
                     Premium seawall system with advanced engineering and superior performance
                   </p>
-                  <div className="flex flex-wrap gap-2">
-                    <Button variant="outline" size="sm">
-                      <Download size={14} className="mr-2" />
-                      Assembly Detail
-                    </Button>
-                    <Button variant="outline" size="sm">
-                      <Download size={14} className="mr-2" />
-                      Spec Sheets
-                    </Button>
-                  </div>
                 </CardContent>
               </Card>
               <Card>
@@ -155,18 +145,20 @@ export default function SeawallsPage() {
                   <p className="text-muted-foreground mb-4">
                     Reliable sheet piling solutions for various site conditions
                   </p>
-                  <Button variant="outline" size="sm">
-                    <Download size={14} className="mr-2" />
-                    Technical Specifications
-                  </Button>
                 </CardContent>
               </Card>
             </div>
             <div className="mt-8">
-              <Button variant="outline" className="w-full">
-                <Download size={16} className="mr-2" />
-                View Manufacturer Website
-              </Button>
+              <Card>
+                <CardContent className="pt-6">
+                  <p className="text-muted-foreground mb-6">
+                    For technical specifications, assembly details, and drawings for our seawall systems, please contact us:
+                  </p>
+                  <Button size="lg" className="w-full" asChild>
+                    <Link href="/contact">Contact Us for Technical Resources</Link>
+                  </Button>
+                </CardContent>
+              </Card>
             </div>
           </div>
         </div>

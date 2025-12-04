@@ -4,7 +4,7 @@ import { Card, CardContent } from '@/components/ui/card'
 import { Badge } from '@/components/ui/badge'
 import { Button } from '@/components/ui/button'
 import Link from 'next/link'
-import { Anchor, Download, CheckCircle2 } from 'lucide-react'
+import { Anchor, CheckCircle2 } from 'lucide-react'
 
 export default function DocksPage() {
   const installations = [
@@ -170,22 +170,11 @@ export default function DocksPage() {
             <Card>
               <CardContent className="pt-6">
                 <p className="text-muted-foreground mb-6">
-                  Download PDF files with technical specifications for each dock system:
+                  For technical specifications and drawings for our dock systems, please contact us:
                 </p>
-                <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
-                  {dockTypes.map((type) => (
-                    <Button key={type.name} variant="outline" className="justify-start">
-                      <Download size={16} className="mr-2" />
-                      {type.name} Specs
-                    </Button>
-                  ))}
-                </div>
-                <div className="mt-6 pt-6 border-t">
-                  <Button variant="outline" className="w-full">
-                    <Download size={16} className="mr-2" />
-                    View Manufacturer Website
-                  </Button>
-                </div>
+                <Button size="lg" className="w-full" asChild>
+                  <Link href="/contact">Contact Us for Technical Resources</Link>
+                </Button>
               </CardContent>
             </Card>
           </div>

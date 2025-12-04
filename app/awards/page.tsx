@@ -5,7 +5,7 @@ import { Badge } from '@/components/ui/badge'
 import { Button } from '@/components/ui/button'
 import Link from 'next/link'
 import Image from 'next/image'
-import { Award, MapPin, Download } from 'lucide-react'
+import { Award, MapPin } from 'lucide-react'
 
 export default function AwardsPage() {
   const awards = [
@@ -159,14 +159,14 @@ export default function AwardsPage() {
                 </CardContent>
               </Card>
               <Card className="overflow-hidden">
-                <div className="relative h-64 bg-muted flex items-center justify-center">
-                  <div className="text-center p-8">
-                    <Download className="mx-auto mb-4 text-muted-foreground" size={48} />
-                    <p className="text-sm text-muted-foreground">Technical Drawing</p>
-                  </div>
-                </div>
-                <CardContent className="pt-4">
-                  <h3 className="font-semibold text-center">Technical Specifications</h3>
+                <CardContent className="pt-6 flex flex-col items-center justify-center h-64">
+                  <h3 className="font-semibold mb-4 text-center">Technical Specifications</h3>
+                  <p className="text-sm text-muted-foreground mb-6 text-center">
+                    Contact us for technical drawings and specifications
+                  </p>
+                  <Button asChild>
+                    <Link href="/contact">Contact Us</Link>
+                  </Button>
                 </CardContent>
               </Card>
             </div>

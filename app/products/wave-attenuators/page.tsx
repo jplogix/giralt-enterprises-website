@@ -4,7 +4,7 @@ import { Card, CardContent } from '@/components/ui/card'
 import { Badge } from '@/components/ui/badge'
 import { Button } from '@/components/ui/button'
 import Link from 'next/link'
-import { Waves, Download, AlertTriangle } from 'lucide-react'
+import { Waves, AlertTriangle } from 'lucide-react'
 
 export default function WaveAttenuatorsPage() {
   const installations = [
@@ -230,11 +230,10 @@ export default function WaveAttenuatorsPage() {
             <Card>
               <CardContent className="pt-6">
                 <p className="text-muted-foreground mb-6">
-                  For detailed technical information on the use of aluminum in wave attenuators
+                  For detailed technical information on the use of aluminum in wave attenuators, please contact us:
                 </p>
-                <Button size="lg" variant="outline">
-                  <Download size={20} className="mr-2" />
-                  Download Technical Documentation
+                <Button size="lg" className="w-full" asChild>
+                  <Link href="/contact">Contact Us for Technical Resources</Link>
                 </Button>
               </CardContent>
             </Card>
