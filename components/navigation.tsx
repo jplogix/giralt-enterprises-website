@@ -31,6 +31,7 @@ export function Navigation() {
               className="h-12 w-auto"
               priority
             />
+            <span className="text-xs ml-1 align-super">®</span>
           </Link>
 
           {/* Desktop Navigation */}

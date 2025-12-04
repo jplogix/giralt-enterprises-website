@@ -10,10 +10,9 @@ export default function HomePage() {
   const products = [
     {
       title: 'Handrails',
-      description: 'Patented weld-free aluminum picket handrail system. DOT approved in 6 states.',
+      description: 'Weld-free aluminum picket handrail system. DOT approved in 6 states.',
       image: 'https://res.cloudinary.com/jp79/image/upload/v1763531620/giralt/handrails/main_installation.jpg',
       href: '/products/handrails',
-      badge: 'Patented'
     },
     {
       title: 'Docks',
@@ -62,7 +61,7 @@ export default function HomePage() {
   const trustBadges = [
     { label: 'Since 1988', subtitle: '35+ Years Experience' },
     { label: 'DOT Approved', subtitle: '6 States' },
-    { label: 'Award Winning', subtitle: 'Patented System' },
+    { label: 'Award Winning', subtitle: 'Innovative System' },
   ]
 
   return (
@@ -186,7 +185,7 @@ export default function HomePage() {
             <Award className="mx-auto mb-6 text-accent" size={48} />
             <h2 className="text-3xl md:text-4xl font-bold mb-6">Award-Winning Innovation</h2>
             <p className="text-xl text-muted-foreground mb-8">
-              Our patented weld-free handrail system earned the Florida Engineering Society's 2006 Governor's New Product Award and the National Society of Professional Engineers' 2007 New Product Award.
+              Our innovative weld-free handrail system earned the Florida Engineering Society's 2006 Governor's New Product Award and the National Society of Professional Engineers' 2007 New Product Award.
             </p>
             <Button size="lg" variant="outline" asChild>
               <Link href="/awards">

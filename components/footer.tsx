@@ -9,13 +9,16 @@ export function Footer() {
         <div className="grid grid-cols-1 md:grid-cols-4 gap-8">
           {/* Company Info */}
           <div className="space-y-4">
-            <Image
-              src="/logo.svg"
-              alt="Giralt Enterprises"
-              width={180}
-              height={60}
-              className="h-12 w-auto brightness-0 invert"
-            />
+            <div className="flex items-center">
+              <Image
+                src="/logo.svg"
+                alt="Giralt Enterprises"
+                width={180}
+                height={60}
+                className="h-12 w-auto brightness-0 invert"
+              />
+              <span className="text-xs ml-1 align-super text-primary-foreground">®</span>
+            </div>
             <p className="text-sm text-primary-foreground/80">
               Quality Civil Engineering construction products since 1988
             </p>

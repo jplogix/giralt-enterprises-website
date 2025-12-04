@@ -63,7 +63,7 @@ export default function AboutPage() {
           <div className="max-w-4xl mx-auto">
             <div className="flex items-center gap-3 mb-6">
               <Award className="text-accent" size={32} />
-              <h2 className="text-3xl font-bold">Patented Innovation</h2>
+              <h2 className="text-3xl font-bold">Award-Winning Innovation</h2>
             </div>
             <Card className="border-2 border-accent/20">
               <CardContent className="pt-6">
@@ -125,7 +125,7 @@ export default function AboutPage() {
           <div className="max-w-4xl mx-auto text-center">
             <h2 className="text-3xl font-bold mb-6">Department of Transportation Approvals</h2>
             <p className="text-lg text-muted-foreground mb-8">
-              Our patented handrail system has received official approvals from six state DOTs
+              Our innovative handrail system has received official approvals from six state DOTs
             </p>
             <div className="flex flex-wrap justify-center gap-3">
               {dotApprovals.map((state) => (

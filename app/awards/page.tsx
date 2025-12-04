@@ -54,7 +54,7 @@ export default function AwardsPage() {
               Award-Winning Innovation
             </h1>
             <p className="text-xl text-primary-foreground/90 leading-relaxed">
-              Our patented weld-free handrail system has earned prestigious recognition from both state and national engineering societies
+              Our innovative weld-free handrail system has earned prestigious recognition from both state and national engineering societies
             </p>
           </div>
         </div>
@@ -72,9 +72,9 @@ export default function AwardsPage() {
                   </div>
                   <div>
                     <Badge className="mb-2">2002</Badge>
-                    <h2 className="text-2xl font-bold mb-2">Patented Innovation</h2>
+                    <h2 className="text-2xl font-bold mb-2">Award-Winning Innovation</h2>
                     <p className="text-lg text-muted-foreground leading-relaxed">
-                      In 2002, we invented and patented a system of picket handrails that requires no welding of the pickets. This revolutionary approach simplified installation while maintaining superior structural integrity.
+                      In 2002, we invented a system of picket handrails that requires no welding of the pickets. This revolutionary approach simplified installation while maintaining superior structural integrity.
                     </p>
                   </div>
                 </div>
@@ -122,7 +122,7 @@ export default function AwardsPage() {
             <div className="text-center mb-12">
               <h2 className="text-3xl font-bold mb-4">Department of Transportation Approvals</h2>
               <p className="text-xl text-muted-foreground">
-                Our patented handrail system has received official approvals from six state DOTs
+                Our innovative handrail system has received official approvals from six state DOTs
               </p>
             </div>
             <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">

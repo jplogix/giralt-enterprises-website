@@ -29,7 +29,6 @@ export default function ContactPage() {
   const contactInfo = [
     { icon: MapPin, label: 'Address', value: '1271 SW 124th Court, Unit G, Miami, Florida 33184' },
     { icon: Phone, label: 'Phone', value: '786-246-7002', href: 'tel:786-246-7002' },
-    { icon: Phone, label: 'Fax', value: '305-596-4899' },
     { icon: Mail, label: 'Email', value: 'info@giraltenterprises.com', href: 'mailto:info@giraltenterprises.com' },
   ]
 
@@ -177,7 +176,7 @@ export default function ContactPage() {
             <Card className="overflow-hidden">
               <div className="relative h-96 bg-muted">
                 <iframe
-                  src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3593.079876543!2d-80.39!3d25.67!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x0%3A0x0!2zMjXCsDQwJzEyLjAiTiA4MMKwMjMnMjQuMCJX!5e0!3m2!1sen!2sus!4v1234567890"
+                  src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3593.079876543!2d-80.389!3d25.67!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x88d9b6a8b8b8b8b9%3A0x8b8b8b8b8b8b8b8b!2s1271%20SW%20124th%20Ct%20G%2C%20Miami%2C%20FL%2033184!5e0!3m2!1sen!2sus!4v1704067200000"
                   width="100%"
                   height="100%"
                   style={{ border: 0 }}

@@ -4,7 +4,7 @@ import { Card, CardContent } from '@/components/ui/card'
 import { Badge } from '@/components/ui/badge'
 import { Button } from '@/components/ui/button'
 import Link from 'next/link'
-import { Award, Download, MapPin, CheckCircle2 } from 'lucide-react'
+import { Award, MapPin, CheckCircle2 } from 'lucide-react'
 
 export default function HandrailsPage() {
   const dotApprovals = ['Florida', 'Virginia', 'New York', 'Alabama', 'Georgia', 'South Carolina']
@@ -28,9 +28,6 @@ export default function HandrailsPage() {
             <div className="flex gap-2 mb-4">
               <Badge variant="secondary" className="bg-primary-foreground/10 text-primary-foreground border-primary-foreground/20">
                 <Award size={14} className="mr-1" />
-                Patented System
-              </Badge>
-              <Badge variant="secondary" className="bg-primary-foreground/10 text-primary-foreground border-primary-foreground/20">
                 Award Winning
               </Badge>
             </div>
@@ -38,7 +35,7 @@ export default function HandrailsPage() {
               Weld-Free Aluminum Picket Handrails
             </h1>
             <p className="text-xl text-primary-foreground/90 leading-relaxed">
-              In 2002, we invented and patented a revolutionary system of picket handrails that requires no welding of the pickets. This innovation earned us prestigious awards and DOT approvals from six states.
+              In 2002, we invented a revolutionary system of picket handrails that requires no welding of the pickets. This innovation earned us prestigious awards and DOT approvals from six states.
             </p>
           </div>
         </div>
@@ -89,7 +86,7 @@ export default function HandrailsPage() {
                       No Welding Required
                     </h3>
                     <p className="text-muted-foreground leading-relaxed">
-                      Our patented system allows picket handrails to be assembled without welding the pickets, reducing installation time and ensuring consistent quality across all installations.
+                      Our innovative system allows picket handrails to be assembled without welding the pickets, reducing installation time and ensuring consistent quality across all installations.
                     </p>
                   </div>
                 </div>
@@ -114,31 +111,16 @@ export default function HandrailsPage() {
               </CardContent>
             </Card>
 
-            {/* Downloads */}
+            {/* Technical Resources */}
             <h2 className="text-3xl font-bold mb-6">Technical Resources</h2>
             <Card>
               <CardContent className="pt-6">
                 <p className="text-muted-foreground mb-6">
-                  Download PDF files with technical specifications and DOT drawings for our patented handrails:
+                  For technical specifications and DOT drawings for our handrails, please contact us:
                 </p>
-                <div className="space-y-3">
-                  <Button variant="outline" className="w-full justify-start">
-                    <Download size={16} className="mr-2" />
-                    Florida DOT Drawing
-                  </Button>
-                  <Button variant="outline" className="w-full justify-start">
-                    <Download size={16} className="mr-2" />
-                    Virginia DOT Drawing 1
-                  </Button>
-                  <Button variant="outline" className="w-full justify-start">
-                    <Download size={16} className="mr-2" />
-                    Virginia DOT Drawing 2
-                  </Button>
-                  <Button variant="outline" className="w-full justify-start">
-                    <Download size={16} className="mr-2" />
-                    Product Specifications
-                  </Button>
-                </div>
+                <Button size="lg" className="w-full" asChild>
+                  <Link href="/contact">Contact Us for Technical Resources</Link>
+                </Button>
               </CardContent>
             </Card>
           </div>

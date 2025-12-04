@@ -10,10 +10,9 @@ export default function ProductsPage() {
   const products = [
     {
       title: 'Handrails',
-      description: 'Patented weld-free aluminum picket handrail system with DOT approvals from 6 states. High corrosion resistance and strength.',
+      description: 'Weld-free aluminum picket handrail system with DOT approvals from 6 states. High corrosion resistance and strength.',
       image: 'https://res.cloudinary.com/jp79/image/upload/v1763531620/giralt/handrails/main_installation.jpg',
       href: '/products/handrails',
-      badge: 'Patented',
       features: ['No welding required', 'AA 6061-T6 aluminum', 'DOT approved', 'Award winning']
     },
     {
