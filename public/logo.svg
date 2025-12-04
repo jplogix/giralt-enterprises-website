@@ -28,6 +28,20 @@
         font-weight: 500;
       }
 
+      .cls-8 {
+        font-family: SFPro-Medium, 'SF Pro';
+        font-size: 22px;
+        font-variation-settings: 'wdth' 100, 'opsz' 28, 'wght' 510;
+        font-weight: 500;
+        fill: #292b98;
+      }
+
+      .cls-9-copyright {
+        font-family: SFPro-Medium, 'SF Pro';
+        font-size: 12px;
+        fill: #292b98;
+      }
+
       .cls-9 {
         letter-spacing: .09em;
       }
@@ -45,7 +59,8 @@
       <path class="cls-1" d="M370.8,82.8h-15.84l25.2-41.04h-15.84l5.76-10.8h48.24c.52.46-5.38,10.34-5.9,10.65-2.19,0-16.63.15-16.63.15"/>
       <path class="cls-1" d="M350.71,72.21c-2.37,3.69-5.47,9.85-6.71,11.09l-37.65.15,1.39-2.37,30.65-49.47h14.76l-26.95,40.5"/>
       <path class="cls-1" d="M199,30.96c-9.41,17.01-21.53,35.34-32.32,51.84h-14.76l2.37-5.1,29.67-46.74h15.04Z"/>
-      <text class="cls-7" transform="translate(134.22 107.45)"><tspan class="cls-5" x="0" y="0">ENTERPRISES</tspan><tspan class="cls-9" x="140.17" y="0">,</tspan><tspan class="cls-4" x="145.78" y="0" xml:space="preserve"> IN</tspan><tspan class="cls-3" x="173.97" y="0">C</tspan><tspan class="cls-10" x="188.92" y="0">.</tspan></text>
+      <text class="cls-7" transform="translate(134.22 107.45)"><tspan class="cls-8" x="0" y="0">ENTERPRISES</tspan><tspan class="cls-9" x="155.17" y="0">,</tspan><tspan class="cls-4" x="160.78" y="0" xml:space="preserve"> IN</tspan><tspan class="cls-3" x="188.97" y="0">C</tspan><tspan class="cls-10" x="203.92" y="0">.</tspan></text>
+      <text class="cls-9-copyright" x="400" y="115">©</text>
     </g>
   </g>
 </svg>
