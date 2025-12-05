@@ -7,6 +7,7 @@ import { Badge } from '@/components/ui/badge'
 import { Button } from '@/components/ui/button'
 import { Dialog, DialogContent, DialogTrigger } from '@/components/ui/dialog'
 import Link from 'next/link'
+import Image from 'next/image'
 import { Award, MapPin, CheckCircle2 } from 'lucide-react'
 
 export default function HandrailsPage() {
@@ -137,10 +138,11 @@ export default function HandrailsPage() {
                 <DialogTrigger asChild>
                   <Card className="overflow-hidden hover:shadow-xl transition-shadow cursor-pointer">
                     <div className="relative h-64">
-                      <img
+                      <Image
                         src={installation.image || "/placeholder.svg"}
                         alt={installation.name}
-                        className="w-full h-full object-cover"
+                        fill
+                        className="object-cover"
                       />
                     </div>
                     <CardContent className="pt-4">
@@ -149,11 +151,13 @@ export default function HandrailsPage() {
                   </Card>
                 </DialogTrigger>
                 <DialogContent className="max-w-5xl p-0" showCloseButton={true}>
-                  <div className="relative w-full h-auto">
-                    <img
+                  <div className="relative w-full" style={{ minHeight: '400px', maxHeight: '90vh' }}>
+                    <Image
                       src={installation.image || "/placeholder.svg"}
                       alt={installation.name}
-                      className="w-full h-auto object-contain max-h-[90vh]"
+                      fill
+                      className="object-contain"
+                      sizes="(max-width: 1280px) 100vw, 1280px"
                     />
                   </div>
                   <div className="p-4 border-t">
