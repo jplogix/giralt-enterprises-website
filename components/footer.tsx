@@ -10,7 +10,7 @@ export function Footer() {
           {/* Company Info */}
           <div className="space-y-4">
             <Image
-              src="/logo.svg"
+              src="/giralt-logo2.svg"
               alt="Giralt Enterprises"
               width={180}
               height={60}

@@ -1,0 +1,48 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg id="Layer_2" data-name="Layer 2" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 416.34 139.52">
+  <defs>
+    <style>
+      .cls-1 {
+        fill: #2b2c98;
+      }
+
+      .cls-2 {
+        font-family: SFPro-Semibold, 'SF Pro';
+        font-size: 27px;
+        font-variation-settings: 'wdth' 100, 'opsz' 28, 'wght' 590;
+        font-weight: 600;
+      }
+
+      .cls-2, .cls-3, .cls-4 {
+        fill: #292b98;
+      }
+
+      .cls-2, .cls-4 {
+        isolation: isolate;
+      }
+
+      .cls-5 {
+        letter-spacing: -.06em;
+      }
+
+      .cls-4 {
+        font-family: SFPro-Thin, 'SF Pro';
+        font-size: 72px;
+        font-variation-settings: 'wdth' 100, 'opsz' 28, 'wght' 110;
+        font-weight: 200;
+      }
+    </style>
+  </defs>
+  <g id="Layer_2-2" data-name="Layer 2">
+    <g>
+      <path class="cls-3" d="M112.88,22.09l-64.97,54.09h59.06c-.77-3.36-2.29-7.13-4.27-9.95h-25.27l20.35-17.09,17.72-.03,17.05,43.84H0c28.65-23.58,57.18-47.43,86.3-70.86h26.58Z"/>
+      <path class="cls-1" d="M238.88,93.58h-14.69l1.43-2.31,27.7-42.45h20.34v44.76h-12.47v-13.68h-13.78M261.19,70.58v-10.57l-7.22,10.56h7.22Z"/>
+      <path class="cls-1" d="M337.97,93.58h-14.44l22.97-35.44h-14.44l5.25-9.33h43.97c.47.4-4.9,8.93-5.38,9.2-2,0-15.16.13-15.16.13"/>
+      <path class="cls-1" d="M319.66,84.44c-2.16,3.19-4.99,8.51-6.12,9.58l-34.32.13,1.27-2.05,27.94-42.72h13.45l-24.56,34.97"/>
+      <path class="cls-1" d="M181.38,48.82c-8.58,14.69-19.62,30.51-29.46,44.76h-13.45l2.16-4.4,27.04-40.36h13.71Z"/>
+      <text class="cls-2" transform="translate(91.41 122.5) scale(1.06 1)"><tspan x="0" y="0">ENTERPRISES</tspan><tspan class="cls-5" x="171.1" y="0">,</tspan><tspan x="175.86" y="0" xml:space="preserve"> INC</tspan></text>
+      <text class="cls-4" transform="translate(377.18 61.37)"><tspan x="0" y="0">©</tspan></text>
+      <path class="cls-1" d="M240.19,48.81h-43.64c-9.72,14.54-21.08,29.5-29.2,44.76l14.6.23,9.34-14.53c.9.26,9.72,14.3,11.17,14.3h13.45c0-3.96-13.01-17.82-13.07-20.13l37.35-24.63ZM198.78,64.43l6.12-9.56h9.79l-15.9,9.56Z"/>
+    </g>
+  </g>
+</svg>
