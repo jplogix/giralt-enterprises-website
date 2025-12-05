@@ -1,12 +1,12 @@
 'use client'
 
-import { Navigation } from '@/components/navigation'
-import { Footer } from '@/components/footer'
-import { Badge } from '@/components/ui/badge'
-import { useState, useEffect, useRef } from 'react'
-import { Card } from '@/components/ui/card'
-import { Dialog, DialogContent, DialogTrigger } from '@/components/ui/dialog'
+import { useEffect, useRef, useState } from 'react'
 import ImageGallery from 'react-image-gallery'
+import { Footer } from '@/components/footer'
+import { Navigation } from '@/components/navigation'
+import { Badge } from '@/components/ui/badge'
+import { Card } from '@/components/ui/card'
+import { Dialog, DialogContent, DialogTitle, DialogTrigger } from '@/components/ui/dialog'
 import 'react-image-gallery/styles/css/image-gallery.css'
 
 // Custom styles for the image gallery in dialog
@@ -15,11 +15,16 @@ const customStyles = `
     height: 100%;
     width: 100%;
     background: #000;
+    position: relative;
   }
 
-  .custom-image-gallery .image-gallery-content {
+  .custom-image-gallery .image-gallery-content,
+  .custom-image-gallery .image-gallery-slide-wrapper,
+  .custom-image-gallery .image-gallery-swipe,
+  .custom-image-gallery .image-gallery-slides {
     height: 100%;
     width: 100%;
+    position: relative;
   }
 
   .custom-image-gallery .image-gallery-slide {
@@ -28,18 +33,24 @@ const customStyles = `
     display: flex;
     align-items: center;
     justify-content: center;
+    background: transparent;
   }
 
-  .custom-image-gallery .image-gallery-image {
-    max-height: calc(98vh - 70px);
-    max-width: 98vw;
-    object-fit: contain;
+  .custom-image-gallery .image-gallery-slide .image-gallery-image {
+    max-height: 100%;
+    max-width: 100%;
     width: auto;
     height: auto;
+    object-fit: contain;
+    display: block;
+    margin: 0 auto;
   }
 
   .custom-image-gallery .image-gallery-nav {
-    height: 100%;
+    position: absolute;
+    top: 50%;
+    transform: translateY(-50%);
+    z-index: 4;
   }
 
   .custom-image-gallery .image-gallery-left-nav,
@@ -48,25 +59,36 @@ const customStyles = `
     background: rgba(0, 0, 0, 0.5);
     border: none;
     border-radius: 50%;
-    width: 40px;
-    height: 40px;
+    width: 48px;
+    height: 48px;
     margin: 0 20px;
     display: flex;
     align-items: center;
     justify-content: center;
+    transition: all 0.2s ease;
   }
 
   .custom-image-gallery .image-gallery-left-nav:hover,
   .custom-image-gallery .image-gallery-right-nav:hover {
     background: rgba(0, 0, 0, 0.8);
+    transform: scale(1.1);
+  }
+
+  .custom-image-gallery .image-gallery-left-nav {
+    left: 0;
+  }
+
+  .custom-image-gallery .image-gallery-right-nav {
+    right: 0;
   }
 
   .custom-image-gallery .image-gallery-left-nav::before,
   .custom-image-gallery .image-gallery-right-nav::before {
+    content: '';
     border: solid white;
     border-width: 0 3px 3px 0;
     display: inline-block;
-    padding: 6px;
+    padding: 7px;
   }
 
   .custom-image-gallery .image-gallery-left-nav::before {
@@ -82,35 +104,70 @@ const customStyles = `
   }
 
   .custom-image-gallery .image-gallery-bullets {
-    bottom: 10px;
+    bottom: 20px;
     position: absolute;
-    z-index: 10;
+    left: 0;
+    right: 0;
+    transform: none;
+    z-index: 5;
+    display: flex;
+    justify-content: center;
+    pointer-events: none;
+  }
+
+  .custom-image-gallery .image-gallery-bullets .image-gallery-bullets-container {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    pointer-events: auto;
   }
 
   .custom-image-gallery .image-gallery-bullet {
-    border: 1px solid #fff;
-    background: rgba(255, 255, 255, 0.4);
+    border: 2px solid #fff;
+    background: rgba(255, 255, 255, 0.3);
+    width: 12px;
+    height: 12px;
+    transition: all 0.2s ease;
+  }
+
+  .custom-image-gallery .image-gallery-bullet:hover {
+    background: rgba(255, 255, 255, 0.6);
   }
 
   .custom-image-gallery .image-gallery-bullet.active {
     background: #fff;
+    transform: scale(1.2);
   }
 
   .custom-image-gallery .image-gallery-fullscreen-button {
     background: rgba(0, 0, 0, 0.5);
     border: none;
     border-radius: 50%;
-    width: 40px;
-    height: 40px;
+    width: 44px;
+    height: 44px;
     display: flex;
     align-items: center;
     justify-content: center;
     padding: 0;
-    margin: 10px;
+    position: absolute;
+    top: 10px;
+    right: 10px;
+    z-index: 5;
+    transition: all 0.2s ease;
   }
 
   .custom-image-gallery .image-gallery-fullscreen-button:hover {
     background: rgba(0, 0, 0, 0.8);
+    transform: scale(1.1);
+  }
+
+  .custom-image-gallery .image-gallery-fullscreen-button::before {
+    content: '';
+    display: block;
+    width: 18px;
+    height: 18px;
+    border: 2px solid white;
+    border-radius: 2px;
   }
 `
 
@@ -119,6 +176,11 @@ export default function GalleryPage() {
   const [selectedIndex, setSelectedIndex] = useState(0)
   const [isOpen, setIsOpen] = useState(false)
   const galleryRef = useRef<ImageGallery>(null)
+  const cloudinaryTransform = 'f_auto,q_auto,c_fill,g_auto,w_1920,h_1280,e_upscale'
+  const cloudinaryThumbTransform = 'f_auto,q_auto,c_fill,g_auto,w_800,h_533,e_upscale'
+  const cloudinaryThumbPlaceholderTransform = 'f_auto,q_auto:eco,c_fill,g_auto,w_200,h_133,e_blur:200'
+  const transformImage = (url: string, transform: string = cloudinaryTransform) =>
+    url.includes('/upload/') ? url.replace('/upload/', `/upload/${transform}/`) : url
 
   const categories = [
     { id: 'all', label: 'All Projects' },
@@ -151,11 +213,10 @@ export default function GalleryPage() {
 
   // Convert gallery items to ImageGallery format
   const galleryImages = filteredGallery.map((item) => ({
-    original: item.image,
-    thumbnail: item.image,
+    original: transformImage(item.image),
+    thumbnail: transformImage(item.image, cloudinaryThumbTransform),
     originalAlt: item.title,
     thumbnailAlt: item.title,
-    description: `${item.title} - ${item.category.replace('-', ' ')}`,
   }))
 
   // Set gallery to selected index when dialog opens
@@ -264,14 +325,18 @@ export default function GalleryPage() {
             <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6">
               {filteredGallery.map((item, index) => (
                 <DialogTrigger key={`${item.category}-${item.title}`} asChild>
-                  <Card 
+                  <Card
                     className="overflow-hidden group cursor-pointer hover:shadow-xl transition-all duration-300"
                     onClick={() => handleImageClick(index)}
                   >
                     <div className="relative h-64 overflow-hidden">
                       <img
-                        src={item.image || "/placeholder.svg"}
+                        src={transformImage(item.image, cloudinaryThumbPlaceholderTransform) || "/placeholder.svg"}
+                        srcSet={`${transformImage(item.image, cloudinaryThumbPlaceholderTransform)} 400w, ${transformImage(item.image, cloudinaryThumbTransform)} 800w`}
+                        sizes="(min-width: 1280px) 25vw, (min-width: 1024px) 33vw, (min-width: 640px) 50vw, 100vw"
                         alt={item.title}
+                        loading="lazy"
+                        decoding="async"
                         className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-300"
                       />
                       <div className="absolute inset-0 bg-gradient-to-t from-black/60 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300">
@@ -285,8 +350,11 @@ export default function GalleryPage() {
                 </DialogTrigger>
               ))}
             </div>
-            <DialogContent className="max-w-[98vw] w-full h-[98vh] p-0 overflow-hidden flex flex-col" showCloseButton={true}>
-              <div className="flex-1 bg-black">
+            <DialogContent className="fixed inset-0 top-0 left-0 translate-x-0 translate-y-0 max-w-none sm:max-w-none w-screen h-screen m-0 p-0 overflow-hidden grid grid-rows-[1fr_auto] gap-0 border-0 rounded-none" showCloseButton={true}>
+              <DialogTitle className="sr-only">
+                {filteredGallery[selectedIndex]?.title || 'Image Gallery'}
+              </DialogTitle>
+              <div className="flex-1 bg-black overflow-hidden relative" style={{ minHeight: 0 }}>
                 <ImageGallery
                   ref={galleryRef}
                   items={galleryImages}
@@ -308,7 +376,7 @@ export default function GalleryPage() {
                   useTranslate3D={true}
                 />
               </div>
-              <div className="p-3 border-t bg-background flex-shrink-0">
+              <div className="p-4 border-t bg-background shrink-0">
                 <h3 className="font-semibold text-center text-lg">{filteredGallery[selectedIndex]?.title}</h3>
                 <p className="text-muted-foreground text-center text-sm capitalize mt-1">
                   {filteredGallery[selectedIndex]?.category.replace('-', ' ')}
