@@ -3,11 +3,17 @@
 import { Navigation } from '@/components/navigation'
 import { Footer } from '@/components/footer'
 import { Badge } from '@/components/ui/badge'
-import { useState } from 'react'
+import { useState, useEffect } from 'react'
 import { Card } from '@/components/ui/card'
+import { Dialog, DialogContent, DialogTrigger } from '@/components/ui/dialog'
+import { Carousel, CarouselContent, CarouselItem, CarouselPrevious, CarouselNext, type CarouselApi } from '@/components/ui/carousel'
+import Image from 'next/image'
 
 export default function GalleryPage() {
   const [filter, setFilter] = useState('all')
+  const [selectedIndex, setSelectedIndex] = useState(0)
+  const [isOpen, setIsOpen] = useState(false)
+  const [api, setApi] = useState<CarouselApi>()
 
   const categories = [
     { id: 'all', label: 'All Projects' },
@@ -37,6 +43,18 @@ export default function GalleryPage() {
   ]
 
   const filteredGallery = filter === 'all' ? gallery : gallery.filter(item => item.category === filter)
+
+  // Scroll carousel to selected index when dialog opens
+  useEffect(() => {
+    if (!api || !isOpen) return
+    
+    api.scrollTo(selectedIndex, false)
+  }, [api, isOpen, selectedIndex])
+
+  const handleImageClick = (index: number) => {
+    setSelectedIndex(index)
+    setIsOpen(true)
+  }
 
   return (
     <div className="min-h-screen">
@@ -80,25 +98,59 @@ export default function GalleryPage() {
       {/* Gallery Grid */}
       <section className="py-20">
         <div className="container mx-auto px-4">
-          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6">
-            {filteredGallery.map((item, index) => (
-              <Card key={index} className="overflow-hidden group cursor-pointer hover:shadow-xl transition-all duration-300">
-                <div className="relative h-64 overflow-hidden">
-                  <img
-                    src={item.image || "/placeholder.svg"}
-                    alt={item.title}
-                    className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-300"
-                  />
-                  <div className="absolute inset-0 bg-gradient-to-t from-black/60 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300">
-                    <div className="absolute bottom-0 left-0 right-0 p-4">
-                      <h3 className="text-white font-semibold">{item.title}</h3>
-                      <p className="text-white/80 text-sm capitalize">{item.category.replace('-', ' ')}</p>
+          <Dialog open={isOpen} onOpenChange={setIsOpen}>
+            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6">
+              {filteredGallery.map((item, index) => (
+                <DialogTrigger key={index} asChild>
+                  <Card 
+                    className="overflow-hidden group cursor-pointer hover:shadow-xl transition-all duration-300"
+                    onClick={() => handleImageClick(index)}
+                  >
+                    <div className="relative h-64 overflow-hidden">
+                      <img
+                        src={item.image || "/placeholder.svg"}
+                        alt={item.title}
+                        className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-300"
+                      />
+                      <div className="absolute inset-0 bg-gradient-to-t from-black/60 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300">
+                        <div className="absolute bottom-0 left-0 right-0 p-4">
+                          <h3 className="text-white font-semibold">{item.title}</h3>
+                          <p className="text-white/80 text-sm capitalize">{item.category.replace('-', ' ')}</p>
+                        </div>
+                      </div>
                     </div>
-                  </div>
-                </div>
-              </Card>
-            ))}
-          </div>
+                  </Card>
+                </DialogTrigger>
+              ))}
+            </div>
+            <DialogContent className="max-w-6xl p-0" showCloseButton={true}>
+              <Carousel setApi={setApi} className="w-full">
+                <CarouselContent>
+                  {filteredGallery.map((item, index) => (
+                    <CarouselItem key={index}>
+                      <div className="relative w-full" style={{ minHeight: '500px', maxHeight: '80vh' }}>
+                        <Image
+                          src={item.image || "/placeholder.svg"}
+                          alt={item.title}
+                          fill
+                          className="object-contain"
+                          sizes="(max-width: 1280px) 100vw, 1280px"
+                        />
+                      </div>
+                      <div className="p-4 border-t bg-background">
+                        <h3 className="font-semibold text-center text-lg">{item.title}</h3>
+                        <p className="text-muted-foreground text-center text-sm capitalize mt-1">
+                          {item.category.replace('-', ' ')}
+                        </p>
+                      </div>
+                    </CarouselItem>
+                  ))}
+                </CarouselContent>
+                <CarouselPrevious className="left-4" />
+                <CarouselNext className="right-4" />
+              </Carousel>
+            </DialogContent>
+          </Dialog>
         </div>
       </section>
 

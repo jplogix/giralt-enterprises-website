@@ -15,7 +15,6 @@ export default function HandrailsPage() {
   
   const installations = [
     { name: 'Main Installation', image: 'https://res.cloudinary.com/jp79/image/upload/v1763531620/giralt/handrails/main_installation.jpg' },
-    { name: 'Griffin Road', image: 'https://res.cloudinary.com/jp79/image/upload/v1763522319/giralt/handrails/griffin_road.jpg' },
     { name: 'Donald Ross Road', image: 'https://res.cloudinary.com/jp79/image/upload/v1763531620/giralt/handrails/donald_ross_road.jpg' },
   ]
 
