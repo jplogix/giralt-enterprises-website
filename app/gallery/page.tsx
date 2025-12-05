@@ -159,20 +159,18 @@ export default function GalleryPage() {
                 </DialogTrigger>
               ))}
             </div>
-            <DialogContent className="max-w-[95vw] w-full h-[95vh] max-h-[95vh] p-0 overflow-hidden !grid-rows-[1fr_auto]" showCloseButton={true}>
-              <div className="relative w-full h-full overflow-hidden">
+            <DialogContent className="max-w-[95vw] w-full p-0 overflow-hidden !grid !grid-rows-[1fr_auto]" showCloseButton={true} style={{ maxHeight: '95vh', height: '95vh' }}>
+              <div className="relative w-full overflow-hidden" style={{ height: 'calc(95vh - 80px)' }}>
                 <Carousel setApi={setApi} className="w-full h-full">
-                  <CarouselContent className="h-full">
+                  <CarouselContent className="h-full -ml-0">
                     {filteredGallery.map((item, index) => (
-                      <CarouselItem key={index} className="h-full">
-                        <div className="relative w-full h-full min-h-0">
-                          <Image
+                      <CarouselItem key={index} className="h-full pl-0 basis-full flex items-center justify-center">
+                        <div className="relative w-full h-full max-w-full max-h-full">
+                          <img
                             src={item.image || "/placeholder.svg"}
                             alt={item.title}
-                            fill
-                            className="object-contain"
-                            sizes="(max-width: 1920px) 95vw, 1920px"
-                            priority={index === selectedIndex}
+                            className="max-w-full max-h-full w-auto h-auto object-contain"
+                            style={{ maxHeight: 'calc(95vh - 80px)' }}
                           />
                         </div>
                       </CarouselItem>
@@ -182,7 +180,7 @@ export default function GalleryPage() {
                   <CarouselNext className="right-4 z-10" />
                 </Carousel>
               </div>
-              <div className="p-4 border-t bg-background flex-shrink-0">
+              <div className="p-4 border-t bg-background">
                 <h3 className="font-semibold text-center text-lg">{filteredGallery[currentIndex]?.title}</h3>
                 <p className="text-muted-foreground text-center text-sm capitalize mt-1">
                   {filteredGallery[currentIndex]?.category.replace('-', ' ')}
