@@ -1,8 +1,11 @@
+'use client'
+
 import { Navigation } from '@/components/navigation'
 import { Footer } from '@/components/footer'
 import { Card, CardContent } from '@/components/ui/card'
 import { Badge } from '@/components/ui/badge'
 import { Button } from '@/components/ui/button'
+import { Dialog, DialogContent, DialogTrigger } from '@/components/ui/dialog'
 import Link from 'next/link'
 import { Award, MapPin, CheckCircle2 } from 'lucide-react'
 
@@ -11,7 +14,6 @@ export default function HandrailsPage() {
   
   const installations = [
     { name: 'Main Installation', image: 'https://res.cloudinary.com/jp79/image/upload/v1763531620/giralt/handrails/main_installation.jpg' },
-    { name: 'Griffin Road', image: 'https://res.cloudinary.com/jp79/image/upload/v1763522319/giralt/handrails/griffin_road.jpg' },
     { name: 'Donald Ross Road', image: 'https://res.cloudinary.com/jp79/image/upload/v1763531620/giralt/handrails/donald_ross_road.jpg' },
   ]
 
@@ -129,20 +131,36 @@ export default function HandrailsPage() {
       <section className="py-20 bg-secondary/30">
         <div className="container mx-auto px-4">
           <h2 className="text-3xl font-bold mb-8 text-center">Installation Examples</h2>
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
             {installations.map((installation) => (
-              <Card key={installation.name} className="overflow-hidden hover:shadow-xl transition-shadow">
-                <div className="relative h-64">
-                  <img
-                    src={installation.image || "/placeholder.svg"}
-                    alt={installation.name}
-                    className="w-full h-full object-cover"
-                  />
-                </div>
-                <CardContent className="pt-4">
-                  <h3 className="font-semibold text-center">{installation.name}</h3>
-                </CardContent>
-              </Card>
+              <Dialog key={installation.name}>
+                <DialogTrigger asChild>
+                  <Card className="overflow-hidden hover:shadow-xl transition-shadow cursor-pointer">
+                    <div className="relative h-64">
+                      <img
+                        src={installation.image || "/placeholder.svg"}
+                        alt={installation.name}
+                        className="w-full h-full object-cover"
+                      />
+                    </div>
+                    <CardContent className="pt-4">
+                      <h3 className="font-semibold text-center">{installation.name}</h3>
+                    </CardContent>
+                  </Card>
+                </DialogTrigger>
+                <DialogContent className="max-w-5xl p-0" showCloseButton={true}>
+                  <div className="relative w-full h-auto">
+                    <img
+                      src={installation.image || "/placeholder.svg"}
+                      alt={installation.name}
+                      className="w-full h-auto object-contain max-h-[90vh]"
+                    />
+                  </div>
+                  <div className="p-4 border-t">
+                    <h3 className="font-semibold text-center text-lg">{installation.name}</h3>
+                  </div>
+                </DialogContent>
+              </Dialog>
             ))}
           </div>
         </div>
