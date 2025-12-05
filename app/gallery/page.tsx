@@ -114,7 +114,7 @@ export default function GalleryPage() {
       </section>
 
       {/* Filter */}
-      <section className="py-8 bg-secondary/30 sticky top-20 z-40 border-b">
+      <section className="py-8 bg-background/95 backdrop-blur supports-backdrop-filter:bg-background/90 sticky top-20 z-[45] border-b shadow-sm">
         <div className="container mx-auto px-4">
           <div className="flex flex-wrap gap-2 justify-center">
             {categories.map((category) => (
