@@ -11,7 +11,11 @@
       "Bash(vercel link:*)",
       "Bash(gh repo view:*)",
       "Bash(vercel proj ls:*)",
-      "Bash(curl:*)"
+      "Bash(curl:*)",
+      "Bash(pnpm add:*)",
+      "Bash(pnpm remove:*)",
+      "Bash(pnpm dev)",
+      "Bash(pnpm run build:*)"
     ],
     "deny": [],
     "ask": []

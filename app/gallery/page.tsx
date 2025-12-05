@@ -6,18 +6,116 @@ import { Badge } from '@/components/ui/badge'
 import { useState, useEffect, useRef } from 'react'
 import { Card } from '@/components/ui/card'
 import { Dialog, DialogContent, DialogTrigger } from '@/components/ui/dialog'
-import Slider from 'react-slick'
-import { ArrowLeft, ArrowRight } from 'lucide-react'
-import { Button } from '@/components/ui/button'
-import 'slick-carousel/slick/slick.css'
-import 'slick-carousel/slick/slick-theme.css'
+import ImageGallery from 'react-image-gallery'
+import 'react-image-gallery/styles/css/image-gallery.css'
+
+// Custom styles for the image gallery in dialog
+const customStyles = `
+  .image-gallery-container {
+    height: 100%;
+    display: flex;
+    align-items: center;
+  }
+
+  .custom-image-gallery {
+    height: 100%;
+    width: 100%;
+  }
+
+  .custom-image-gallery .image-gallery-slide {
+    height: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+
+  .custom-image-gallery .image-gallery-image {
+    max-height: calc(98vh - 70px);
+    max-width: 98vw;
+    object-fit: contain;
+  }
+
+  .custom-image-gallery .image-gallery-nav {
+    height: 100%;
+  }
+
+  .custom-image-gallery .image-gallery-left-nav,
+  .custom-image-gallery .image-gallery-right-nav {
+    padding: 0;
+    background: rgba(0, 0, 0, 0.5);
+    border: none;
+    border-radius: 50%;
+    width: 40px;
+    height: 40px;
+    margin: 0 20px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+
+  .custom-image-gallery .image-gallery-left-nav:hover,
+  .custom-image-gallery .image-gallery-right-nav:hover {
+    background: rgba(0, 0, 0, 0.8);
+  }
+
+  .custom-image-gallery .image-gallery-left-nav::before,
+  .custom-image-gallery .image-gallery-right-nav::before {
+    border: solid white;
+    border-width: 0 3px 3px 0;
+    display: inline-block;
+    padding: 6px;
+  }
+
+  .custom-image-gallery .image-gallery-left-nav::before {
+    transform: rotate(135deg);
+    -webkit-transform: rotate(135deg);
+    margin-left: 4px;
+  }
+
+  .custom-image-gallery .image-gallery-right-nav::before {
+    transform: rotate(-45deg);
+    -webkit-transform: rotate(-45deg);
+    margin-right: 4px;
+  }
+
+  .custom-image-gallery .image-gallery-bullets {
+    bottom: 10px;
+    position: absolute;
+    z-index: 10;
+  }
+
+  .custom-image-gallery .image-gallery-bullet {
+    border: 1px solid #fff;
+    background: rgba(255, 255, 255, 0.4);
+  }
+
+  .custom-image-gallery .image-gallery-bullet.active {
+    background: #fff;
+  }
+
+  .custom-image-gallery .image-gallery-fullscreen-button {
+    background: rgba(0, 0, 0, 0.5);
+    border: none;
+    border-radius: 50%;
+    width: 40px;
+    height: 40px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 0;
+    margin: 10px;
+  }
+
+  .custom-image-gallery .image-gallery-fullscreen-button:hover {
+    background: rgba(0, 0, 0, 0.8);
+  }
+`
 
 export default function GalleryPage() {
   const [filter, setFilter] = useState('all')
   const [selectedIndex, setSelectedIndex] = useState(0)
-  const [currentIndex, setCurrentIndex] = useState(0)
   const [isOpen, setIsOpen] = useState(false)
-  const sliderRef = useRef<Slider>(null)
+  const galleryRef = useRef<ImageGallery>(null)
 
   const categories = [
     { id: 'all', label: 'All Projects' },
@@ -48,72 +146,64 @@ export default function GalleryPage() {
 
   const filteredGallery = filter === 'all' ? gallery : gallery.filter(item => item.category === filter)
 
-  // Scroll slider to selected index when dialog opens
+  // Convert gallery items to ImageGallery format
+  const galleryImages = filteredGallery.map((item) => ({
+    original: item.image,
+    thumbnail: item.image,
+    originalAlt: item.title,
+    thumbnailAlt: item.title,
+    description: `${item.title} - ${item.category.replace('-', ' ')}`,
+  }))
+
+  // Set gallery to selected index when dialog opens
   useEffect(() => {
-    if (!sliderRef.current || !isOpen) return
-    
-    sliderRef.current.slickGoTo(selectedIndex)
-    setCurrentIndex(selectedIndex)
+    if (!galleryRef.current || !isOpen) return
+
+    galleryRef.current.slideToIndex(selectedIndex)
   }, [isOpen, selectedIndex])
 
-  // Handle keyboard navigation for slider
+  // Inject custom styles
+  useEffect(() => {
+    const styleId = 'image-gallery-custom-styles'
+    let styleElement = document.getElementById(styleId) as HTMLStyleElement
+
+    if (!styleElement) {
+      styleElement = document.createElement('style')
+      styleElement.id = styleId
+      document.head.appendChild(styleElement)
+    }
+
+    styleElement.innerHTML = customStyles
+
+    return () => {
+      if (styleElement?.parentNode) {
+        styleElement.parentNode.removeChild(styleElement)
+      }
+    }
+  }, [])
+
+  // Handle keyboard navigation for image gallery
   useEffect(() => {
     if (!isOpen) return
 
     const handleKeyDown = (e: KeyboardEvent) => {
-      if (!sliderRef.current) return
-      
+      if (!galleryRef.current) return
+
       if (e.key === 'ArrowLeft') {
         e.preventDefault()
-        sliderRef.current.slickPrev()
+        galleryRef.current.slideToIndex(Math.max(0, selectedIndex - 1))
       } else if (e.key === 'ArrowRight') {
         e.preventDefault()
-        sliderRef.current.slickNext()
+        galleryRef.current.slideToIndex(Math.min(galleryImages.length - 1, selectedIndex + 1))
+      } else if (e.key === 'Escape') {
+        e.preventDefault()
+        setIsOpen(false)
       }
     }
 
     window.addEventListener('keydown', handleKeyDown)
     return () => window.removeEventListener('keydown', handleKeyDown)
-  }, [isOpen])
-
-  // Custom arrow components for react-slick
-  const PrevArrow = ({ onClick }: { onClick?: () => void }) => (
-    <Button
-      variant="outline"
-      size="icon"
-      className="absolute left-4 z-10 h-8 w-8 rounded-full bg-background/80 hover:bg-background border"
-      onClick={onClick}
-      type="button"
-    >
-      <ArrowLeft className="h-4 w-4" />
-    </Button>
-  )
-
-  const NextArrow = ({ onClick }: { onClick?: () => void }) => (
-    <Button
-      variant="outline"
-      size="icon"
-      className="absolute right-4 z-10 h-8 w-8 rounded-full bg-background/80 hover:bg-background border"
-      onClick={onClick}
-      type="button"
-    >
-      <ArrowRight className="h-4 w-4" />
-    </Button>
-  )
-
-  const sliderSettings = {
-    dots: false,
-    infinite: true,
-    speed: 300,
-    slidesToShow: 1,
-    slidesToScroll: 1,
-    initialSlide: selectedIndex,
-    beforeChange: (_current: number, next: number) => {
-      setCurrentIndex(next)
-    },
-    prevArrow: <PrevArrow />,
-    nextArrow: <NextArrow />,
-  }
+  }, [isOpen, selectedIndex, galleryImages.length])
 
   const handleImageClick = (index: number) => {
     setSelectedIndex(index)
@@ -165,7 +255,7 @@ export default function GalleryPage() {
           <Dialog open={isOpen} onOpenChange={setIsOpen}>
             <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6">
               {filteredGallery.map((item, index) => (
-                <DialogTrigger key={index} asChild>
+                <DialogTrigger key={`${item.category}-${item.title}`} asChild>
                   <Card 
                     className="overflow-hidden group cursor-pointer hover:shadow-xl transition-all duration-300"
                     onClick={() => handleImageClick(index)}
@@ -188,26 +278,32 @@ export default function GalleryPage() {
               ))}
             </div>
             <DialogContent className="max-w-[98vw] w-full p-0 overflow-hidden !grid !grid-rows-[1fr_auto]" showCloseButton={true} style={{ maxHeight: '98vh', height: '98vh' }}>
-              <div className="relative w-full overflow-hidden" style={{ height: 'calc(98vh - 70px)' }}>
-                <Slider ref={sliderRef} {...sliderSettings} className="h-full">
-                  {filteredGallery.map((item, index) => (
-                    <div key={index} className="h-full flex items-center justify-center p-4">
-                      <div className="relative w-full h-full flex items-center justify-center">
-                        <img
-                          src={item.image || "/placeholder.svg"}
-                          alt={item.title}
-                          className="max-w-full max-h-full w-auto h-auto object-contain"
-                          style={{ maxHeight: 'calc(98vh - 70px)', maxWidth: '98vw' }}
-                        />
-                      </div>
-                    </div>
-                  ))}
-                </Slider>
+              <div className="image-gallery-container" style={{ height: 'calc(98vh - 70px)' }}>
+                <ImageGallery
+                  ref={galleryRef}
+                  items={galleryImages}
+                  showPlayButton={false}
+                  showFullscreenButton={true}
+                  showNav={true}
+                  showThumbnails={false}
+                  showBullets={true}
+                  showIndex={false}
+                  startIndex={selectedIndex}
+                  onSlide={(currentIndex: number) => setSelectedIndex(currentIndex)}
+                  additionalClass="custom-image-gallery"
+                  useBrowserFullscreen={false}
+                  preventSwipe={false}
+                  swipeThreshold={30}
+                  slideOnThumbnailOver={false}
+                  lazyLoad={true}
+                  slideDuration={300}
+                  useTranslate3D={true}
+                />
               </div>
               <div className="p-3 border-t bg-background">
-                <h3 className="font-semibold text-center text-lg">{filteredGallery[currentIndex]?.title}</h3>
+                <h3 className="font-semibold text-center text-lg">{filteredGallery[selectedIndex]?.title}</h3>
                 <p className="text-muted-foreground text-center text-sm capitalize mt-1">
-                  {filteredGallery[currentIndex]?.category.replace('-', ' ')}
+                  {filteredGallery[selectedIndex]?.category.replace('-', ' ')}
                 </p>
               </div>
             </DialogContent>
