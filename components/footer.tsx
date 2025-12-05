@@ -12,9 +12,9 @@ export function Footer() {
             <Image
               src="/GIRALT-LOGO-NEW.svg"
               alt="Giralt Enterprises"
-              width={180}
-              height={60}
-              className="h-12 w-auto brightness-0 invert"
+              width={240}
+              height={80}
+              className="h-16 w-auto brightness-0 invert"
             />
             <p className="text-sm text-primary-foreground/80">
               Quality Civil Engineering construction products since 1988
