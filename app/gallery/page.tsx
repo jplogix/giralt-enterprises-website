@@ -12,6 +12,7 @@ import Image from 'next/image'
 export default function GalleryPage() {
   const [filter, setFilter] = useState('all')
   const [selectedIndex, setSelectedIndex] = useState(0)
+  const [currentIndex, setCurrentIndex] = useState(0)
   const [isOpen, setIsOpen] = useState(false)
   const [api, setApi] = useState<CarouselApi>()
 
@@ -49,7 +50,42 @@ export default function GalleryPage() {
     if (!api || !isOpen) return
     
     api.scrollTo(selectedIndex, false)
+    setCurrentIndex(selectedIndex)
   }, [api, isOpen, selectedIndex])
+
+  // Track current carousel index
+  useEffect(() => {
+    if (!api) return
+
+    const onSelect = () => {
+      setCurrentIndex(api.selectedScrollSnap())
+    }
+
+    api.on('select', onSelect)
+    return () => {
+      api.off('select', onSelect)
+    }
+  }, [api])
+
+  // Handle keyboard navigation for carousel
+  useEffect(() => {
+    if (!isOpen) return
+
+    const handleKeyDown = (e: KeyboardEvent) => {
+      if (!api) return
+      
+      if (e.key === 'ArrowLeft') {
+        e.preventDefault()
+        api.scrollPrev()
+      } else if (e.key === 'ArrowRight') {
+        e.preventDefault()
+        api.scrollNext()
+      }
+    }
+
+    window.addEventListener('keydown', handleKeyDown)
+    return () => window.removeEventListener('keydown', handleKeyDown)
+  }, [isOpen, api])
 
   const handleImageClick = (index: number) => {
     setSelectedIndex(index)
@@ -123,32 +159,35 @@ export default function GalleryPage() {
                 </DialogTrigger>
               ))}
             </div>
-            <DialogContent className="max-w-6xl p-0" showCloseButton={true}>
-              <Carousel setApi={setApi} className="w-full">
-                <CarouselContent>
-                  {filteredGallery.map((item, index) => (
-                    <CarouselItem key={index}>
-                      <div className="relative w-full" style={{ minHeight: '500px', maxHeight: '80vh' }}>
-                        <Image
-                          src={item.image || "/placeholder.svg"}
-                          alt={item.title}
-                          fill
-                          className="object-contain"
-                          sizes="(max-width: 1280px) 100vw, 1280px"
-                        />
-                      </div>
-                      <div className="p-4 border-t bg-background">
-                        <h3 className="font-semibold text-center text-lg">{item.title}</h3>
-                        <p className="text-muted-foreground text-center text-sm capitalize mt-1">
-                          {item.category.replace('-', ' ')}
-                        </p>
-                      </div>
-                    </CarouselItem>
-                  ))}
-                </CarouselContent>
-                <CarouselPrevious className="left-4" />
-                <CarouselNext className="right-4" />
-              </Carousel>
+            <DialogContent className="max-w-[95vw] w-full h-[95vh] max-h-[95vh] p-0 overflow-hidden !grid-rows-[1fr_auto]" showCloseButton={true}>
+              <div className="relative w-full h-full overflow-hidden">
+                <Carousel setApi={setApi} className="w-full h-full">
+                  <CarouselContent className="h-full">
+                    {filteredGallery.map((item, index) => (
+                      <CarouselItem key={index} className="h-full">
+                        <div className="relative w-full h-full min-h-0">
+                          <Image
+                            src={item.image || "/placeholder.svg"}
+                            alt={item.title}
+                            fill
+                            className="object-contain"
+                            sizes="(max-width: 1920px) 95vw, 1920px"
+                            priority={index === selectedIndex}
+                          />
+                        </div>
+                      </CarouselItem>
+                    ))}
+                  </CarouselContent>
+                  <CarouselPrevious className="left-4 z-10" />
+                  <CarouselNext className="right-4 z-10" />
+                </Carousel>
+              </div>
+              <div className="p-4 border-t bg-background flex-shrink-0">
+                <h3 className="font-semibold text-center text-lg">{filteredGallery[currentIndex]?.title}</h3>
+                <p className="text-muted-foreground text-center text-sm capitalize mt-1">
+                  {filteredGallery[currentIndex]?.category.replace('-', ' ')}
+                </p>
+              </div>
             </DialogContent>
           </Dialog>
         </div>
