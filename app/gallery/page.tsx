@@ -159,18 +159,18 @@ export default function GalleryPage() {
                 </DialogTrigger>
               ))}
             </div>
-            <DialogContent className="max-w-[95vw] w-full p-0 overflow-hidden !grid !grid-rows-[1fr_auto]" showCloseButton={true} style={{ maxHeight: '95vh', height: '95vh' }}>
-              <div className="relative w-full overflow-hidden" style={{ height: 'calc(95vh - 80px)' }}>
+            <DialogContent className="max-w-[98vw] w-full p-0 overflow-hidden !grid !grid-rows-[1fr_auto]" showCloseButton={true} style={{ maxHeight: '98vh', height: '98vh' }}>
+              <div className="relative w-full overflow-hidden" style={{ height: 'calc(98vh - 70px)' }}>
                 <Carousel setApi={setApi} className="w-full h-full">
                   <CarouselContent className="h-full -ml-0">
                     {filteredGallery.map((item, index) => (
                       <CarouselItem key={index} className="h-full pl-0 basis-full flex items-center justify-center">
-                        <div className="relative w-full h-full max-w-full max-h-full">
+                        <div className="relative w-full max-w-full max-h-full flex items-center justify-center p-4">
                           <img
                             src={item.image || "/placeholder.svg"}
                             alt={item.title}
                             className="max-w-full max-h-full w-auto h-auto object-contain"
-                            style={{ maxHeight: 'calc(95vh - 80px)' }}
+                            style={{ maxHeight: 'calc(98vh - 70px)', maxWidth: '98vw' }}
                           />
                         </div>
                       </CarouselItem>
@@ -180,7 +180,7 @@ export default function GalleryPage() {
                   <CarouselNext className="right-4 z-10" />
                 </Carousel>
               </div>
-              <div className="p-4 border-t bg-background">
+              <div className="p-3 border-t bg-background">
                 <h3 className="font-semibold text-center text-lg">{filteredGallery[currentIndex]?.title}</h3>
                 <p className="text-muted-foreground text-center text-sm capitalize mt-1">
                   {filteredGallery[currentIndex]?.category.replace('-', ' ')}
