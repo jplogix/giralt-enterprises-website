@@ -15,24 +15,62 @@ const customStyles = `
     height: 100%;
     display: flex;
     align-items: center;
+    justify-content: center;
   }
 
   .custom-image-gallery {
     height: 100%;
     width: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
   }
 
-  .custom-image-gallery .image-gallery-slide {
+  .custom-image-gallery .image-gallery-slide-wrapper {
     height: 100%;
     display: flex;
     align-items: center;
     justify-content: center;
   }
 
+  .custom-image-gallery .image-gallery-slide {
+    height: 100%;
+    width: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    position: relative;
+  }
+
   .custom-image-gallery .image-gallery-image {
     max-height: calc(98vh - 70px);
     max-width: 98vw;
+    width: auto !important;
+    height: auto !important;
     object-fit: contain;
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+  }
+
+  .custom-image-gallery .image-gallery-content {
+    height: 100%;
+    width: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+
+  .custom-image-gallery .image-gallery-slide .image-gallery-image {
+    max-height: calc(98vh - 70px) !important;
+    max-width: 98vw !important;
+    width: auto !important;
+    height: auto !important;
+    position: relative;
+    top: auto;
+    left: auto;
+    transform: none;
   }
 
   .custom-image-gallery .image-gallery-nav {
@@ -159,7 +197,12 @@ export default function GalleryPage() {
   useEffect(() => {
     if (!galleryRef.current || !isOpen) return
 
-    galleryRef.current.slideToIndex(selectedIndex)
+    // Small delay to ensure dialog is fully rendered
+    const timer = setTimeout(() => {
+      galleryRef.current?.slideToIndex(selectedIndex)
+    }, 100)
+
+    return () => clearTimeout(timer)
   }, [isOpen, selectedIndex])
 
   // Inject custom styles
@@ -277,8 +320,8 @@ export default function GalleryPage() {
                 </DialogTrigger>
               ))}
             </div>
-            <DialogContent className="max-w-[98vw] w-full p-0 overflow-hidden !grid !grid-rows-[1fr_auto]" showCloseButton={true} style={{ maxHeight: '98vh', height: '98vh' }}>
-              <div className="image-gallery-container" style={{ height: 'calc(98vh - 70px)' }}>
+            <DialogContent className="max-w-[98vw] w-full p-0 overflow-hidden" showCloseButton={true} style={{ maxHeight: '98vh', height: '98vh', display: 'flex', flexDirection: 'column' }}>
+              <div className="flex-1 relative" style={{ height: 'calc(98vh - 70px)', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
                 <ImageGallery
                   ref={galleryRef}
                   items={galleryImages}
@@ -298,9 +341,13 @@ export default function GalleryPage() {
                   lazyLoad={true}
                   slideDuration={300}
                   useTranslate3D={true}
+                  styles={{
+                    container: { height: '100%', width: '100%', display: 'flex', alignItems: 'center', justifyContent: 'center' },
+                    image: { maxHeight: 'calc(98vh - 70px)', maxWidth: '98vw', objectFit: 'contain' }
+                  }}
                 />
               </div>
-              <div className="p-3 border-t bg-background">
+              <div className="p-3 border-t bg-background flex-shrink-0">
                 <h3 className="font-semibold text-center text-lg">{filteredGallery[selectedIndex]?.title}</h3>
                 <p className="text-muted-foreground text-center text-sm capitalize mt-1">
                   {filteredGallery[selectedIndex]?.category.replace('-', ' ')}
