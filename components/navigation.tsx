@@ -24,7 +24,7 @@ export function Navigation() {
         <div className="flex items-center justify-between h-20">
           <Link href="/" className="flex items-center">
             <Image
-              src="/giralt-logo2.svg"
+              src="/GIRALT-LOGO-NEW.svg"
               alt="Giralt Enterprises"
               width={180}
               height={60}
