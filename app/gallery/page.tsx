@@ -3,18 +3,21 @@
 import { Navigation } from '@/components/navigation'
 import { Footer } from '@/components/footer'
 import { Badge } from '@/components/ui/badge'
-import { useState, useEffect } from 'react'
+import { useState, useEffect, useRef } from 'react'
 import { Card } from '@/components/ui/card'
 import { Dialog, DialogContent, DialogTrigger } from '@/components/ui/dialog'
-import { Carousel, CarouselContent, CarouselItem, CarouselPrevious, CarouselNext, type CarouselApi } from '@/components/ui/carousel'
-import Image from 'next/image'
+import Slider from 'react-slick'
+import { ArrowLeft, ArrowRight } from 'lucide-react'
+import { Button } from '@/components/ui/button'
+import 'slick-carousel/slick/slick.css'
+import 'slick-carousel/slick/slick-theme.css'
 
 export default function GalleryPage() {
   const [filter, setFilter] = useState('all')
   const [selectedIndex, setSelectedIndex] = useState(0)
   const [currentIndex, setCurrentIndex] = useState(0)
   const [isOpen, setIsOpen] = useState(false)
-  const [api, setApi] = useState<CarouselApi>()
+  const sliderRef = useRef<Slider>(null)
 
   const categories = [
     { id: 'all', label: 'All Projects' },
@@ -45,47 +48,72 @@ export default function GalleryPage() {
 
   const filteredGallery = filter === 'all' ? gallery : gallery.filter(item => item.category === filter)
 
-  // Scroll carousel to selected index when dialog opens
+  // Scroll slider to selected index when dialog opens
   useEffect(() => {
-    if (!api || !isOpen) return
+    if (!sliderRef.current || !isOpen) return
     
-    api.scrollTo(selectedIndex, false)
+    sliderRef.current.slickGoTo(selectedIndex)
     setCurrentIndex(selectedIndex)
-  }, [api, isOpen, selectedIndex])
+  }, [isOpen, selectedIndex])
 
-  // Track current carousel index
-  useEffect(() => {
-    if (!api) return
-
-    const onSelect = () => {
-      setCurrentIndex(api.selectedScrollSnap())
-    }
-
-    api.on('select', onSelect)
-    return () => {
-      api.off('select', onSelect)
-    }
-  }, [api])
-
-  // Handle keyboard navigation for carousel
+  // Handle keyboard navigation for slider
   useEffect(() => {
     if (!isOpen) return
 
     const handleKeyDown = (e: KeyboardEvent) => {
-      if (!api) return
+      if (!sliderRef.current) return
       
       if (e.key === 'ArrowLeft') {
         e.preventDefault()
-        api.scrollPrev()
+        sliderRef.current.slickPrev()
       } else if (e.key === 'ArrowRight') {
         e.preventDefault()
-        api.scrollNext()
+        sliderRef.current.slickNext()
       }
     }
 
     window.addEventListener('keydown', handleKeyDown)
     return () => window.removeEventListener('keydown', handleKeyDown)
-  }, [isOpen, api])
+  }, [isOpen])
+
+  // Custom arrow components for react-slick
+  const PrevArrow = ({ onClick }: { onClick?: () => void }) => (
+    <Button
+      variant="outline"
+      size="icon"
+      className="absolute left-4 z-10 h-8 w-8 rounded-full bg-background/80 hover:bg-background border"
+      onClick={onClick}
+      type="button"
+    >
+      <ArrowLeft className="h-4 w-4" />
+    </Button>
+  )
+
+  const NextArrow = ({ onClick }: { onClick?: () => void }) => (
+    <Button
+      variant="outline"
+      size="icon"
+      className="absolute right-4 z-10 h-8 w-8 rounded-full bg-background/80 hover:bg-background border"
+      onClick={onClick}
+      type="button"
+    >
+      <ArrowRight className="h-4 w-4" />
+    </Button>
+  )
+
+  const sliderSettings = {
+    dots: false,
+    infinite: true,
+    speed: 300,
+    slidesToShow: 1,
+    slidesToScroll: 1,
+    initialSlide: selectedIndex,
+    beforeChange: (_current: number, next: number) => {
+      setCurrentIndex(next)
+    },
+    prevArrow: <PrevArrow />,
+    nextArrow: <NextArrow />,
+  }
 
   const handleImageClick = (index: number) => {
     setSelectedIndex(index)
@@ -161,36 +189,20 @@ export default function GalleryPage() {
             </div>
             <DialogContent className="max-w-[98vw] w-full p-0 overflow-hidden !grid !grid-rows-[1fr_auto]" showCloseButton={true} style={{ maxHeight: '98vh', height: '98vh' }}>
               <div className="relative w-full overflow-hidden" style={{ height: 'calc(98vh - 70px)' }}>
-                <Carousel 
-                  setApi={setApi} 
-                  className="w-full h-full"
-                  opts={{
-                    align: 'start',
-                    slidesToScroll: 1,
-                    containScroll: 'trimSnaps',
-                  }}
-                >
-                  <CarouselContent className="h-full -ml-0">
-                    {filteredGallery.map((item, index) => (
-                      <CarouselItem 
-                        key={index} 
-                        className="h-full pl-0 basis-full shrink-0 grow-0 flex items-center justify-center"
-                        style={{ width: '100%', minWidth: '100%', maxWidth: '100%' }}
-                      >
-                        <div className="relative w-full h-full max-w-full max-h-full flex items-center justify-center p-4">
-                          <img
-                            src={item.image || "/placeholder.svg"}
-                            alt={item.title}
-                            className="max-w-full max-h-full w-auto h-auto object-contain"
-                            style={{ maxHeight: 'calc(98vh - 70px)', maxWidth: '98vw' }}
-                          />
-                        </div>
-                      </CarouselItem>
-                    ))}
-                  </CarouselContent>
-                  <CarouselPrevious className="left-4 z-10" />
-                  <CarouselNext className="right-4 z-10" />
-                </Carousel>
+                <Slider ref={sliderRef} {...sliderSettings} className="h-full">
+                  {filteredGallery.map((item, index) => (
+                    <div key={index} className="h-full flex items-center justify-center p-4">
+                      <div className="relative w-full h-full flex items-center justify-center">
+                        <img
+                          src={item.image || "/placeholder.svg"}
+                          alt={item.title}
+                          className="max-w-full max-h-full w-auto h-auto object-contain"
+                          style={{ maxHeight: 'calc(98vh - 70px)', maxWidth: '98vw' }}
+                        />
+                      </div>
+                    </div>
+                  ))}
+                </Slider>
               </div>
               <div className="p-3 border-t bg-background">
                 <h3 className="font-semibold text-center text-lg">{filteredGallery[currentIndex]?.title}</h3>

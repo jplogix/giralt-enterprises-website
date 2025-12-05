@@ -116,3 +116,44 @@
     @apply bg-background text-foreground;
   }
 }
+
+/* Slick Carousel Custom Styles for Gallery */
+.slick-slider {
+  height: 100%;
+}
+
+.slick-list {
+  height: 100%;
+}
+
+.slick-track {
+  height: 100%;
+  display: flex;
+  align-items: center;
+}
+
+.slick-slide {
+  height: auto;
+}
+
+.slick-slide > div {
+  height: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.slick-arrow {
+  z-index: 10;
+}
+
+.slick-prev,
+.slick-next {
+  width: 32px !important;
+  height: 32px !important;
+}
+
+.slick-prev:before,
+.slick-next:before {
+  display: none;
+}
