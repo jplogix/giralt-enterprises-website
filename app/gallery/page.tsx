@@ -161,11 +161,23 @@ export default function GalleryPage() {
             </div>
             <DialogContent className="max-w-[98vw] w-full p-0 overflow-hidden !grid !grid-rows-[1fr_auto]" showCloseButton={true} style={{ maxHeight: '98vh', height: '98vh' }}>
               <div className="relative w-full overflow-hidden" style={{ height: 'calc(98vh - 70px)' }}>
-                <Carousel setApi={setApi} className="w-full h-full">
+                <Carousel 
+                  setApi={setApi} 
+                  className="w-full h-full"
+                  opts={{
+                    align: 'start',
+                    slidesToScroll: 1,
+                    containScroll: 'trimSnaps',
+                  }}
+                >
                   <CarouselContent className="h-full -ml-0">
                     {filteredGallery.map((item, index) => (
-                      <CarouselItem key={index} className="h-full pl-0 basis-full shrink-0 grow-0 flex items-center justify-center">
-                        <div className="relative w-full max-w-full max-h-full flex items-center justify-center p-4">
+                      <CarouselItem 
+                        key={index} 
+                        className="h-full pl-0 basis-full shrink-0 grow-0 flex items-center justify-center"
+                        style={{ width: '100%', minWidth: '100%', maxWidth: '100%' }}
+                      >
+                        <div className="relative w-full h-full max-w-full max-h-full flex items-center justify-center p-4">
                           <img
                             src={item.image || "/placeholder.svg"}
                             alt={item.title}
