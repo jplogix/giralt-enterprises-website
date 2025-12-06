@@ -12,7 +12,7 @@ import { Anchor, CheckCircle2 } from 'lucide-react'
 
 export default function DocksPage() {
   const installations = [
-    { name: 'Lafayette Hart Park', image: 'https://res.cloudinary.com/jp79/image/upload/v1763531620/giralt/docks/lafayette_hart_park.jpg' },
+    { name: 'Lafayette Hart Park', image: '/IMG_0450-Resized.jpg' },
     { name: 'Woodland Beach Fishing Pier', image: 'https://res.cloudinary.com/jp79/image/upload/v1763522933/giralt/docks/woodland_beach_fishing_pier.jpg' },
     { name: 'Miramar Floating Gazebo', image: 'https://res.cloudinary.com/jp79/image/upload/v1763522933/giralt/docks/miramar_floating_gazebo.jpg' },
   ]

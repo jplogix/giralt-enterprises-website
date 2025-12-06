@@ -18,7 +18,7 @@ export default function ProductsPage() {
     {
       title: 'Docks',
       description: 'Elite and standard fixed and floating dock systems. Structural members made of aluminum alloy 6061-T6 for high corrosion resistance.',
-      image: 'https://res.cloudinary.com/jp79/image/upload/v1763531620/giralt/docks/lafayette_hart_park.jpg',
+      image: '/IMG_0450-Resized.jpg',
       href: '/products/docks',
       features: ['Fixed & floating options', 'Multiple deck materials', 'Salt water resistant', 'Custom designs']
     },
@@ -71,41 +71,44 @@ export default function ProductsPage() {
         <div className="container mx-auto px-4">
           <div className="grid grid-cols-1 lg:grid-cols-2 gap-8">
             {products.map((product) => (
-              <Card key={product.title} className="overflow-hidden hover:shadow-xl transition-all duration-300">
-                <div className="relative h-64 overflow-hidden">
-                  <img
-                    src={product.image || "/placeholder.svg"}
-                    alt={product.title}
-                    className="w-full h-full object-cover hover:scale-105 transition-transform duration-300"
-                  />
-                  {product.badge && (
-                    <Badge className="absolute top-4 right-4 bg-accent text-accent-foreground">
-                      <Award size={14} className="mr-1" />
-                      {product.badge}
-                    </Badge>
-                  )}
-                </div>
-                <CardContent className="pt-6">
-                  <h2 className="text-2xl font-bold mb-3">{product.title}</h2>
-                  <p className="text-muted-foreground mb-4 leading-relaxed">
-                    {product.description}
-                  </p>
-                  <ul className="space-y-2 mb-6">
-                    {product.features.map((feature) => (
-                      <li key={feature} className="flex items-center text-sm">
-                        <div className="w-1.5 h-1.5 rounded-full bg-primary mr-2" />
-                        {feature}
-                      </li>
-                    ))}
-                  </ul>
-                  <Button asChild className="w-full">
-                    <Link href={product.href}>
-                      View Details
-                      <ArrowRight className="ml-2" size={16} />
-                    </Link>
-                  </Button>
-                </CardContent>
-              </Card>
+              <Link key={product.title} href={product.href} className="group">
+                <Card className="overflow-hidden hover:shadow-xl transition-all duration-300 cursor-pointer h-full">
+                  <div className="relative h-64 overflow-hidden">
+                    <img
+                      src={product.image || "/placeholder.svg"}
+                      alt={product.title}
+                      className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-300"
+                    />
+                    {product.badge && (
+                      <Badge className="absolute top-4 right-4 bg-accent text-accent-foreground">
+                        <Award size={14} className="mr-1" />
+                        {product.badge}
+                      </Badge>
+                    )}
+                    <div className="absolute inset-0 bg-black/0 group-hover:bg-black/10 transition-colors duration-300" />
+                  </div>
+                  <CardContent className="pt-6">
+                    <h2 className="text-2xl font-bold mb-3 group-hover:text-primary transition-colors duration-300">{product.title}</h2>
+                    <p className="text-muted-foreground mb-4 leading-relaxed">
+                      {product.description}
+                    </p>
+                    <ul className="space-y-2 mb-6">
+                      {product.features.map((feature) => (
+                        <li key={feature} className="flex items-center text-sm">
+                          <div className="w-1.5 h-1.5 rounded-full bg-primary mr-2" />
+                          {feature}
+                        </li>
+                      ))}
+                    </ul>
+                    <Button asChild className="w-full group-hover:bg-primary/90 transition-colors duration-300">
+                      <span>
+                        View Details
+                        <ArrowRight className="ml-2 inline-block" size={16} />
+                      </span>
+                    </Button>
+                  </CardContent>
+                </Card>
+              </Link>
             ))}
           </div>
         </div>
