@@ -1,41 +1,42 @@
-import { Navigation } from '@/components/navigation'
+import { ArrowRight, Award, CheckCircle2, FileText, Phone, ShieldCheck } from 'lucide-react'
+import Image from 'next/image'
+import Link from 'next/link'
 import { Footer } from '@/components/footer'
+import { Navigation } from '@/components/navigation'
+import { Badge } from '@/components/ui/badge'
 import { Button } from '@/components/ui/button'
 import { Card, CardContent } from '@/components/ui/card'
-import { Badge } from '@/components/ui/badge'
-import Link from 'next/link'
-import { Award, CheckCircle2, FileText, Phone, ArrowRight, ShieldCheck } from 'lucide-react'
 
 export default function HomePage() {
   const products = [
     {
       title: 'Handrails',
       description: 'Weld-free aluminum picket handrail system. DOT approved in 6 states.',
-      image: 'https://res.cloudinary.com/jp79/image/upload/v1763531620/giralt/handrails/main_installation.jpg',
+      image: '/images/giralt/handrails/main_installation.jpg',
       href: '/products/handrails',
     },
     {
       title: 'Docks',
       description: 'Elite and standard fixed and floating dock systems with aluminum 6061-T6 construction.',
-      image: 'https://res.cloudinary.com/jp79/image/upload/v1763531620/giralt/docks/lafayette_hart_park.jpg',
+      image: '/images/giralt/docks/woodland_beach_fishing_pier.jpg',
       href: '/products/docks',
     },
     {
       title: 'Seawalls',
       description: 'Aluminum, Vinyl and FRP seawall materials with full engineering support.',
-      image: 'https://res.cloudinary.com/jp79/image/upload/v1763522933/giralt/seawalls/vero_beach.jpg',
+      image: '/images/giralt/seawalls/vero_beach.jpg',
       href: '/products/seawalls',
     },
     {
       title: 'Pedestrian Bridges',
       description: 'Quick-install aluminum bridges with spans up to 100 feet. Five models available.',
-      image: 'https://res.cloudinary.com/jp79/image/upload/v1763531620/giralt/pedestrian_bridges/long_key_natural_area.jpg',
+      image: '/images/giralt/pedestrian_bridges/long_key_natural_area.jpg',
       href: '/products/bridges',
     },
     {
       title: 'Wave Attenuators',
       description: 'Multiple configurations to break up wave energy and boat wake.',
-      image: 'https://res.cloudinary.com/jp79/image/upload/v1763531659/giralt/wave_attenuators/terra_verde.jpg',
+      image: '/images/giralt/wave_attenuators/terra_verde.jpg',
       href: '/products/wave-attenuators',
     },
   ]
@@ -150,10 +151,12 @@ export default function HomePage() {
               <Link key={product.title} href={product.href}>
                 <Card className="h-full hover:shadow-xl transition-all duration-300 hover:-translate-y-1 overflow-hidden group">
                   <div className="relative h-48 overflow-hidden">
-                    <img
+                    <Image
                       src={product.image || "/placeholder.svg"}
                       alt={product.title}
-                      className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-300"
+                      fill
+                      sizes="(min-width: 1024px) 33vw, (min-width: 640px) 50vw, 100vw"
+                      className="object-cover group-hover:scale-110 transition-transform duration-300"
                     />
                     {product.badge && (
                       <Badge className="absolute top-4 right-4 bg-accent text-accent-foreground">

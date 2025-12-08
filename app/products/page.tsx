@@ -1,45 +1,46 @@
-import { Navigation } from '@/components/navigation'
+import { ArrowRight, Award } from 'lucide-react'
+import Image from 'next/image'
+import Link from 'next/link'
 import { Footer } from '@/components/footer'
-import { Card, CardContent } from '@/components/ui/card'
+import { Navigation } from '@/components/navigation'
 import { Badge } from '@/components/ui/badge'
 import { Button } from '@/components/ui/button'
-import Link from 'next/link'
-import { ArrowRight, Award } from 'lucide-react'
+import { Card, CardContent } from '@/components/ui/card'
 
 export default function ProductsPage() {
   const products = [
     {
       title: 'Handrails',
       description: 'Weld-free aluminum picket handrail system with DOT approvals from 6 states. High corrosion resistance and strength.',
-      image: 'https://res.cloudinary.com/jp79/image/upload/v1763531620/giralt/handrails/main_installation.jpg',
+      image: '/images/giralt/handrails/main_installation.jpg',
       href: '/products/handrails',
       features: ['No welding required', 'AA 6061-T6 aluminum', 'DOT approved', 'Award winning']
     },
     {
       title: 'Docks',
       description: 'Elite and standard fixed and floating dock systems. Structural members made of aluminum alloy 6061-T6 for high corrosion resistance.',
-      image: '/IMG_0450-Resized.jpg',
+      image: '/images/giralt/docks/woodland_beach_fishing_pier.jpg',
       href: '/products/docks',
       features: ['Fixed & floating options', 'Multiple deck materials', 'Salt water resistant', 'Custom designs']
     },
     {
       title: 'Seawalls',
       description: 'Three types available: Aluminum, Vinyl, and FRP. Engineering analysis provided for proper material selection.',
-      image: 'https://res.cloudinary.com/jp79/image/upload/v1763522933/giralt/seawalls/vero_beach.jpg',
+      image: '/images/giralt/seawalls/vero_beach.jpg',
       href: '/products/seawalls',
       features: ['Aluminum, Vinyl, FRP', 'Engineering support', 'Site-specific design', 'Soils analysis']
     },
     {
       title: 'Pedestrian Bridges',
       description: 'Quick-install aluminum bridges with spans up to 90-100 feet. Can be delivered fully assembled.',
-      image: 'https://res.cloudinary.com/jp79/image/upload/v1763531620/giralt/pedestrian_bridges/long_key_natural_area.jpg',
+      image: '/images/giralt/pedestrian_bridges/long_key_natural_area.jpg',
       href: '/products/bridges',
       features: ['5 models available', 'Up to 100 ft spans', 'Quick installation', 'Fully assembled delivery']
     },
     {
       title: 'Wave Attenuators',
       description: 'Multiple configurations to break up wave energy and boat wake. Custom solutions based on site conditions.',
-      image: 'https://res.cloudinary.com/jp79/image/upload/v1763531659/giralt/wave_attenuators/terra_verde.jpg',
+      image: '/images/giralt/wave_attenuators/terra_verde.jpg',
       href: '/products/wave-attenuators',
       features: ['4 configurations', 'Custom engineering', 'Energy dissipation', 'Marina protection']
     },
@@ -74,10 +75,12 @@ export default function ProductsPage() {
               <Link key={product.title} href={product.href} className="group">
                 <Card className="overflow-hidden hover:shadow-xl transition-all duration-300 cursor-pointer h-full">
                   <div className="relative h-64 overflow-hidden">
-                    <img
+                    <Image
                       src={product.image || "/placeholder.svg"}
                       alt={product.title}
-                      className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-300"
+                      fill
+                      sizes="(min-width: 1024px) 50vw, 100vw"
+                      className="object-cover group-hover:scale-105 transition-transform duration-300"
                     />
                     {product.badge && (
                       <Badge className="absolute top-4 right-4 bg-accent text-accent-foreground">
