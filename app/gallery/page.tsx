@@ -204,7 +204,7 @@ export default function GalleryPage() {
     { category: 'handrails', title: 'Pinellas Tail (Stairs)', image: '/images/giralt/handrails/pinellas_tail_stair_handrails.jpg' },
     { category: 'handrails', title: 'SR70', image: '/images/giralt/handrails/sr70_handrail.jpg' },
     { category: 'handrails', title: 'University Drive', image: '/images/giralt/handrails/university_drive_handrail.jpg' },
-    { category: 'docks', title: 'Lafayette Hart Park', image: '/images/giralt/docks/lafayette_hart_park.jpg' },
+    { category: 'bridges', title: 'Lafayette Hart Park', image: '/images/giralt/docks/lafayette_hart_park.jpg' },
     { category: 'docks', title: 'Woodland Beach Fishing Pier', image: '/images/giralt/docks/woodland_beach_fishing_pier.jpg' },
     { category: 'docks', title: 'Miramar Floating Gazebo', image: '/images/giralt/docks/miramar_floating_gazebo.jpg' },
     { category: 'bridges', title: 'Long Key Natural Area', image: '/images/giralt/pedestrian_bridges/long_key_natural_area.jpg' },
