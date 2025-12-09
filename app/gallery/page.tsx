@@ -186,6 +186,8 @@ export default function GalleryPage() {
   const categories = [
     { id: 'all', label: 'All Projects' },
     { id: 'handrails', label: 'Handrails' },
+    { id: 'bullet-railings', label: 'Bullet Railings' },
+    { id: 'two-three-line-railings', label: '2-Line / 3-Line Railings' },
     { id: 'docks', label: 'Docks' },
     { id: 'gangways', label: 'Gangways' },
     { id: 'floating-docks', label: 'Floating Docks' },
