@@ -44,6 +44,13 @@ export default function ProductsPage() {
       href: '/products/wave-attenuators',
       features: ['4 configurations', 'Custom engineering', 'Energy dissipation', 'Marina protection']
     },
+    {
+      title: 'Gangways',
+      description: 'Lightweight aluminum gangways and ramps for safe shore access. Custom lengths and handrail options.',
+      image: '/images/giralt/pedestrian_bridges/long_key_natural_area.jpg',
+      href: '/products/gangways',
+      features: ['Custom lengths', 'ADA-compliant options', 'Lightweight aluminum', 'Modular sections']
+    },
   ]
 
   return (
