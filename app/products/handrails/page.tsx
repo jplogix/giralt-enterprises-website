@@ -1,21 +1,27 @@
 'use client'
 
-import { Navigation } from '@/components/navigation'
+import { Award, CheckCircle2, MapPin } from 'lucide-react'
+import Image from 'next/image'
+import Link from 'next/link'
 import { Footer } from '@/components/footer'
-import { Card, CardContent } from '@/components/ui/card'
+import { Navigation } from '@/components/navigation'
 import { Badge } from '@/components/ui/badge'
 import { Button } from '@/components/ui/button'
+import { Card, CardContent } from '@/components/ui/card'
 import { Dialog, DialogContent, DialogTrigger } from '@/components/ui/dialog'
-import Link from 'next/link'
-import Image from 'next/image'
-import { Award, MapPin, CheckCircle2 } from 'lucide-react'
 
 export default function HandrailsPage() {
   const dotApprovals = ['Florida', 'Virginia', 'New York', 'Alabama', 'Georgia', 'South Carolina']
-  
+
   const installations = [
-    { name: 'Main Installation', image: 'https://res.cloudinary.com/jp79/image/upload/v1763531620/giralt/handrails/main_installation.jpg' },
-    { name: 'Donald Ross Road', image: 'https://res.cloudinary.com/jp79/image/upload/v1763531620/giralt/handrails/donald_ross_road.jpg' },
+    { name: 'Main Installation', image: '/images/giralt/handrails/main_installation.jpg' },
+    { name: 'Donald Ross Road', image: '/images/giralt/handrails/donald_ross_road.jpg' },
+    { name: 'Atlantic Ave', image: '/images/giralt/handrails/atlantic_ave_handrail.jpg' },
+    { name: 'Lake Park Marina', image: '/images/giralt/handrails/lake_park_marina_handrail.jpg' },
+    { name: 'Long Key Natural Area', image: '/images/giralt/handrails/long_key_natural_area_handrail.jpg' },
+    { name: 'Pinellas Tail (Stairs)', image: '/images/giralt/handrails/pinellas_tail_stair_handrails.jpg' },
+    { name: 'SR70', image: '/images/giralt/handrails/sr70_handrail.jpg' },
+    { name: 'University Drive', image: '/images/giralt/handrails/university_drive_handrail.jpg' },
   ]
 
   return (
