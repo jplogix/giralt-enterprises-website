@@ -210,7 +210,7 @@ export default function GalleryPage() {
     { category: 'bridges', title: 'Long Key Natural Area', image: '/images/giralt/pedestrian_bridges/long_key_natural_area.jpg' },
     { category: 'bridges', title: 'Richardson Park Boardwalk', image: '/images/giralt/pedestrian_bridges/richardson_park_boardwalk.jpg' },
     { category: 'seawalls', title: 'Vero Beach', image: '/images/giralt/seawalls/vero_beach.jpg' },
-    { category: 'seawalls', title: 'Installation Detail', image: '/images/giralt/seawalls/installation_detail.jpg' },
+    { category: 'docks', title: 'Installation Detail', image: '/images/giralt/seawalls/installation_detail.jpg' },
     { category: 'seawalls', title: 'Chula Vista Canal', image: '/images/giralt/seawalls/chula_vista_canal.jpg' },
     { category: 'attenuators', title: 'Terra Verde', image: '/images/giralt/wave_attenuators/terra_verde.jpg' },
     { category: 'attenuators', title: 'Haulover', image: '/images/giralt/wave_attenuators/haulover.jpg' },
