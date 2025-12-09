@@ -1,14 +1,15 @@
 'use client'
 
-import { Navigation } from '@/components/navigation'
+import { Anchor, CheckCircle2 } from 'lucide-react'
+import Image from 'next/image'
+import Link from 'next/link'
 import { Footer } from '@/components/footer'
-import { Card, CardContent } from '@/components/ui/card'
+import { Navigation } from '@/components/navigation'
 import { Badge } from '@/components/ui/badge'
 import { Button } from '@/components/ui/button'
+import { Card, CardContent } from '@/components/ui/card'
 import { Dialog, DialogContent, DialogTrigger } from '@/components/ui/dialog'
-import Link from 'next/link'
-import Image from 'next/image'
-import { Anchor, CheckCircle2 } from 'lucide-react'
+import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs'
 
 export default function DocksPage() {
   const installations = [
@@ -96,7 +97,7 @@ export default function DocksPage() {
                 <p className="text-muted-foreground mb-6">
                   Beyond the structural members, pretty much all the other choices are yours. All we need from you is a list of your needs.
                 </p>
-                
+
                 <div className="space-y-6">
                   <div>
                     <h3 className="font-semibold text-lg mb-3">Deck Material Options</h3>
@@ -108,7 +109,7 @@ export default function DocksPage() {
                       ))}
                     </div>
                   </div>
-                  
+
                   <div>
                     <h3 className="font-semibold text-lg mb-3">Flotation Options (Floating Docks)</h3>
                     <div className="flex flex-wrap gap-2">
@@ -126,45 +127,73 @@ export default function DocksPage() {
         </div>
       </section>
 
-      {/* Installation Gallery */}
       <section className="py-20 bg-secondary/30">
         <div className="container mx-auto px-4">
           <h2 className="text-3xl font-bold mb-8 text-center">Installation Examples</h2>
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-6 max-w-6xl mx-auto">
-            {installations.map((installation) => (
-              <Dialog key={installation.name}>
-                <DialogTrigger asChild>
-                  <Card className="overflow-hidden hover:shadow-xl transition-shadow cursor-pointer">
+          <Tabs defaultValue="fixed">
+            <TabsList className="mx-auto mb-6 w-full max-w-md">
+              <TabsTrigger value="fixed">Fixed Docks</TabsTrigger>
+              <TabsTrigger value="floating">Floating Docks</TabsTrigger>
+              <TabsTrigger value="gangways">Gangways</TabsTrigger>
+            </TabsList>
+
+            <TabsContent value="fixed">
+              <div className="grid grid-cols-1 md:grid-cols-3 gap-6 max-w-6xl mx-auto">
+                {installations.filter(i => i.name === 'Lafayette Hart Park').map((installation) => (
+                  <Card key={installation.name} className="overflow-hidden">
                     <div className="relative h-64">
-                      <Image
-                        src={installation.image || "/placeholder.svg"}
-                        alt={installation.name}
-                        fill
-                        className="object-cover"
-                      />
+                      <Image src={installation.image || "/placeholder.svg"} alt={installation.name} fill className="object-cover" />
                     </div>
                     <CardContent className="pt-4">
                       <h3 className="font-semibold text-center">{installation.name}</h3>
                     </CardContent>
                   </Card>
-                </DialogTrigger>
-                <DialogContent className="max-w-5xl p-0" showCloseButton={true}>
-                  <div className="relative w-full" style={{ minHeight: '400px', maxHeight: '90vh' }}>
-                    <Image
-                      src={installation.image || "/placeholder.svg"}
-                      alt={installation.name}
-                      fill
-                      className="object-contain"
-                      sizes="(max-width: 1280px) 100vw, 1280px"
-                    />
+                ))}
+              </div>
+            </TabsContent>
+
+            <TabsContent value="floating">
+              <div className="grid grid-cols-1 md:grid-cols-3 gap-6 max-w-6xl mx-auto">
+                <Card className="overflow-hidden">
+                  <div className="relative h-64">
+                    <Image src="/images/giralt/floating_docks/miramar_floating_gazebo.jpg" alt="Miramar Floating Gazebo" fill className="object-cover" />
                   </div>
-                  <div className="p-4 border-t">
-                    <h3 className="font-semibold text-center text-lg">{installation.name}</h3>
+                  <CardContent className="pt-4">
+                    <h3 className="font-semibold text-center">Miramar Floating Gazebo</h3>
+                  </CardContent>
+                </Card>
+                <Card className="overflow-hidden">
+                  <div className="relative h-64">
+                    <Image src="/images/giralt/floating_docks/woodland_beach_fishing_pier.jpg" alt="Woodland Beach Fishing Pier" fill className="object-cover" />
                   </div>
-                </DialogContent>
-              </Dialog>
-            ))}
-          </div>
+                  <CardContent className="pt-4">
+                    <h3 className="font-semibold text-center">Woodland Beach Fishing Pier</h3>
+                  </CardContent>
+                </Card>
+              </div>
+            </TabsContent>
+
+            <TabsContent value="gangways">
+              <div className="grid grid-cols-1 md:grid-cols-3 gap-6 max-w-6xl mx-auto">
+                <Card className="overflow-hidden">
+                  <div className="relative h-64">
+                    <Image src="/images/giralt/gangways/long_key_natural_area_gangway.jpg" alt="Long Key Gangway" fill className="object-cover" />
+                  </div>
+                  <CardContent className="pt-4">
+                    <h3 className="font-semibold text-center">Long Key Gangway</h3>
+                  </CardContent>
+                </Card>
+                <Card className="overflow-hidden">
+                  <div className="relative h-64">
+                    <Image src="/images/giralt/gangways/richardson_park_gangway.jpg" alt="Richardson Park Gangway" fill className="object-cover" />
+                  </div>
+                  <CardContent className="pt-4">
+                    <h3 className="font-semibold text-center">Richardson Park Gangway</h3>
+                  </CardContent>
+                </Card>
+              </div>
+            </TabsContent>
+          </Tabs>
         </div>
       </section>
 
