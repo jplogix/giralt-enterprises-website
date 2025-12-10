@@ -51,6 +51,20 @@ export default function ProductsPage() {
       href: '/products/gangways',
       features: ['Custom lengths', 'ADA-compliant options', 'Lightweight aluminum', 'Modular sections']
     },
+    {
+      title: 'Bullet Railings',
+      description: 'Decorative bullet-style railings for marinas, piers, and boardwalks. Available in marine-grade aluminum and custom finishes.',
+      image: '/images/giralt/bullet_railings/bullet_railing_1.jpg',
+      href: '/products/bullet-railings',
+      features: ['Decorative bullet style', 'Aluminum construction', 'Custom finishes', 'Marine grade']
+    },
+    {
+      title: '2-Line / 3-Line Railings',
+      description: '2-line and 3-line railing systems for safety and a clean, nautical aesthetic. Easy-install systems for docks and walkways.',
+      image: '/images/giralt/two_three_line_railings/2_line_example.jpg',
+      href: '/products/two-three-line-railings',
+      features: ['2-line and 3-line options', 'Easy install', 'Adjustable spacing', 'Saltwater resistant']
+    },
   ]
 
   return (
