@@ -7,8 +7,17 @@ import { Badge } from '@/components/ui/badge'
 import { Button } from '@/components/ui/button'
 import { Card, CardContent } from '@/components/ui/card'
 
+type Product = {
+  title: string
+  description: string
+  image: string
+  href: string
+  features: string[]
+  badge?: string
+}
+
 export default function ProductsPage() {
-  const products = [
+  const products: Product[] = [
     {
       title: 'Handrails',
       description: 'Weld-free aluminum picket handrail system with DOT approvals from 6 states. High corrosion resistance and strength.',

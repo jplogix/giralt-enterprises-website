@@ -10,7 +10,7 @@ export default function BulletRailingsPage() {
     <div className="min-h-screen">
       <Navigation />
 
-      <section className="bg-gradient-to-br from-primary to-accent text-primary-foreground py-20">
+      <section className="bg-linear-to-br from-primary to-accent text-primary-foreground py-20">
         <div className="container mx-auto px-4">
           <div className="max-w-3xl">
             <Badge variant="secondary" className="mb-4 bg-primary-foreground/10 text-primary-foreground border-primary-foreground/20">

@@ -70,9 +70,9 @@ export default function HomePage() {
       <Navigation />
 
       {/* Hero Section */}
-      <section className="relative bg-gradient-to-br from-[oklch(0.15_0.12_253)] via-primary to-[oklch(0.18_0.12_253)] text-primary-foreground overflow-hidden">
+      <section className="relative bg-linear-to-br from-[oklch(0.15_0.12_253)] via-primary to-[oklch(0.18_0.12_253)] text-primary-foreground overflow-hidden">
         <div className="absolute inset-0 bg-[url('/blueprint-pattern.jpg')] opacity-20 bg-repeat invert" />
-        <div className="absolute inset-0 bg-gradient-to-b from-transparent via-[oklch(0.15_0.12_253)]/50 to-[oklch(0.15_0.12_253)]" />
+        <div className="absolute inset-0 bg-linear-to-b from-transparent via-[oklch(0.15_0.12_253)]/50 to-[oklch(0.15_0.12_253)]" />
         <div className="container mx-auto px-4 py-24 md:py-32 relative z-10">
           <div className="max-w-4xl">
             <Badge variant="secondary" className="mb-6 bg-primary-foreground/10 text-primary-foreground border-primary-foreground/20">
@@ -200,9 +200,9 @@ export default function HomePage() {
       </section>
 
       {/* CTA Section */}
-      <section className="py-20 bg-gradient-to-r from-[oklch(0.15_0.12_253)] to-[oklch(0.18_0.12_253)] text-primary-foreground relative overflow-hidden">
+      <section className="py-20 bg-linear-to-r from-[oklch(0.15_0.12_253)] to-[oklch(0.18_0.12_253)] text-primary-foreground relative overflow-hidden">
         <div className="absolute inset-0 bg-[url('/blueprint-pattern.jpg')] opacity-20 bg-repeat invert" />
-        <div className="absolute inset-0 bg-gradient-to-t from-[oklch(0.15_0.12_253)]/80 to-transparent" />
+        <div className="absolute inset-0 bg-linear-to-t from-[oklch(0.15_0.12_253)]/80 to-transparent" />
         <div className="container mx-auto px-4 text-center relative z-10">
           <h2 className="text-3xl md:text-4xl font-bold mb-6">Ready to Start Your Project?</h2>
           <p className="text-xl mb-8 max-w-2xl mx-auto text-primary-foreground/90">

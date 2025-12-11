@@ -10,6 +10,35 @@ import { Dialog, DialogContent, DialogTitle, DialogTrigger } from '@/components/
 import 'react-image-gallery/styles/css/image-gallery.css'
 import Image from 'next/image'
 
+declare module 'react-image-gallery' {
+  export interface ReactImageGalleryItem {
+    original: string
+    thumbnail?: string
+    originalAlt?: string
+    thumbnailAlt?: string
+    [key: string]: unknown
+  }
+
+  export interface ReactImageGalleryProps {
+    showPlayButton?: boolean
+    showFullscreenButton?: boolean
+    showNav?: boolean
+    showThumbnails?: boolean
+    showBullets?: boolean
+    showIndex?: boolean
+    startIndex?: number
+    onSlide?: (currentIndex: number) => void
+    additionalClass?: string
+    useBrowserFullscreen?: boolean
+    preventSwipe?: boolean
+    swipeThreshold?: number
+    slideOnThumbnailOver?: boolean
+    lazyLoad?: boolean
+    slideDuration?: number
+    useTranslate3D?: boolean
+  }
+}
+
 // Custom styles for the image gallery in dialog
 const customStyles = `
   .custom-image-gallery {
@@ -176,7 +205,7 @@ export default function GalleryPage() {
   const [filter, setFilter] = useState('all')
   const [selectedIndex, setSelectedIndex] = useState(0)
   const [isOpen, setIsOpen] = useState(false)
-  const galleryRef = useRef<ImageGallery>(null)
+  const galleryRef = useRef<ImageGallery | null>(null)
   const cloudinaryTransform = 'f_auto,q_auto,c_fill,g_auto,w_1920,h_1280,e_upscale'
   const cloudinaryThumbTransform = 'f_auto,q_auto,c_fill,g_auto,w_800,h_533,e_upscale'
 
@@ -215,10 +244,10 @@ export default function GalleryPage() {
     { category: 'bridges', title: 'Richardson Park Boardwalk', image: '/images/giralt/pedestrian_bridges/richardson_park_boardwalk.jpg' },
     { category: 'gangways', title: 'Marina Gangway', image: '/images/giralt/gangways/long_key_natural_area_gangway.jpg' },
     { category: 'gangways', title: 'Aluminum Ramp', image: '/images/giralt/gangways/richardson_park_gangway.jpg' },
-    { category: 'bullet-railings', title: 'Bullet Railing Detail', image: '/images/giralt/bullet_railings/bullet_railing_1.jpg' },
-    { category: 'bullet-railings', title: 'Bullet Railing Marina', image: '/images/giralt/bullet_railings/bullet_railing_2.jpg' },
-    { category: 'two-three-line-railings', title: '2-Line Railing', image: '/images/giralt/two_three_line_railings/2_line_1.jpg' },
-    { category: 'two-three-line-railings', title: '3-Line Railing', image: '/images/giralt/two_three_line_railings/3_line_1.jpg' },
+    { category: 'bullet-railings', title: 'Bullet Railing Detail', image: '/Bullet Railing /Painted Bullet Rail.jpg' },
+    { category: 'bullet-railings', title: 'Bullet Railing Marina', image: '/Bullet Railing /SR-70.jpg' },
+    { category: 'two-three-line-railings', title: '2-Line Railing', image: '/2-Line and 3- line rail/IMG_0025.jpg' },
+    { category: 'two-three-line-railings', title: '3-Line Railing', image: '/2-Line and 3- line rail/IMG_0026.jpg' },
     { category: 'floating-docks', title: 'Miramar Floating Gazebo', image: '/images/giralt/floating_docks/miramar_floating_gazebo.jpg' },
     { category: 'floating-docks', title: 'Woodland Beach Pier', image: '/images/giralt/floating_docks/woodland_beach_fishing_pier.jpg' },
     { category: 'seawalls', title: 'Vero Beach', image: '/images/giralt/seawalls/vero_beach.jpg' },
@@ -312,7 +341,7 @@ export default function GalleryPage() {
       <Navigation />
 
       {/* Hero */}
-      <section className="bg-gradient-to-br from-primary to-accent text-primary-foreground py-20">
+      <section className="bg-linear-to-br from-primary to-accent text-primary-foreground py-20">
         <div className="container mx-auto px-4">
           <div className="max-w-3xl">
             <Badge variant="secondary" className="mb-4 bg-primary-foreground/10 text-primary-foreground border-primary-foreground/20">
@@ -329,7 +358,7 @@ export default function GalleryPage() {
       </section>
 
       {/* Filter */}
-      <section className="py-8 bg-background/95 backdrop-blur supports-backdrop-filter:bg-background/90 sticky top-20 z-[45] border-b shadow-sm">
+      <section className="py-8 bg-background/95 backdrop-blur supports-backdrop-filter:bg-background/90 sticky top-20 z-45 border-b shadow-sm">
         <div className="container mx-auto px-4">
           <div className="flex flex-wrap gap-2 justify-center">
             {categories.map((category) => (

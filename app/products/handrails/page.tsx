@@ -29,7 +29,7 @@ export default function HandrailsPage() {
       <Navigation />
 
       {/* Hero */}
-      <section className="relative bg-gradient-to-br from-primary to-accent text-primary-foreground py-20">
+      <section className="relative bg-linear-to-br from-primary to-accent text-primary-foreground py-20">
         <div className="container mx-auto px-4">
           <div className="max-w-4xl">
             <div className="flex gap-2 mb-4">
@@ -53,14 +53,14 @@ export default function HandrailsPage() {
         <div className="container mx-auto px-4">
           <div className="grid grid-cols-1 md:grid-cols-2 gap-6 max-w-4xl mx-auto">
             <div className="flex items-center gap-4 bg-background p-6 rounded-lg border-2 border-accent/20">
-              <Award className="text-accent flex-shrink-0" size={32} />
+              <Award className="text-accent shrink-0" size={32} />
               <div>
                 <h3 className="font-semibold">2006 Governor's New Product Award</h3>
                 <p className="text-sm text-muted-foreground">Florida Engineering Society / FPEI</p>
               </div>
             </div>
             <div className="flex items-center gap-4 bg-background p-6 rounded-lg border-2 border-accent/20">
-              <Award className="text-accent flex-shrink-0" size={32} />
+              <Award className="text-accent shrink-0" size={32} />
               <div>
                 <h3 className="font-semibold">2007 New Product Award</h3>
                 <p className="text-sm text-muted-foreground">NSPE / PEI</p>
