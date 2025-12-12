@@ -60,17 +60,97 @@ export async function POST(request: NextRequest) {
     const isProduction = process.env.VERCEL === '1' || process.env.NODE_ENV === 'production'
     
     if (isProduction) {
-      // In production (Vercel), we can't write to filesystem
-      // Images need to be uploaded via git commit or cloud storage
-      // For now, return a path that will be committed via git
-      // The actual file will need to be committed separately
+      // In production (Vercel), commit image file to git automatically
+      const githubToken = process.env.GITHUB_TOKEN
+      const githubRepo = process.env.GITHUB_REPO
+
+      if (!githubToken || !githubRepo) {
+        return NextResponse.json(
+          { 
+            error: 'GitHub integration not configured. Please set GITHUB_TOKEN and GITHUB_REPO environment variables to upload images.',
+            configured: false
+          },
+          { status: 400 }
+        )
+      }
+
+      // Read file as base64
+      const bytes = await file.arrayBuffer()
+      const buffer = Buffer.from(bytes)
+      const fileContentBase64 = buffer.toString('base64')
+
+      const [owner, repo] = githubRepo.split('/')
+      const filePath = `public/images/giralt/${categoryPath}/${filename}`
+
+      // Check if file already exists
+      const getFileResponse = await fetch(
+        `https://api.github.com/repos/${owner}/${repo}/contents/${filePath}?ref=${encodeURIComponent(process.env.GITHUB_BRANCH || 'main')}`,
+        {
+          headers: {
+            Authorization: `token ${githubToken}`,
+            Accept: 'application/vnd.github.v3+json',
+          },
+        }
+      )
+
+      let sha: string | undefined
+      if (getFileResponse.ok) {
+        const fileData = await getFileResponse.json()
+        sha = fileData.sha
+      } else if (getFileResponse.status !== 404) {
+        const errorText = await getFileResponse.text()
+        console.error('Error checking file:', errorText)
+        return NextResponse.json(
+          { error: 'Failed to check file in repository' },
+          { status: getFileResponse.status }
+        )
+      }
+
+      // Commit the image file to git
+      const commitBody: {
+        message: string
+        content: string
+        branch: string
+        sha?: string
+      } = {
+        message: `Add image: ${filename}`,
+        content: fileContentBase64,
+        branch: process.env.GITHUB_BRANCH || 'main',
+      }
+
+      if (sha) {
+        commitBody.sha = sha
+      }
+
+      const commitResponse = await fetch(
+        `https://api.github.com/repos/${owner}/${repo}/contents/${filePath}`,
+        {
+          method: 'PUT',
+          headers: {
+            Authorization: `token ${githubToken}`,
+            Accept: 'application/vnd.github.v3+json',
+            'Content-Type': 'application/json',
+          },
+          body: JSON.stringify(commitBody),
+        }
+      )
+
+      if (!commitResponse.ok) {
+        const error = await commitResponse.json()
+        console.error('GitHub API error:', error)
+        return NextResponse.json(
+          { error: error.message || 'Failed to commit image to GitHub' },
+          { status: commitResponse.status }
+        )
+      }
+
+      // Return the public URL path
       const publicPath = `/images/giralt/${categoryPath}/${filename}`
       
       return NextResponse.json({
         success: true,
         path: publicPath,
         filename,
-        note: 'In production, images must be uploaded via git. Please commit the image file to the repository and then add it to the gallery.',
       })
     } else {
       // In development, write to local filesystem

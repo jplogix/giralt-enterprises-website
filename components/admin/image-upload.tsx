@@ -105,6 +105,16 @@ export function ImageUpload({ categories, onSuccess }: ImageUploadProps) {
 
       const uploadData = await uploadResponse.json()
 
+      // Check if upload was successful and has a path
+      if (!uploadData.path) {
+        throw new Error(uploadData.error || 'Image upload failed - no path returned')
+      }
+
+      // If there's a note about git commit needed, show it as a warning but continue
+      if (uploadData.note) {
+        console.warn('Upload note:', uploadData.note)
+      }
+
       // Then create the image record
       const createResponse = await fetch('/api/admin/images', {
         method: 'POST',
