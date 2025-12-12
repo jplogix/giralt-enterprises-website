@@ -21,11 +21,29 @@ export interface GalleryData {
 }
 
 const DATA_FILE_PATH = join(process.cwd(), 'data', 'gallery-data.json')
+const isProduction = process.env.VERCEL === '1' || process.env.NODE_ENV === 'production'
+
+// In-memory cache for production (read-only filesystem)
+let memoryCache: GalleryData | null = null
+let memoryCacheInitialized = false
 
 export function getGalleryData(): GalleryData {
+  // In production, use memory cache if available, otherwise read from file
+  if (isProduction && memoryCache && memoryCacheInitialized) {
+    return memoryCache
+  }
+
   try {
     const fileContents = readFileSync(DATA_FILE_PATH, 'utf8')
-    return JSON.parse(fileContents) as GalleryData
+    const data = JSON.parse(fileContents) as GalleryData
+    
+    // Cache in memory for production
+    if (isProduction) {
+      memoryCache = data
+      memoryCacheInitialized = true
+    }
+    
+    return data
   } catch (error) {
     console.error('Error reading gallery data:', error)
     return { categories: [], images: [] }
@@ -33,12 +51,27 @@ export function getGalleryData(): GalleryData {
 }
 
 export function saveGalleryData(data: GalleryData): void {
+  // In production, only update memory cache (filesystem is read-only)
+  // Changes will be persisted via git commit
+  if (isProduction) {
+    memoryCache = data
+    memoryCacheInitialized = true
+    return
+  }
+
+  // In development, write to file
   try {
     writeFileSync(DATA_FILE_PATH, JSON.stringify(data, null, 2), 'utf8')
   } catch (error) {
     console.error('Error saving gallery data:', error)
     throw new Error('Failed to save gallery data')
   }
+}
+
+// Get the current data as JSON string for git commit
+export function getGalleryDataAsJson(): string {
+  const data = getGalleryData()
+  return JSON.stringify(data, null, 2)
 }
 
 export function getCategories(): GalleryCategory[] {

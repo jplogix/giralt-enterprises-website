@@ -1,7 +1,6 @@
-import { NextRequest, NextResponse } from 'next/server'
+import { type NextRequest, NextResponse } from 'next/server'
 import { isAuthenticated } from '@/lib/admin-auth'
-import { readFileSync } from 'fs'
-import { join } from 'path'
+import { getGalleryDataAsJson } from '@/lib/gallery-data'
 
 export async function POST(request: NextRequest) {
   try {
@@ -35,9 +34,8 @@ export async function POST(request: NextRequest) {
       )
     }
 
-    // Read the gallery data file
-    const dataFilePath = join(process.cwd(), 'data', 'gallery-data.json')
-    const fileContent = readFileSync(dataFilePath, 'utf8')
+    // Get the current gallery data (from memory cache in production, file in dev)
+    const fileContent = getGalleryDataAsJson()
     const fileContentBase64 = Buffer.from(fileContent).toString('base64')
 
     // Get the current file SHA (required for updating)
