@@ -42,9 +42,9 @@ export async function POST(request: NextRequest) {
     const [owner, repo] = githubRepo.split('/')
     const filePath = 'data/gallery-data.json'
 
-    // Get the current file SHA
+    // Get the current file SHA (if file exists)
     const getFileResponse = await fetch(
-      `https://api.github.com/repos/${owner}/${repo}/contents/${filePath}`,
+      `https://api.github.com/repos/${owner}/${repo}/contents/${filePath}?ref=${encodeURIComponent(process.env.GITHUB_BRANCH || 'main')}`,
       {
         headers: {
           Authorization: `token ${githubToken}`,
@@ -57,9 +57,35 @@ export async function POST(request: NextRequest) {
     if (getFileResponse.ok) {
       const fileData = await getFileResponse.json()
       sha = fileData.sha
+    } else if (getFileResponse.status !== 404) {
+      // If it's not a 404 (file doesn't exist), it's a real error
+      const errorText = await getFileResponse.text()
+      console.error('Error fetching file SHA:', errorText)
+      return NextResponse.json(
+        { error: 'Failed to fetch file from repository' },
+        { status: getFileResponse.status }
+      )
+    }
+    // If 404, sha stays undefined - we'll create a new file
+
+    // Prepare commit body
+    const commitBody: {
+      message: string
+      content: string
+      branch: string
+      sha?: string
+    } = {
+      message,
+      content: fileContentBase64,
+      branch: process.env.GITHUB_BRANCH || 'main',
     }
 
-    // Commit the file
+    // Only include sha if file exists (for updates)
+    if (sha) {
+      commitBody.sha = sha
+    }
+
+    // Commit the file (create new or update existing)
     const commitResponse = await fetch(
       `https://api.github.com/repos/${owner}/${repo}/contents/${filePath}`,
       {
@@ -69,12 +95,7 @@ export async function POST(request: NextRequest) {
           Accept: 'application/vnd.github.v3+json',
           'Content-Type': 'application/json',
         },
-        body: JSON.stringify({
-          message,
-          content: fileContentBase64,
-          sha, // Include SHA if updating existing file
-          branch: process.env.GITHUB_BRANCH || 'main',
-        }),
+        body: JSON.stringify(commitBody),
       }
     )
 
