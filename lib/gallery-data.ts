@@ -74,6 +74,66 @@ export function getGalleryDataAsJson(): string {
   return JSON.stringify(data, null, 2)
 }
 
+// Automatically commit changes to git (non-blocking)
+async function commitToGit(message: string): Promise<boolean> {
+  try {
+    const githubToken = process.env.GITHUB_TOKEN
+    const githubRepo = process.env.GITHUB_REPO
+
+    // If GitHub is not configured, silently fail (operations still work)
+    if (!githubToken || !githubRepo) {
+      return false
+    }
+
+    const fileContent = getGalleryDataAsJson()
+    const fileContentBase64 = Buffer.from(fileContent).toString('base64')
+
+    const [owner, repo] = githubRepo.split('/')
+    const filePath = 'data/gallery-data.json'
+
+    // Get the current file SHA
+    const getFileResponse = await fetch(
+      `https://api.github.com/repos/${owner}/${repo}/contents/${filePath}`,
+      {
+        headers: {
+          Authorization: `token ${githubToken}`,
+          Accept: 'application/vnd.github.v3+json',
+        },
+      }
+    )
+
+    let sha: string | undefined
+    if (getFileResponse.ok) {
+      const fileData = await getFileResponse.json()
+      sha = fileData.sha
+    }
+
+    // Commit the file
+    const commitResponse = await fetch(
+      `https://api.github.com/repos/${owner}/${repo}/contents/${filePath}`,
+      {
+        method: 'PUT',
+        headers: {
+          Authorization: `token ${githubToken}`,
+          Accept: 'application/vnd.github.v3+json',
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({
+          message,
+          content: fileContentBase64,
+          sha,
+          branch: process.env.GITHUB_BRANCH || 'main',
+        }),
+      }
+    )
+
+    return commitResponse.ok
+  } catch (error) {
+    console.error('Auto git commit error:', error)
+    return false
+  }
+}
+
 export function getCategories(): GalleryCategory[] {
   const data = getGalleryData()
   return data.categories
@@ -94,7 +154,7 @@ export function getImagesByCategory(categoryId: string): GalleryImage[] {
   return images.filter(img => img.category === categoryId)
 }
 
-export function addImage(image: Omit<GalleryImage, 'id' | 'createdAt' | 'updatedAt'>): GalleryImage {
+export async function addImage(image: Omit<GalleryImage, 'id' | 'createdAt' | 'updatedAt'>): Promise<GalleryImage> {
   const data = getGalleryData()
   const newImage: GalleryImage = {
     ...image,
@@ -104,34 +164,54 @@ export function addImage(image: Omit<GalleryImage, 'id' | 'createdAt' | 'updated
   }
   data.images.push(newImage)
   saveGalleryData(data)
+  
+  // Automatically commit to git (non-blocking)
+  await commitToGit(`Add image: ${image.title}`).catch(() => {
+    // Silently fail - operation still succeeds
+  })
+  
   return newImage
 }
 
-export function updateImage(id: string, updates: Partial<Omit<GalleryImage, 'id' | 'createdAt'>>): GalleryImage | null {
+export async function updateImage(id: string, updates: Partial<Omit<GalleryImage, 'id' | 'createdAt'>>): Promise<GalleryImage | null> {
   const data = getGalleryData()
   const index = data.images.findIndex(img => img.id === id)
   if (index === -1) return null
 
+  const imageTitle = data.images[index].title
   data.images[index] = {
     ...data.images[index],
     ...updates,
     updatedAt: new Date().toISOString(),
   }
   saveGalleryData(data)
+  
+  // Automatically commit to git (non-blocking)
+  await commitToGit(`Update image: ${imageTitle}`).catch(() => {
+    // Silently fail - operation still succeeds
+  })
+  
   return data.images[index]
 }
 
-export function deleteImage(id: string): boolean {
+export async function deleteImage(id: string): Promise<boolean> {
   const data = getGalleryData()
   const index = data.images.findIndex(img => img.id === id)
   if (index === -1) return false
 
+  const imageTitle = data.images[index].title
   data.images.splice(index, 1)
   saveGalleryData(data)
+  
+  // Automatically commit to git (non-blocking)
+  await commitToGit(`Delete image: ${imageTitle}`).catch(() => {
+    // Silently fail - operation still succeeds
+  })
+  
   return true
 }
 
-export function addCategory(category: GalleryCategory): GalleryCategory {
+export async function addCategory(category: GalleryCategory): Promise<GalleryCategory> {
   const data = getGalleryData()
   // Check if category already exists
   if (data.categories.find(cat => cat.id === category.id)) {
@@ -139,23 +219,36 @@ export function addCategory(category: GalleryCategory): GalleryCategory {
   }
   data.categories.push(category)
   saveGalleryData(data)
+  
+  // Automatically commit to git (non-blocking)
+  await commitToGit(`Add category: ${category.label}`).catch(() => {
+    // Silently fail - operation still succeeds
+  })
+  
   return category
 }
 
-export function updateCategory(id: string, updates: Partial<Omit<GalleryCategory, 'id'>>): GalleryCategory | null {
+export async function updateCategory(id: string, updates: Partial<Omit<GalleryCategory, 'id'>>): Promise<GalleryCategory | null> {
   const data = getGalleryData()
   const index = data.categories.findIndex(cat => cat.id === id)
   if (index === -1) return null
 
+  const categoryLabel = data.categories[index].label
   data.categories[index] = {
     ...data.categories[index],
     ...updates,
   }
   saveGalleryData(data)
+  
+  // Automatically commit to git (non-blocking)
+  await commitToGit(`Update category: ${categoryLabel}`).catch(() => {
+    // Silently fail - operation still succeeds
+  })
+  
   return data.categories[index]
 }
 
-export function deleteCategory(id: string): boolean {
+export async function deleteCategory(id: string): Promise<boolean> {
   const data = getGalleryData()
   // Don't allow deleting category if images are using it
   const imagesUsingCategory = data.images.filter(img => img.category === id)
@@ -166,8 +259,15 @@ export function deleteCategory(id: string): boolean {
   const index = data.categories.findIndex(cat => cat.id === id)
   if (index === -1) return false
 
+  const categoryLabel = data.categories[index].label
   data.categories.splice(index, 1)
   saveGalleryData(data)
+  
+  // Automatically commit to git (non-blocking)
+  await commitToGit(`Delete category: ${categoryLabel}`).catch(() => {
+    // Silently fail - operation still succeeds
+  })
+  
   return true
 }
 

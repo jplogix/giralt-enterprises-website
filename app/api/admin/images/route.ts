@@ -1,4 +1,4 @@
-import { NextRequest, NextResponse } from 'next/server'
+import { type NextRequest, NextResponse } from 'next/server'
 import { isAuthenticated } from '@/lib/admin-auth'
 import {
   getImages,
@@ -66,7 +66,7 @@ export async function POST(request: NextRequest) {
       )
     }
 
-    const newImage = addImage({ category, title, image })
+    const newImage = await addImage({ category, title, image })
     return NextResponse.json(newImage, { status: 201 })
   } catch (error) {
     console.error('Error creating image:', error)
@@ -96,7 +96,7 @@ export async function PUT(request: NextRequest) {
       )
     }
 
-    const updatedImage = updateImage(id, updates)
+    const updatedImage = await updateImage(id, updates)
     if (!updatedImage) {
       return NextResponse.json(
         { error: 'Image not found' },
@@ -133,7 +133,7 @@ export async function DELETE(request: NextRequest) {
       )
     }
 
-    const deleted = deleteImage(id)
+    const deleted = await deleteImage(id)
     if (!deleted) {
       return NextResponse.json(
         { error: 'Image not found' },

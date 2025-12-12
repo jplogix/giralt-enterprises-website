@@ -1,23 +1,18 @@
 'use client'
 
-import { useEffect, useState } from 'react'
+import { useEffect, useState, useCallback } from 'react'
 import { useRouter } from 'next/navigation'
 import Link from 'next/link'
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card'
 import { Button } from '@/components/ui/button'
 import { Image, FolderTree, LogOut, Upload } from 'lucide-react'
-import { GitCommit } from '@/components/admin/git-commit'
 
 export default function AdminDashboard() {
   const [stats, setStats] = useState({ images: 0, categories: 0 })
   const [loading, setLoading] = useState(true)
   const router = useRouter()
 
-  useEffect(() => {
-    fetchStats()
-  }, [])
-
-  const fetchStats = async () => {
+  const fetchStats = useCallback(async () => {
     try {
       const [imagesRes, categoriesRes] = await Promise.all([
         fetch('/api/admin/images'),
@@ -36,7 +31,11 @@ export default function AdminDashboard() {
     } finally {
       setLoading(false)
     }
-  }
+  }, [])
+
+  useEffect(() => {
+    fetchStats()
+  }, [fetchStats])
 
   const handleLogout = async () => {
     try {
@@ -128,9 +127,6 @@ export default function AdminDashboard() {
                   Add Category
                 </Button>
               </Link>
-              <div className="pt-2 border-t">
-                <GitCommit />
-              </div>
             </CardContent>
           </Card>
         </div>

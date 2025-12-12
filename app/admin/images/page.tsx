@@ -1,13 +1,12 @@
 'use client'
 
-import { useEffect, useState } from 'react'
+import { useEffect, useState, useCallback } from 'react'
 import { useSearchParams } from 'next/navigation'
 import Link from 'next/link'
 import { Button } from '@/components/ui/button'
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select'
 import { ImageUpload } from '@/components/admin/image-upload'
 import { ImageList } from '@/components/admin/image-list'
-import { GitCommit } from '@/components/admin/git-commit'
 import { ArrowLeft, Plus } from 'lucide-react'
 
 interface GalleryImage {
@@ -33,11 +32,7 @@ export default function ImagesPage() {
   const [selectedCategory, setSelectedCategory] = useState<string>('all')
   const [loading, setLoading] = useState(true)
 
-  useEffect(() => {
-    fetchData()
-  }, [])
-
-  const fetchData = async () => {
+  const fetchData = useCallback(async () => {
     try {
       const [imagesRes, categoriesRes] = await Promise.all([
         fetch('/api/admin/images'),
@@ -54,7 +49,11 @@ export default function ImagesPage() {
     } finally {
       setLoading(false)
     }
-  }
+  }, [])
+
+  useEffect(() => {
+    fetchData()
+  }, [fetchData])
 
   const filteredImages = selectedCategory === 'all'
     ? images
@@ -104,26 +103,23 @@ export default function ImagesPage() {
         </div>
       ) : (
         <>
-          <div className="flex items-center justify-between mb-6">
-            <div className="flex items-center gap-4">
-              <Select value={selectedCategory} onValueChange={setSelectedCategory}>
-                <SelectTrigger className="w-[200px]">
-                  <SelectValue placeholder="Filter by category" />
-                </SelectTrigger>
-                <SelectContent>
-                  <SelectItem value="all">All Categories</SelectItem>
-                  {categories.map((cat) => (
-                    <SelectItem key={cat.id} value={cat.id}>
-                      {cat.label}
-                    </SelectItem>
-                  ))}
-                </SelectContent>
-              </Select>
-              <p className="text-sm text-muted-foreground">
-                {filteredImages.length} image{filteredImages.length !== 1 ? 's' : ''}
-              </p>
-            </div>
-            <GitCommit />
+          <div className="flex items-center gap-4 mb-6">
+            <Select value={selectedCategory} onValueChange={setSelectedCategory}>
+              <SelectTrigger className="w-[200px]">
+                <SelectValue placeholder="Filter by category" />
+              </SelectTrigger>
+              <SelectContent>
+                <SelectItem value="all">All Categories</SelectItem>
+                {categories.map((cat) => (
+                  <SelectItem key={cat.id} value={cat.id}>
+                    {cat.label}
+                  </SelectItem>
+                ))}
+              </SelectContent>
+            </Select>
+            <p className="text-sm text-muted-foreground">
+              {filteredImages.length} image{filteredImages.length !== 1 ? 's' : ''}
+            </p>
           </div>
 
           {loading ? (

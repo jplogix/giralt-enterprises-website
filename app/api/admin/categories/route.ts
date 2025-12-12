@@ -1,4 +1,4 @@
-import { NextRequest, NextResponse } from 'next/server'
+import { type NextRequest, NextResponse } from 'next/server'
 import { isAuthenticated } from '@/lib/admin-auth'
 import {
   getCategories,
@@ -46,7 +46,7 @@ export async function POST(request: NextRequest) {
       )
     }
 
-    const newCategory = addCategory({ id, label })
+    const newCategory = await addCategory({ id, label })
     return NextResponse.json(newCategory, { status: 201 })
   } catch (error) {
     console.error('Error creating category:', error)
@@ -82,7 +82,7 @@ export async function PUT(request: NextRequest) {
       )
     }
 
-    const updatedCategory = updateCategory(id, updates)
+    const updatedCategory = await updateCategory(id, updates)
     if (!updatedCategory) {
       return NextResponse.json(
         { error: 'Category not found' },
@@ -119,7 +119,7 @@ export async function DELETE(request: NextRequest) {
       )
     }
 
-    deleteCategory(id)
+    await deleteCategory(id)
     return NextResponse.json({ success: true })
   } catch (error) {
     console.error('Error deleting category:', error)
