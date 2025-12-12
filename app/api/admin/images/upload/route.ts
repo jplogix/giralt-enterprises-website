@@ -1,7 +1,7 @@
 import { type NextRequest, NextResponse } from 'next/server'
-import { writeFile, mkdir } from 'fs/promises'
-import { join } from 'path'
-import { existsSync } from 'fs'
+import { writeFile, mkdir } from 'node:fs/promises'
+import { join } from 'node:path'
+import { existsSync } from 'node:fs'
 import { isAuthenticated } from '@/lib/admin-auth'
 
 const MAX_FILE_SIZE = 10 * 1024 * 1024 // 10MB
@@ -74,20 +74,81 @@ export async function POST(request: NextRequest) {
         )
       }
 
+      // Validate repository format
+      if (!githubRepo.includes('/')) {
+        return NextResponse.json(
+          { 
+            error: 'Invalid GITHUB_REPO format. Expected format: owner/repo (e.g., username/repository-name)',
+            configured: false
+          },
+          { status: 400 }
+        )
+      }
+
       // Read file as base64
       const bytes = await file.arrayBuffer()
       const buffer = Buffer.from(bytes)
       const fileContentBase64 = buffer.toString('base64')
 
       const [owner, repo] = githubRepo.split('/')
-      const filePath = `public/images/giralt/${categoryPath}/${filename}`
+      
+      if (!owner || !repo) {
+        return NextResponse.json(
+          { 
+            error: 'Invalid GITHUB_REPO format. Could not parse owner and repository name.',
+            configured: false
+          },
+          { status: 400 }
+        )
+      }
 
-      // Check if file already exists
-      const getFileResponse = await fetch(
-        `https://api.github.com/repos/${owner}/${repo}/contents/${filePath}?ref=${encodeURIComponent(process.env.GITHUB_BRANCH || 'main')}`,
+      const filePath = `public/images/giralt/${categoryPath}/${filename}`
+      const branch = process.env.GITHUB_BRANCH || 'main'
+
+      // First, verify the repository and branch exist
+      const authHeader = githubToken.startsWith('ghp_') || githubToken.startsWith('github_pat_') 
+        ? `Bearer ${githubToken}` 
+        : `token ${githubToken}`
+      
+      const repoCheckResponse = await fetch(
+        `https://api.github.com/repos/${owner}/${repo}`,
         {
           headers: {
-            Authorization: `token ${githubToken}`,
+            Authorization: authHeader,
+            Accept: 'application/vnd.github.v3+json',
+          },
+        }
+      )
+
+      if (!repoCheckResponse.ok) {
+        const repoError = await repoCheckResponse.json().catch(() => ({ message: 'Unknown error' }))
+        console.error('Repository check failed:', repoError)
+        
+        if (repoCheckResponse.status === 404) {
+          return NextResponse.json(
+            { 
+              error: `Repository not found: ${githubRepo}. Please verify GITHUB_REPO is correct.`,
+              details: repoError.message
+            },
+            { status: 404 }
+          )
+        } else if (repoCheckResponse.status === 401 || repoCheckResponse.status === 403) {
+          return NextResponse.json(
+            { 
+              error: 'GitHub authentication failed. Please verify GITHUB_TOKEN has access to this repository.',
+              details: repoError.message
+            },
+            { status: repoCheckResponse.status }
+          )
+        }
+      }
+
+      // Check if file already exists (404 is expected for new files)
+      const getFileResponse = await fetch(
+        `https://api.github.com/repos/${owner}/${repo}/contents/${filePath}?ref=${encodeURIComponent(branch)}`,
+        {
+          headers: {
+            Authorization: authHeader,
             Accept: 'application/vnd.github.v3+json',
           },
         }
@@ -97,11 +158,29 @@ export async function POST(request: NextRequest) {
       if (getFileResponse.ok) {
         const fileData = await getFileResponse.json()
         sha = fileData.sha
-      } else if (getFileResponse.status !== 404) {
-        const errorText = await getFileResponse.text()
-        console.error('Error checking file:', errorText)
+      } else if (getFileResponse.status === 404) {
+        // File doesn't exist yet - that's fine, we'll create it
+        sha = undefined
+      } else {
+        // Real error
+        const errorData = await getFileResponse.json().catch(() => ({ message: 'Unknown error' }))
+        console.error('Error checking file:', {
+          status: getFileResponse.status,
+          statusText: getFileResponse.statusText,
+          error: errorData
+        })
+        
         return NextResponse.json(
-          { error: 'Failed to check file in repository' },
+          { 
+            error: errorData.message || 'Failed to check file in repository',
+            details: `Status: ${getFileResponse.status}. Path: ${filePath}`,
+            debug: {
+              owner,
+              repo,
+              branch,
+              filePath
+            }
+          },
           { status: getFileResponse.status }
         )
       }
@@ -127,7 +206,7 @@ export async function POST(request: NextRequest) {
         {
           method: 'PUT',
           headers: {
-            Authorization: `token ${githubToken}`,
+            Authorization: authHeader,
             Accept: 'application/vnd.github.v3+json',
             'Content-Type': 'application/json',
           },
@@ -136,10 +215,37 @@ export async function POST(request: NextRequest) {
       )
 
       if (!commitResponse.ok) {
-        const error = await commitResponse.json()
-        console.error('GitHub API error:', error)
+        const error = await commitResponse.json().catch(() => ({ message: 'Unknown error' }))
+        console.error('GitHub API commit error:', {
+          status: commitResponse.status,
+          statusText: commitResponse.statusText,
+          error,
+          filePath,
+          branch
+        })
+        
+        let errorMessage = error.message || 'Failed to commit image to GitHub'
+        if (commitResponse.status === 404) {
+          errorMessage = `Repository, branch, or path not found. Verify GITHUB_REPO (${githubRepo}) and GITHUB_BRANCH (${branch}) are correct. Path: ${filePath}`
+        } else if (commitResponse.status === 403) {
+          errorMessage = 'GitHub token does not have permission to write to this repository. Check token has "repo" scope and write access.'
+        } else if (commitResponse.status === 422) {
+          errorMessage = error.message || `Invalid request. The file path (${filePath}) or content may be invalid.`
+        }
+        
         return NextResponse.json(
-          { error: error.message || 'Failed to commit image to GitHub' },
+          { 
+            error: errorMessage,
+            details: error.message || error.details || 'No additional details available',
+            status: commitResponse.status,
+            debug: {
+              owner,
+              repo,
+              branch,
+              filePath,
+              hasSha: !!sha
+            }
+          },
           { status: commitResponse.status }
         )
       }

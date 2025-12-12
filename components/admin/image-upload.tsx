@@ -57,7 +57,7 @@ export function ImageUpload({ categories, onSuccess }: ImageUploadProps) {
     e.stopPropagation()
 
     const droppedFile = e.dataTransfer.files?.[0]
-    if (droppedFile && droppedFile.type.startsWith('image/')) {
+    if (droppedFile?.type.startsWith('image/')) {
       setFile(droppedFile)
       setError('')
       setSuccess(false)
@@ -100,7 +100,10 @@ export function ImageUpload({ categories, onSuccess }: ImageUploadProps) {
 
       if (!uploadResponse.ok) {
         const errorData = await uploadResponse.json()
-        throw new Error(errorData.error || 'Upload failed')
+        const errorMessage = errorData.error || 'Upload failed'
+        const errorDetails = errorData.details ? `\n\nDetails: ${errorData.details}` : ''
+        const debugInfo = errorData.debug ? `\n\nDebug: ${JSON.stringify(errorData.debug, null, 2)}` : ''
+        throw new Error(`${errorMessage}${errorDetails}${debugInfo}`)
       }
 
       const uploadData = await uploadResponse.json()
@@ -179,11 +182,13 @@ export function ImageUpload({ categories, onSuccess }: ImageUploadProps) {
           </Alert>
         )}
 
-        <div
-          className="border-2 border-dashed rounded-lg p-8 text-center cursor-pointer hover:border-primary transition-colors"
+        <button
+          type="button"
+          className="border-2 border-dashed rounded-lg p-8 text-center cursor-pointer hover:border-primary transition-colors w-full bg-transparent"
           onDragOver={handleDragOver}
           onDrop={handleDrop}
           onClick={() => fileInputRef.current?.click()}
+          aria-label="Upload image by clicking or dragging and dropping"
         >
           {preview ? (
             <div className="relative">
@@ -225,7 +230,7 @@ export function ImageUpload({ categories, onSuccess }: ImageUploadProps) {
             onChange={handleFileSelect}
             className="hidden"
           />
-        </div>
+        </button>
 
         <div className="space-y-4">
           <div className="space-y-2">
@@ -276,4 +281,3 @@ export function ImageUpload({ categories, onSuccess }: ImageUploadProps) {
     </Card>
   )
 }
-
