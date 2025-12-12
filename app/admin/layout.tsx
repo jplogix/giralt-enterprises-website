@@ -1,23 +1,28 @@
-import { redirect } from 'next/navigation'
-import { isAuthenticated } from '@/lib/admin-auth'
-import { Navigation } from '@/components/navigation'
+'use client'
 
-export default async function AdminLayout({
+import { usePathname } from 'next/navigation'
+import { Navigation } from '@/components/navigation'
+import { AuthWrapper } from '@/components/admin/auth-wrapper'
+
+export default function AdminLayout({
   children,
 }: {
   children: React.ReactNode
 }) {
-  const authenticated = await isAuthenticated()
-
-  if (!authenticated) {
-    redirect('/admin/login')
-  }
+  const pathname = usePathname()
+  const isLoginPage = pathname === '/admin/login'
 
   return (
-    <div className="min-h-screen">
-      <Navigation />
-      {children}
-    </div>
+    <AuthWrapper>
+      {isLoginPage ? (
+        <>{children}</>
+      ) : (
+        <div className="min-h-screen">
+          <Navigation />
+          {children}
+        </div>
+      )}
+    </AuthWrapper>
   )
 }
 
