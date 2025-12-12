@@ -8,38 +8,44 @@ import { Button } from '@/components/ui/button'
 import { Card, CardContent } from '@/components/ui/card'
 
 export default function HomePage() {
-  const products = [
-    {
-      title: 'Handrails',
-      description: 'Weld-free aluminum picket handrail system. DOT approved in 6 states.',
-      image: '/images/giralt/handrails/main_installation.jpg',
-      href: '/products/handrails',
-    },
-    {
-      title: 'Docks',
-      description: 'Elite and standard fixed and floating dock systems with aluminum 6061-T6 construction.',
-      image: '/images/giralt/docks/woodland_beach_fishing_pier.jpg',
-      href: '/products/docks',
-    },
-    {
-      title: 'Seawalls',
-      description: 'Aluminum, Vinyl and FRP seawall materials with full engineering support.',
-      image: '/images/giralt/seawalls/vero_beach.jpg',
-      href: '/products/seawalls',
-    },
-    {
-      title: 'Pedestrian Bridges',
-      description: 'Quick-install aluminum bridges with spans up to 100 feet. Five models available.',
-      image: '/images/giralt/pedestrian_bridges/long_key_natural_area.jpg',
-      href: '/products/bridges',
-    },
-    {
-      title: 'Wave Attenuators',
-      description: 'Multiple configurations to break up wave energy and boat wake.',
-      image: '/images/giralt/wave_attenuators/terra_verde.jpg',
-      href: '/products/wave-attenuators',
-    },
-  ]
+  const products: Array<{
+    title: string
+    description: string
+    image: string
+    href: string
+    badge?: string
+  }> = [
+      {
+        title: 'Handrails',
+        description: 'Weld-free aluminum picket handrail system. DOT approved in 6 states.',
+        image: '/images/giralt/handrails/main_installation.jpg',
+        href: '/products/handrails',
+      },
+      {
+        title: 'Docks and Gangways',
+        description: 'Elite and standard fixed and floating dock systems with aluminum 6061-T6 construction.',
+        image: '/images/giralt/docks/woodland_beach_fishing_pier.jpg',
+        href: '/products/docks',
+      },
+      {
+        title: 'Seawalls',
+        description: 'Aluminum, Vinyl and FRP seawall materials with full engineering support.',
+        image: '/images/giralt/seawalls/vero_beach.jpg',
+        href: '/products/seawalls',
+      },
+      {
+        title: 'Pedestrian Bridges',
+        description: 'Quick-install aluminum bridges with spans up to 100 feet. Five models available.',
+        image: '/images/giralt/pedestrian_bridges/long_key_natural_area.jpg',
+        href: '/products/bridges',
+      },
+      {
+        title: 'Wave Attenuators',
+        description: 'Multiple configurations to break up wave energy and boat wake.',
+        image: '/images/giralt/wave_attenuators/terra_verde.jpg',
+        href: '/products/wave-attenuators',
+      },
+    ]
 
   const services = [
     {

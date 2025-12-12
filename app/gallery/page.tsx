@@ -206,64 +206,45 @@ export default function GalleryPage() {
   const [selectedIndex, setSelectedIndex] = useState(0)
   const [isOpen, setIsOpen] = useState(false)
   const galleryRef = useRef<ImageGallery | null>(null)
-  const cloudinaryTransform = 'f_auto,q_auto,c_fill,g_auto,w_1920,h_1280,e_upscale'
-  const cloudinaryThumbTransform = 'f_auto,q_auto,c_fill,g_auto,w_800,h_533,e_upscale'
-
-  const transformImage = (url: string, transform: string = cloudinaryTransform) =>
-    url.includes('/upload/') ? url.replace('/upload/', `/upload/${transform}/`) : url
-
-  const categories = [
+  const [categories, setCategories] = useState<Array<{ id: string; label: string }>>([
     { id: 'all', label: 'All Projects' },
-    { id: 'handrails', label: 'Handrails' },
-    { id: 'bullet-railings', label: 'Bullet Railings' },
-    { id: 'two-three-line-railings', label: '2-Line / 3-Line Railings' },
-    { id: 'docks', label: 'Docks' },
-    { id: 'gangways', label: 'Gangways' },
-    { id: 'floating-docks', label: 'Floating Docks' },
-    { id: 'bridges', label: 'Pedestrian Bridges' },
-    { id: 'seawalls', label: 'Seawalls' },
-    { id: 'attenuators', label: 'Wave Attenuators' },
-  ]
+  ])
+  const [gallery, setGallery] = useState<Array<{ category: string; title: string; image: string }>>([])
+  const [loading, setLoading] = useState(true)
 
-  const gallery = [
-    { category: 'handrails', title: 'Main Installation', image: '/images/giralt/handrails/main_installation.jpg' },
-    { category: 'handrails', title: 'Pedestrian Bridge', image: '/images/giralt/handrails/pedestrian_bridge.jpg' },
-    { category: 'handrails', title: 'Griffin Road', image: '/images/giralt/handrails/griffin_road.jpg' },
-    { category: 'handrails', title: 'Donald Ross Road', image: '/images/giralt/handrails/donald_ross_road.jpg' },
-    { category: 'handrails', title: 'Evans Crary Bridge', image: '/images/giralt/handrails/evans_crary_bridge.jpg' },
-    { category: 'handrails', title: 'Atlantic Ave', image: '/images/giralt/handrails/atlantic_ave_handrail.jpg' },
-    { category: 'handrails', title: 'Lake Park Marina', image: '/images/giralt/handrails/lake_park_marina_handrail.jpg' },
-    { category: 'handrails', title: 'Long Key Natural Area (Handrail)', image: '/images/giralt/handrails/long_key_natural_area_handrail.jpg' },
-    { category: 'handrails', title: 'Pinellas Tail (Stairs)', image: '/images/giralt/handrails/pinellas_tail_stair_handrails.jpg' },
-    { category: 'handrails', title: 'SR70', image: '/images/giralt/handrails/sr70_handrail.jpg' },
-    { category: 'handrails', title: 'University Drive', image: '/images/giralt/handrails/university_drive_handrail.jpg' },
-    { category: 'bridges', title: 'Lafayette Hart Park', image: '/images/giralt/docks/lafayette_hart_park.jpg' },
-    { category: 'docks', title: 'Woodland Beach Fishing Pier', image: '/images/giralt/docks/woodland_beach_fishing_pier.jpg' },
-    { category: 'docks', title: 'Miramar Floating Gazebo', image: '/images/giralt/docks/miramar_floating_gazebo.jpg' },
-    { category: 'bridges', title: 'Long Key Natural Area', image: '/images/giralt/pedestrian_bridges/long_key_natural_area.jpg' },
-    { category: 'bridges', title: 'Richardson Park Boardwalk', image: '/images/giralt/pedestrian_bridges/richardson_park_boardwalk.jpg' },
-    { category: 'gangways', title: 'Marina Gangway', image: '/images/giralt/gangways/long_key_natural_area_gangway.jpg' },
-    { category: 'gangways', title: 'Aluminum Ramp', image: '/images/giralt/gangways/richardson_park_gangway.jpg' },
-    { category: 'bullet-railings', title: 'Bullet Railing Detail', image: '/Bullet Railing /Painted Bullet Rail.jpg' },
-    { category: 'bullet-railings', title: 'Bullet Railing Marina', image: '/Bullet Railing /SR-70.jpg' },
-    { category: 'two-three-line-railings', title: '2-Line Railing', image: '/2-Line and 3- line rail/IMG_0025.jpg' },
-    { category: 'two-three-line-railings', title: '3-Line Railing', image: '/2-Line and 3- line rail/IMG_0026.jpg' },
-    { category: 'floating-docks', title: 'Miramar Floating Gazebo', image: '/images/giralt/floating_docks/miramar_floating_gazebo.jpg' },
-    { category: 'floating-docks', title: 'Woodland Beach Pier', image: '/images/giralt/floating_docks/woodland_beach_fishing_pier.jpg' },
-    { category: 'seawalls', title: 'Vero Beach', image: '/images/giralt/seawalls/vero_beach.jpg' },
-    { category: 'docks', title: 'Installation Detail', image: '/images/giralt/seawalls/installation_detail.jpg' },
-    { category: 'seawalls', title: 'Chula Vista Canal', image: '/images/giralt/seawalls/chula_vista_canal.jpg' },
-    { category: 'attenuators', title: 'Terra Verde', image: '/images/giralt/wave_attenuators/terra_verde.jpg' },
-    { category: 'attenuators', title: 'Haulover', image: '/images/giralt/wave_attenuators/haulover.jpg' },
-  ]
+  useEffect(() => {
+    fetchGalleryData()
+  }, [])
+
+  const fetchGalleryData = async () => {
+    try {
+      const response = await fetch('/api/gallery')
+      if (!response.ok) {
+        throw new Error('Failed to fetch gallery data')
+      }
+      const data = await response.json()
+      setCategories(data.categories || [])
+      setGallery(
+        (data.images || []).map((img: { category: string; title: string; image: string }) => ({
+          category: img.category,
+          title: img.title,
+          image: img.image,
+        }))
+      )
+    } catch (error) {
+      console.error('Error fetching gallery data:', error)
+    } finally {
+      setLoading(false)
+    }
+  }
 
   const filteredGallery = filter === 'all' ? gallery : gallery.filter(item => item.category === filter)
 
   // Convert gallery items to ImageGallery format
   const galleryImages = filteredGallery.map((item) => {
-    const original = transformImage(item.image)
+    const original = item.image
     // if local file, prefer a pre-generated thumbnail named like image-800.jpg
-    let thumbnail = transformImage(item.image, cloudinaryThumbTransform)
+    let thumbnail = item.image
     if (item.image.startsWith('/images/')) {
       thumbnail = item.image.replace(/\.jpg$/i, '-800.jpg')
     }
@@ -378,9 +359,18 @@ export default function GalleryPage() {
       {/* Gallery Grid */}
       <section className="py-20">
         <div className="container mx-auto px-4">
-          <Dialog open={isOpen} onOpenChange={setIsOpen}>
-            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6">
-              {filteredGallery.map((item, index) => (
+          {loading ? (
+            <div className="text-center py-12">
+              <p className="text-muted-foreground">Loading gallery...</p>
+            </div>
+          ) : filteredGallery.length === 0 ? (
+            <div className="text-center py-12">
+              <p className="text-muted-foreground">No images found in this category.</p>
+            </div>
+          ) : (
+            <Dialog open={isOpen} onOpenChange={setIsOpen}>
+              <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6">
+                {filteredGallery.map((item, index) => (
                 <DialogTrigger key={`${item.category}-${item.title}`} asChild>
                   <Card
                     className="overflow-hidden group cursor-pointer hover:shadow-xl transition-all duration-300"
@@ -395,7 +385,7 @@ export default function GalleryPage() {
                         loading="lazy"
                         className="object-cover group-hover:scale-110 transition-transform duration-300"
                       />
-                      <div className="absolute inset-0 bg-gradient-to-t from-black/60 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300">
+                      <div className="absolute inset-0 bg-linear-to-t from-black/60 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300">
                         <div className="absolute bottom-0 left-0 right-0 p-4">
                           <h3 className="text-white font-semibold">{item.title}</h3>
                           <p className="text-white/80 text-sm capitalize">{item.category.replace('-', ' ')}</p>
@@ -404,9 +394,9 @@ export default function GalleryPage() {
                     </div>
                   </Card>
                 </DialogTrigger>
-              ))}
-            </div>
-            <DialogContent className="fixed inset-0 top-0 left-0 translate-x-0 translate-y-0 max-w-none sm:max-w-none w-screen h-screen m-0 p-0 overflow-hidden grid grid-rows-[1fr_auto] gap-0 border-0 rounded-none" showCloseButton={true}>
+                ))}
+              </div>
+              <DialogContent className="fixed inset-0 top-0 left-0 translate-x-0 translate-y-0 max-w-none sm:max-w-none w-screen h-screen m-0 p-0 overflow-hidden grid grid-rows-[1fr_auto] gap-0 border-0 rounded-none" showCloseButton={true}>
               <DialogTitle className="sr-only">
                 {filteredGallery[selectedIndex]?.title || 'Image Gallery'}
               </DialogTitle>
@@ -440,6 +430,7 @@ export default function GalleryPage() {
               </div>
             </DialogContent>
           </Dialog>
+          )}
         </div>
       </section>
 

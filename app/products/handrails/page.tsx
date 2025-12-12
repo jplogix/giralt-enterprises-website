@@ -179,7 +179,7 @@ export default function HandrailsPage() {
       {/* Licensing CTA */}
       <section className="py-20">
         <div className="container mx-auto px-4">
-          <Card className="bg-gradient-to-r from-primary to-accent text-primary-foreground">
+          <Card className="bg-linear-to-r from-primary to-accent text-primary-foreground">
             <CardContent className="pt-6 text-center">
               <h2 className="text-3xl font-bold mb-4">Manufacturing Opportunities</h2>
               <p className="text-xl text-primary-foreground/90 mb-6 max-w-2xl mx-auto">

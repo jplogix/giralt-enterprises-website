@@ -37,7 +37,7 @@ export function Footer() {
             <h3 className="font-semibold text-lg mb-4">Products</h3>
             <ul className="space-y-2 text-sm">
               <li><Link href="/products/handrails" className="hover:text-accent transition-colors">Handrails</Link></li>
-              <li><Link href="/products/docks" className="hover:text-accent transition-colors">Docks</Link></li>
+              <li><Link href="/products/docks" className="hover:text-accent transition-colors">Docks and Gangways</Link></li>
               <li><Link href="/products/seawalls" className="hover:text-accent transition-colors">Seawalls</Link></li>
               <li><Link href="/products/bridges" className="hover:text-accent transition-colors">Pedestrian Bridges</Link></li>
               <li><Link href="/products/wave-attenuators" className="hover:text-accent transition-colors">Wave Attenuators</Link></li>
@@ -49,7 +49,7 @@ export function Footer() {
             <h3 className="font-semibold text-lg mb-4">Contact</h3>
             <ul className="space-y-3 text-sm">
               <li className="flex items-start gap-2">
-                <MapPin size={16} className="mt-1 flex-shrink-0" />
+                <MapPin size={16} className="mt-1 shrink-0" />
                 <span>1271 SW 124th Court<br />Unit G<br />Miami, Florida 33184</span>
               </li>
               <li className="flex items-center gap-2">

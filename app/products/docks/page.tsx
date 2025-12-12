@@ -13,7 +13,7 @@ import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs'
 
 export default function DocksPage() {
   const installations = [
-    { name: 'Lafayette Hart Park', image: '/IMG_0450-Resized.jpg' },
+    { name: 'Atlantic Village', image: '/IMG_0450-Resized.jpg' },
     { name: 'Woodland Beach Fishing Pier', image: 'https://res.cloudinary.com/jp79/image/upload/v1763522933/giralt/docks/woodland_beach_fishing_pier.jpg' },
     { name: 'Miramar Floating Gazebo', image: 'https://res.cloudinary.com/jp79/image/upload/v1763522933/giralt/docks/miramar_floating_gazebo.jpg' },
   ]
@@ -139,7 +139,7 @@ export default function DocksPage() {
 
             <TabsContent value="fixed">
               <div className="grid grid-cols-1 md:grid-cols-3 gap-6 max-w-6xl mx-auto">
-                {installations.filter(i => i.name === 'Lafayette Hart Park').map((installation) => (
+                {installations.filter(i => i.name === 'Atlantic Village').map((installation) => (
                   <Card key={installation.name} className="overflow-hidden">
                     <div className="relative h-64">
                       <Image src={installation.image || "/placeholder.svg"} alt={installation.name} fill className="object-cover" />
