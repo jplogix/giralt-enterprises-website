@@ -1,4 +1,4 @@
-'use client'
+ 'use client'
 
 import { useEffect, useRef, useState } from 'react'
 import ImageGallery from 'react-image-gallery'
@@ -224,36 +224,20 @@ export default function GalleryPage() {
       }
       const data = await response.json()
       setCategories(data.categories || [])
-      setGallery(
-        (data.images || []).map((img: { category: string; title: string; image: string }) => ({
-          category: img.category,
-          title: img.title,
-          image: img.image,
-        }))
-      )
-    } catch (error) {
-      console.error('Error fetching gallery data:', error)
-    } finally {
-      setLoading(false)
-    }
-  }
+      const [gallery, setGallery] = useState<any[]>([])
 
-  const filteredGallery = filter === 'all' ? gallery : gallery.filter(item => item.category === filter)
-
-  // Convert gallery items to ImageGallery format
-  const galleryImages = filteredGallery.map((item) => {
-    const original = item.image
-    // if local file, prefer a pre-generated thumbnail named like image-800.jpg
-    let thumbnail = item.image
-    if (item.image.startsWith('/images/')) {
-      thumbnail = item.image.replace(/\.jpg$/i, '-800.jpg')
-    }
-
-    return {
-      original,
-      thumbnail,
-      originalAlt: item.title,
-      thumbnailAlt: item.title,
+      useEffect(() => {
+        const fetchImages = async () => {
+          try {
+            const res = await fetch('/api/admin/images')
+            const json = await res.json()
+            setGallery(json.images || [])
+          } catch (err) {
+            console.error(err)
+          }
+        }
+        fetchImages()
+      }, [])
     }
   })
 

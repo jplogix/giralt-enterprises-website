@@ -1,5 +1,60 @@
 'use client'
 
+import { useEffect, useState } from 'react'
+import UploadClient from './upload-client'
+import ImageGrid from '@/components/admin/ImageGrid'
+
+export default function AdminImagesPage() {
+  const [images, setImages] = useState<any[]>([])
+
+  const fetchImages = async () => {
+    const res = await fetch('/api/admin/images')
+    const json = await res.json()
+    setImages(json.images || [])
+  }
+
+  useEffect(() => {
+    fetchImages()
+  }, [])
+
+  const handleUploaded = (res: any) => {
+    fetchImages()
+  }
+
+  const handleEdit = async (img: any) => {
+    const title = prompt('Title', img.title) || img.title
+    const alt = prompt('Alt', img.alt || '') || img.alt
+    await fetch(`/api/admin/images/${encodeURIComponent(img.id)}`, {
+      method: 'PUT',
+      headers: { 'Content-Type': 'application/json', Authorization: `Bearer ${process.env.NEXT_PUBLIC_ADMIN_TOKEN || ''}` },
+      body: JSON.stringify({ title, alt })
+    })
+    fetchImages()
+  }
+
+  const handleDelete = async (img: any) => {
+    if (!confirm('Delete image?')) return
+    await fetch(`/api/admin/images/${encodeURIComponent(img.id)}`, {
+      method: 'DELETE',
+      headers: { Authorization: `Bearer ${process.env.NEXT_PUBLIC_ADMIN_TOKEN || ''}` }
+    })
+    fetchImages()
+  }
+
+  return (
+    <div className="min-h-screen container mx-auto px-4 py-12">
+      <h1 className="text-2xl font-bold mb-6">Manage Images</h1>
+
+      <div className="mb-8">
+        <UploadClient onUploaded={handleUploaded} />
+      </div>
+
+      <ImageGrid images={images} onEdit={handleEdit} onDelete={handleDelete} />
+    </div>
+  )
+}
+'use client'
+
 import { useEffect, useState, useCallback } from 'react'
 import { useSearchParams } from 'next/navigation'
 import Link from 'next/link'

@@ -12,11 +12,16 @@ import { Dialog, DialogContent, DialogTrigger } from '@/components/ui/dialog'
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs'
 
 export default function DocksPage() {
-  const installations = [
-    { name: 'Atlantic Village', image: '/IMG_0450-Resized.jpg' },
-    { name: 'Woodland Beach Fishing Pier', image: 'https://res.cloudinary.com/jp79/image/upload/v1763522933/giralt/docks/woodland_beach_fishing_pier.jpg' },
-    { name: 'Miramar Floating Gazebo', image: 'https://res.cloudinary.com/jp79/image/upload/v1763522933/giralt/docks/miramar_floating_gazebo.jpg' },
-  ]
+  const [installations, setInstallations] = useState<any[]>([])
+
+  useEffect(() => {
+    const fetchInstallations = async () => {
+      const res = await fetch('/api/admin/images?category=docks')
+      const json = await res.json()
+      setInstallations(json.images || [])
+    }
+    fetchInstallations()
+  }, [])
 
   const dockTypes = [
     { name: 'Elite Fixed Piers', description: 'Premium fixed pier systems with superior durability' },

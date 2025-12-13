@@ -1,3 +1,46 @@
+import { NextResponse } from 'next/server'
+import fs from 'fs'
+import path from 'path'
+
+export async function GET(request: Request) {
+  try {
+    const jsonPath = path.resolve(process.cwd(), 'data/images.json')
+    const raw = await fs.promises.readFile(jsonPath, 'utf8')
+    const data = JSON.parse(raw)
+    const url = new URL(request.url)
+    const category = url.searchParams.get('category')
+    let images = data.images || []
+    if (category) {
+      const cats = category.split(',')
+      images = images.filter((i: any) => cats.includes(i.category))
+    }
+    return NextResponse.json({ images })
+  } catch (err: any) {
+    return NextResponse.json({ error: err.message || String(err) }, { status: 500 })
+  }
+}
+
+export async function POST(request: Request) {
+  const ADMIN_TOKEN = process.env.ADMIN_TOKEN || ''
+  const auth = request.headers.get('authorization') || ''
+  if (!ADMIN_TOKEN || auth !== `Bearer ${ADMIN_TOKEN}`) {
+    return NextResponse.json({ error: 'Unauthorized' }, { status: 401 })
+  }
+
+  try {
+    const body = await request.json()
+    const { id, title, category, path: imgPath, alt } = body
+    const jsonPath = path.resolve(process.cwd(), 'data/images.json')
+    const raw = await fs.promises.readFile(jsonPath, 'utf8')
+    const data = JSON.parse(raw)
+    data.images = data.images || []
+    data.images.push({ id, title, category, path: imgPath, url: imgPath, alt, dateAdded: new Date().toISOString() })
+    await fs.promises.writeFile(jsonPath, JSON.stringify(data, null, 2), 'utf8')
+    return NextResponse.json({ ok: true })
+  } catch (err: any) {
+    return NextResponse.json({ error: err.message || String(err) }, { status: 500 })
+  }
+}
 import { type NextRequest, NextResponse } from 'next/server'
 import { isAuthenticated } from '@/lib/admin-auth'
 import {

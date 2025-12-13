@@ -1,0 +1,69 @@
+{
+  "images": [
+    {
+      "id": "giralt/handrails/main_installation",
+      "title": "Main Installation",
+      "category": "handrails",
+      "path": "/images/giralt/handrails/main_installation.jpg",
+      "url": "/images/giralt/handrails/main_installation.jpg",
+      "source": "repo",
+      "alt": "Handrails main installation",
+      "dateAdded": "2025-11-19T05:54:20.245Z",
+      "width": 909,
+      "height": 682,
+      "format": "jpg"
+    },
+    {
+      "id": "giralt/handrails/pedestrian_bridge",
+      "title": "Pedestrian Bridge",
+      "category": "handrails",
+      "path": "/images/giralt/handrails/pedestrian_bridge.jpg",
+      "url": "/images/giralt/handrails/pedestrian_bridge.jpg",
+      "source": "repo",
+      "alt": "Pedestrian bridge handrail",
+      "dateAdded": "2025-11-19T05:54:20.245Z",
+      "width": 640,
+      "height": 479,
+      "format": "jpg"
+    },
+    {
+      "id": "giralt/docks/lafayette_hart_park",
+      "title": "Atlantic Village",
+      "category": "docks",
+      "path": "/images/giralt/docks/lafayette_hart_park.jpg",
+      "url": "/images/giralt/docks/lafayette_hart_park.jpg",
+      "source": "repo",
+      "alt": "Atlantic Village boardwalk",
+      "dateAdded": "2025-11-19T05:54:20.245Z",
+      "width": 512,
+      "height": 341,
+      "format": "jpg"
+    },
+    {
+      "id": "giralt/docks/woodland_beach_fishing_pier",
+      "title": "Woodland Beach Fishing Pier",
+      "category": "docks",
+      "path": "/images/giralt/docks/woodland_beach_fishing_pier.jpg",
+      "url": "/images/giralt/docks/woodland_beach_fishing_pier.jpg",
+      "source": "repo",
+      "alt": "Woodland Beach Fishing Pier",
+      "dateAdded": "2025-11-19T05:54:20.245Z",
+      "width": 640,
+      "height": 480,
+      "format": "jpg"
+    },
+    {
+      "id": "giralt/seawalls/installation_detail",
+      "title": "Installation Detail",
+      "category": "seawalls",
+      "path": "/images/giralt/seawalls/installation_detail.jpg",
+      "url": "/images/giralt/seawalls/installation_detail.jpg",
+      "source": "repo",
+      "alt": "Seawall installation detail",
+      "dateAdded": "2025-11-19T05:54:20.245Z",
+      "width": 576,
+      "height": 432,
+      "format": "jpg"
+    }
+  ]
+}

@@ -1,3 +1,17 @@
+import Link from 'next/link'
+
+export default function AdminPage() {
+  return (
+    <div className="min-h-screen container mx-auto px-4 py-12">
+      <h1 className="text-3xl font-bold mb-6">Admin</h1>
+      <ul className="space-y-3">
+        <li>
+          <Link href="/admin/images" className="text-primary hover:underline">Manage Images</Link>
+        </li>
+      </ul>
+    </div>
+  )
+}
 'use client'
 
 import { useEffect, useState, useCallback } from 'react'
