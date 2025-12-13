@@ -1,6 +1,9 @@
+'use client'
+
 import { ArrowRight, Award } from 'lucide-react'
 import Image from 'next/image'
 import Link from 'next/link'
+import { useEffect, useState } from 'react'
 import { Footer } from '@/components/footer'
 import { Navigation } from '@/components/navigation'
 import { Badge } from '@/components/ui/badge'
@@ -14,10 +17,18 @@ type Product = {
   href: string
   features: string[]
   badge?: string
+  category?: string
+}
+
+interface GalleryImage {
+  id: string
+  category: string
+  title: string
+  image: string
 }
 
 export default function ProductsPage() {
-  const products: Product[] = [
+  const [products, setProducts] = useState<Product[]>([
     {
       title: 'Handrails',
       description: 'Weld-free aluminum picket handrail system with DOT approvals from 6 states. High corrosion resistance and strength.',
@@ -65,16 +76,46 @@ export default function ProductsPage() {
       description: 'Decorative bullet-style railings for marinas, piers, and boardwalks. Available in marine-grade aluminum and custom finishes.',
       image: '/images/giralt/bullet_railings/bullet_railing_1.jpg',
       href: '/products/bullet-railings',
-      features: ['Decorative bullet style', 'Aluminum construction', 'Custom finishes', 'Marine grade']
+      features: ['Decorative bullet style', 'Aluminum construction', 'Custom finishes', 'Marine grade'],
+      category: 'bullet-railings'
     },
     {
       title: '2-Line / 3-Line Railings',
       description: '2-line and 3-line railing systems for safety and a clean, nautical aesthetic. Easy-install systems for docks and walkways.',
       image: '/images/giralt/two_three_line_railings/2_line_example.jpg',
       href: '/products/two-three-line-railings',
-      features: ['2-line and 3-line options', 'Easy install', 'Adjustable spacing', 'Saltwater resistant']
+      features: ['2-line and 3-line options', 'Easy install', 'Adjustable spacing', 'Saltwater resistant'],
+      category: 'two-three-line-railings'
     },
-  ]
+  ])
+
+  useEffect(() => {
+    const fetchImages = async () => {
+      try {
+        const res = await fetch('/api/gallery')
+        const data = await res.json()
+        const images: GalleryImage[] = data.images || []
+
+        setProducts((prevProducts) =>
+          prevProducts.map((product) => {
+            if (product.category) {
+              const categoryImage = images.find(
+                (img) => img.category === product.category
+              )
+              if (categoryImage) {
+                return { ...product, image: categoryImage.image }
+              }
+            }
+            return product
+          })
+        )
+      } catch (error) {
+        console.error('Error fetching gallery images:', error)
+      }
+    }
+
+    fetchImages()
+  }, [])
 
   return (
     <div className="min-h-screen">
