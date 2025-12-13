@@ -35,6 +35,10 @@
     {
       "id": "attenuators",
       "label": "Wave Attenuators"
+    },
+    {
+      "id": "boardwalks",
+      "label": "Boardwalks"
     }
   ],
   "images": [
