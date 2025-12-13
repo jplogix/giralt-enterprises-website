@@ -289,6 +289,14 @@
       "id": "boardwalks-miramar-pinelands",
       "createdAt": "2025-12-13T17:31:11.568Z",
       "updatedAt": "2025-12-13T17:31:11.568Z"
+    },
+    {
+      "category": "bullet-railings",
+      "title": "Bicycle Railing",
+      "image": "/images/giralt/bullet_railings/1765647125132_IMG_0744.JPG",
+      "id": "bullet-railings-bicycle-railing",
+      "createdAt": "2025-12-13T17:32:06.463Z",
+      "updatedAt": "2025-12-13T17:32:06.463Z"
     }
   ]
 }
