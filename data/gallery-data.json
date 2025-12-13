@@ -297,6 +297,14 @@
       "id": "two-three-line-railings-sw-97-ave-2",
       "createdAt": "2025-12-13T17:32:22.761Z",
       "updatedAt": "2025-12-13T17:32:22.761Z"
+    },
+    {
+      "category": "two-three-line-railings",
+      "title": "SW 97 Ave 3",
+      "image": "/images/giralt/two_three_line_railings/1765647152458_SW_97_Ave-3.jpg",
+      "id": "two-three-line-railings-sw-97-ave-3",
+      "createdAt": "2025-12-13T17:32:33.190Z",
+      "updatedAt": "2025-12-13T17:32:33.190Z"
     }
   ]
 }
