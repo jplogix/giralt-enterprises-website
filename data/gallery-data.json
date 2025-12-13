@@ -291,20 +291,12 @@
       "updatedAt": "2025-12-13T17:31:11.568Z"
     },
     {
-      "category": "two-three-line-railings",
-      "title": "SW 97 Ave 2",
-      "image": "/images/giralt/two_three_line_railings/1765647141853_SW_97_Ave-2.jpg",
-      "id": "two-three-line-railings-sw-97-ave-2",
-      "createdAt": "2025-12-13T17:32:22.761Z",
-      "updatedAt": "2025-12-13T17:32:22.761Z"
-    },
-    {
-      "category": "two-three-line-railings",
-      "title": "SW 97 Ave 3",
-      "image": "/images/giralt/two_three_line_railings/1765647152458_SW_97_Ave-3.jpg",
-      "id": "two-three-line-railings-sw-97-ave-3",
-      "createdAt": "2025-12-13T17:32:33.190Z",
-      "updatedAt": "2025-12-13T17:32:33.190Z"
+      "category": "handrails",
+      "title": "IMG 0026",
+      "image": "/images/giralt/handrails/1765647173664_IMG_0026.jpg",
+      "id": "handrails-img-0026",
+      "createdAt": "2025-12-13T17:32:54.481Z",
+      "updatedAt": "2025-12-13T17:32:54.481Z"
     }
   ]
 }
