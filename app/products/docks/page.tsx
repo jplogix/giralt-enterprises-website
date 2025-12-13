@@ -3,6 +3,7 @@
 import { Anchor, CheckCircle2 } from 'lucide-react'
 import Image from 'next/image'
 import Link from 'next/link'
+import { useEffect, useState } from 'react'
 import { Footer } from '@/components/footer'
 import { Navigation } from '@/components/navigation'
 import { Badge } from '@/components/ui/badge'
@@ -18,7 +19,7 @@ export default function DocksPage() {
     const fetchInstallations = async () => {
       const res = await fetch('/api/admin/images?category=docks')
       const json = await res.json()
-      setInstallations(json.images || [])
+      setInstallations(Array.isArray(json) ? json : [])
     }
     fetchInstallations()
   }, [])
@@ -144,13 +145,13 @@ export default function DocksPage() {
 
             <TabsContent value="fixed">
               <div className="grid grid-cols-1 md:grid-cols-3 gap-6 max-w-6xl mx-auto">
-                {installations.filter(i => i.name === 'Atlantic Village').map((installation) => (
-                  <Card key={installation.name} className="overflow-hidden">
+                {installations.filter(i => i.title === 'Atlantic Village').map((installation) => (
+                  <Card key={installation.id || installation.title} className="overflow-hidden">
                     <div className="relative h-64">
-                      <Image src={installation.image || "/placeholder.svg"} alt={installation.name} fill className="object-cover" />
+                      <Image src={installation.image || "/placeholder.svg"} alt={installation.title} fill className="object-cover" />
                     </div>
                     <CardContent className="pt-4">
-                      <h3 className="font-semibold text-center">{installation.name}</h3>
+                      <h3 className="font-semibold text-center">{installation.title}</h3>
                     </CardContent>
                   </Card>
                 ))}
