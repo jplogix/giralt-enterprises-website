@@ -224,11 +224,11 @@
     },
     {
       "id": "docks-installation-detail",
-      "category": "docks",
+      "category": "attenuators",
       "title": "Installation Detail",
       "image": "/images/giralt/seawalls/installation_detail.jpg",
       "createdAt": "2025-01-20T00:00:00.000Z",
-      "updatedAt": "2025-01-20T00:00:00.000Z"
+      "updatedAt": "2025-12-15T21:29:00.231Z"
     },
     {
       "id": "seawalls-chula-vista-canal",
