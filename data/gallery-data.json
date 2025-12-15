@@ -135,6 +135,14 @@
       "updatedAt": "2025-01-20T00:00:00.000Z"
     },
     {
+      "id": "docks-miramar-floating-gazebo",
+      "category": "docks",
+      "title": "Miramar Floating Gazebo",
+      "image": "/images/giralt/docks/miramar_floating_gazebo.jpg",
+      "createdAt": "2025-01-20T00:00:00.000Z",
+      "updatedAt": "2025-01-20T00:00:00.000Z"
+    },
+    {
       "id": "bridges-long-key-natural-area",
       "category": "bridges",
       "title": "Long Key Natural Area",
