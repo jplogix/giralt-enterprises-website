@@ -60,6 +60,10 @@ export function ImageList({ images, categories, onUpdate }: ImageListProps) {
     if (!editingImage) return
 
     setLoading(true)
+    const loadingToast = toast.loading('Saving changes...', {
+      description: 'Please wait while we save and commit your changes.',
+    })
+    
     try {
       const response = await fetch('/api/admin/images', {
         method: 'PUT',
@@ -78,15 +82,28 @@ export function ImageList({ images, categories, onUpdate }: ImageListProps) {
         throw new Error(error.error || 'Failed to update image')
       }
 
-      const categoryLabel = getCategoryLabel(editCategory)
-      toast.success('Changes saved and live!', {
-        description: `"${editTitle}" is now visible on the frontend. Changes are reflected immediately across all pages.`,
-        icon: <CheckCircle2 className="h-5 w-5" />,
-        duration: 5000,
-      })
+      const result = await response.json()
+      
+      // Dismiss loading toast
+      toast.dismiss(loadingToast)
+      
+      if (result.commitSuccess) {
+        toast.success('Changes saved and live!', {
+          description: `"${editTitle}" is now visible on the frontend. Changes are reflected immediately across all pages.`,
+          icon: <CheckCircle2 className="h-5 w-5" />,
+          duration: 5000,
+        })
+      } else {
+        toast.warning('Changes saved locally', {
+          description: `"${editTitle}" has been saved but may take a few minutes to appear on the frontend.`,
+          duration: 5000,
+        })
+      }
+      
       setEditingImage(null)
       onUpdate()
     } catch (error) {
+      toast.dismiss(loadingToast)
       toast.error(error instanceof Error ? error.message : 'Failed to update image')
     } finally {
       setLoading(false)
@@ -97,6 +114,10 @@ export function ImageList({ images, categories, onUpdate }: ImageListProps) {
     if (!deletingImage) return
 
     setLoading(true)
+    const loadingToast = toast.loading('Deleting image...', {
+      description: 'Please wait while we delete and commit your changes.',
+    })
+    
     try {
       const response = await fetch(`/api/admin/images?id=${deletingImage.id}`, {
         method: 'DELETE',
@@ -107,14 +128,28 @@ export function ImageList({ images, categories, onUpdate }: ImageListProps) {
         throw new Error(error.error || 'Failed to delete image')
       }
 
-      toast.success('Image deleted and changes are live!', {
-        description: `"${deletingImage.title}" has been removed. Changes are reflected immediately across all pages.`,
-        icon: <CheckCircle2 className="h-5 w-5" />,
-        duration: 5000,
-      })
+      const result = await response.json()
+      
+      // Dismiss loading toast
+      toast.dismiss(loadingToast)
+      
+      if (result.commitSuccess) {
+        toast.success('Image deleted and changes are live!', {
+          description: `"${deletingImage.title}" has been removed. Changes are reflected immediately across all pages.`,
+          icon: <CheckCircle2 className="h-5 w-5" />,
+          duration: 5000,
+        })
+      } else {
+        toast.warning('Image deleted locally', {
+          description: `"${deletingImage.title}" has been deleted but may take a few minutes to disappear from the frontend.`,
+          duration: 5000,
+        })
+      }
+      
       setDeletingImage(null)
       onUpdate()
     } catch (error) {
+      toast.dismiss(loadingToast)
       toast.error(error instanceof Error ? error.message : 'Failed to delete image')
     } finally {
       setLoading(false)

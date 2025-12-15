@@ -69,8 +69,11 @@ export async function POST(request: NextRequest) {
 			);
 		}
 
-		const newImage = await addImage({ category, title, image });
-		return NextResponse.json(newImage, { status: 201 });
+		const result = await addImage({ category, title, image });
+		return NextResponse.json({
+			...result.image,
+			commitSuccess: result.commitSuccess,
+		}, { status: 201 });
 	} catch (error) {
 		console.error("Error creating image:", error);
 		return NextResponse.json(
@@ -96,12 +99,15 @@ export async function PUT(request: NextRequest) {
 			);
 		}
 
-		const updatedImage = await updateImage(id, updates);
-		if (!updatedImage) {
+		const result = await updateImage(id, updates);
+		if (!result.image) {
 			return NextResponse.json({ error: "Image not found" }, { status: 404 });
 		}
 
-		return NextResponse.json(updatedImage);
+		return NextResponse.json({
+			...result.image,
+			commitSuccess: result.commitSuccess,
+		});
 	} catch (error) {
 		console.error("Error updating image:", error);
 		return NextResponse.json(
@@ -127,12 +133,15 @@ export async function DELETE(request: NextRequest) {
 			);
 		}
 
-		const deleted = await deleteImage(id);
-		if (!deleted) {
+		const result = await deleteImage(id);
+		if (!result.success) {
 			return NextResponse.json({ error: "Image not found" }, { status: 404 });
 		}
 
-		return NextResponse.json({ success: true });
+		return NextResponse.json({ 
+			success: true,
+			commitSuccess: result.commitSuccess,
+		});
 	} catch (error) {
 		console.error("Error deleting image:", error);
 		return NextResponse.json(

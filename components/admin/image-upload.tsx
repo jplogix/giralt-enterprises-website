@@ -107,6 +107,10 @@ export function ImageUpload({ categories, onSuccess }: ImageUploadProps) {
 		setUploading(true);
 		setError("");
 		setSuccess(false);
+		
+		const loadingToast = toast.loading('Uploading image...', {
+			description: 'Please wait while we upload and commit your image.',
+		});
 
 		try {
 			// First upload the file
@@ -163,6 +167,11 @@ export function ImageUpload({ categories, onSuccess }: ImageUploadProps) {
 				throw new Error(errorData.error || "Failed to create image record");
 			}
 
+			const result = await createResponse.json();
+			
+			// Dismiss loading toast
+			toast.dismiss(loadingToast);
+			
 			setSuccess(true);
 			setFile(null);
 			setPreview(null);
@@ -172,16 +181,24 @@ export function ImageUpload({ categories, onSuccess }: ImageUploadProps) {
 				fileInputRef.current.value = "";
 			}
 
-			toast.success('Image uploaded and live!', {
-				description: `"${title}" is now visible on the frontend. Changes are reflected immediately across all pages including the gallery and product pages.`,
-				icon: <CheckCircle2 className="h-5 w-5" />,
-				duration: 5000,
-			});
+			if (result.commitSuccess) {
+				toast.success('Image uploaded and live!', {
+					description: `"${title}" is now visible on the frontend. Changes are reflected immediately across all pages including the gallery and product pages.`,
+					icon: <CheckCircle2 className="h-5 w-5" />,
+					duration: 5000,
+				});
+			} else {
+				toast.warning('Image uploaded locally', {
+					description: `"${title}" has been uploaded but may take a few minutes to appear on the frontend.`,
+					duration: 5000,
+				});
+			}
 
 			if (onSuccess) {
 				onSuccess();
 			}
 		} catch (err) {
+			toast.dismiss(loadingToast);
 			setError(err instanceof Error ? err.message : "Upload failed");
 		} finally {
 			setUploading(false);

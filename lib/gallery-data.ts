@@ -219,7 +219,7 @@ export function getImagesByCategory(categoryId: string): GalleryImage[] {
   return images.filter(img => img.category === categoryId)
 }
 
-export async function addImage(image: Omit<GalleryImage, 'id' | 'createdAt' | 'updatedAt'>): Promise<GalleryImage> {
+export async function addImage(image: Omit<GalleryImage, 'id' | 'createdAt' | 'updatedAt'>): Promise<{ image: GalleryImage; commitSuccess: boolean }> {
   const data = getGalleryData()
   const newImage: GalleryImage = {
     ...image,
@@ -230,18 +230,18 @@ export async function addImage(image: Omit<GalleryImage, 'id' | 'createdAt' | 'u
   data.images.push(newImage)
   saveGalleryData(data)
   
-  // Automatically commit to git (non-blocking)
-  await commitToGit(`Add image: ${image.title}`).catch(() => {
-    // Silently fail - operation still succeeds
+  // Commit to git and wait for completion
+  const commitSuccess = await commitToGit(`Add image: ${image.title}`).catch(() => {
+    return false
   })
   
-  return newImage
+  return { image: newImage, commitSuccess }
 }
 
-export async function updateImage(id: string, updates: Partial<Omit<GalleryImage, 'id' | 'createdAt'>>): Promise<GalleryImage | null> {
+export async function updateImage(id: string, updates: Partial<Omit<GalleryImage, 'id' | 'createdAt'>>): Promise<{ image: GalleryImage | null; commitSuccess: boolean }> {
   const data = getGalleryData()
   const index = data.images.findIndex(img => img.id === id)
-  if (index === -1) return null
+  if (index === -1) return { image: null, commitSuccess: false }
 
   const imageTitle = data.images[index].title
   data.images[index] = {
@@ -251,29 +251,29 @@ export async function updateImage(id: string, updates: Partial<Omit<GalleryImage
   }
   saveGalleryData(data)
   
-  // Automatically commit to git (non-blocking)
-  await commitToGit(`Update image: ${imageTitle}`).catch(() => {
-    // Silently fail - operation still succeeds
+  // Commit to git and wait for completion
+  const commitSuccess = await commitToGit(`Update image: ${imageTitle}`).catch(() => {
+    return false
   })
   
-  return data.images[index]
+  return { image: data.images[index], commitSuccess }
 }
 
-export async function deleteImage(id: string): Promise<boolean> {
+export async function deleteImage(id: string): Promise<{ success: boolean; commitSuccess: boolean }> {
   const data = getGalleryData()
   const index = data.images.findIndex(img => img.id === id)
-  if (index === -1) return false
+  if (index === -1) return { success: false, commitSuccess: false }
 
   const imageTitle = data.images[index].title
   data.images.splice(index, 1)
   saveGalleryData(data)
   
-  // Automatically commit to git (non-blocking)
-  await commitToGit(`Delete image: ${imageTitle}`).catch(() => {
-    // Silently fail - operation still succeeds
+  // Commit to git and wait for completion
+  const commitSuccess = await commitToGit(`Delete image: ${imageTitle}`).catch(() => {
+    return false
   })
   
-  return true
+  return { success: true, commitSuccess }
 }
 
 export async function addCategory(category: GalleryCategory): Promise<GalleryCategory> {
