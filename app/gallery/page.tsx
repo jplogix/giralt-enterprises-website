@@ -41,6 +41,7 @@ declare module "react-image-gallery" {
 		lazyLoad?: boolean;
 		slideDuration?: number;
 		useTranslate3D?: boolean;
+		renderItem?: (item: ReactImageGalleryItem) => React.ReactNode;
 	}
 }
 
@@ -69,16 +70,52 @@ const customStyles = `
     align-items: center;
     justify-content: center;
     background: transparent;
+    position: relative;
   }
 
   .custom-image-gallery .image-gallery-slide .image-gallery-image {
     max-height: 100%;
     max-width: 100%;
+    min-height: min(60vh, 60vw);
+    min-width: min(60vw, 60vh);
     width: auto;
     height: auto;
     object-fit: contain;
     display: block;
-    margin: 0 auto;
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    image-rendering: -webkit-optimize-contrast;
+    image-rendering: crisp-edges;
+    image-rendering: high-quality;
+    image-rendering: auto;
+  }
+  
+  /* Custom rendered images */
+  .custom-image-gallery .image-gallery-slide > div {
+    width: 100%;
+    height: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    position: relative;
+  }
+  
+  .custom-image-gallery .image-gallery-slide > div > img {
+    max-height: 100%;
+    max-width: 100%;
+    min-height: min(60vh, 60vw);
+    min-width: min(60vw, 60vh);
+    object-fit: contain;
+    image-rendering: high-quality;
+  }
+  
+  /* Ensure images are always centered vertically and horizontally */
+  .custom-image-gallery .image-gallery-slide-wrapper {
+    display: flex;
+    align-items: center;
+    justify-content: center;
   }
 
   .custom-image-gallery .image-gallery-nav {
@@ -218,6 +255,7 @@ export default function GalleryPage() {
 		Array<{ category: string; title: string; image: string }>
 	>([]);
 	const [loading, setLoading] = useState(true);
+	const [imageScales, setImageScales] = useState<Record<string, number>>({});
 
 	const fetchGalleryData = useCallback(async () => {
 		try {
@@ -322,9 +360,73 @@ export default function GalleryPage() {
 		return () => window.removeEventListener("keydown", handleKeyDown);
 	}, [isOpen, selectedIndex, filteredGallery.length]);
 
+	// Recalculate scales on window resize
+	useEffect(() => {
+		if (!isOpen) return;
+
+		const handleResize = () => {
+			// Clear scales to force recalculation on next image load
+			setImageScales({});
+		};
+
+		window.addEventListener("resize", handleResize);
+		return () => window.removeEventListener("resize", handleResize);
+	}, [isOpen]);
+
 	const handleImageClick = (index: number) => {
 		setSelectedIndex(index);
 		setIsOpen(true);
+	};
+
+	// Handle image load to detect and scale small images
+	const handleImageLoad = (e: React.SyntheticEvent<HTMLImageElement>, imageUrl: string) => {
+		const img = e.currentTarget;
+		const viewportHeight = window.innerHeight;
+		const viewportWidth = window.innerWidth;
+		const minViewportSize = Math.min(viewportHeight, viewportWidth);
+		const minDisplaySize = minViewportSize * 0.6; // 60% of smaller viewport dimension
+		
+		const naturalHeight = img.naturalHeight;
+		const naturalWidth = img.naturalWidth;
+		const naturalSize = Math.min(naturalHeight, naturalWidth);
+		
+		// If image is smaller than minimum display size, calculate scale factor
+		if (naturalSize > 0 && naturalSize < minDisplaySize) {
+			const scale = minDisplaySize / naturalSize;
+			// Cap scale at 3x to avoid excessive upscaling
+			const cappedScale = Math.min(scale, 3);
+			setImageScales(prev => ({ ...prev, [imageUrl]: cappedScale }));
+		} else {
+			setImageScales(prev => ({ ...prev, [imageUrl]: 1 }));
+		}
+	};
+
+	// Custom render function for images
+	const renderItem = (item: { original: string; originalAlt?: string }) => {
+		const scale = imageScales[item.original] || 1;
+		const needsScaling = scale > 1;
+		
+		return (
+			<div className="relative w-full h-full flex items-center justify-center" style={{ minHeight: '100%' }}>
+				<img
+					src={item.original}
+					alt={item.originalAlt || ""}
+					className="object-contain"
+					style={{
+						maxHeight: '100%',
+						maxWidth: '100%',
+						minHeight: needsScaling ? '60vh' : 'auto',
+						minWidth: needsScaling ? '60vw' : 'auto',
+						width: needsScaling ? 'auto' : 'auto',
+						height: needsScaling ? 'auto' : 'auto',
+						transform: needsScaling ? `scale(${scale})` : 'none',
+						imageRendering: needsScaling ? 'high-quality' : 'auto',
+						position: 'relative',
+					}}
+					onLoad={(e) => handleImageLoad(e, item.original)}
+				/>
+			</div>
+		);
 	};
 
 	return (
@@ -448,6 +550,7 @@ export default function GalleryPage() {
 										lazyLoad={true}
 										slideDuration={300}
 										useTranslate3D={true}
+										renderItem={renderItem}
 									/>
 								</div>
 								<div className="p-4 border-t bg-background shrink-0">
