@@ -3,6 +3,7 @@
 import { Award, CheckCircle2, MapPin } from 'lucide-react'
 import Image from 'next/image'
 import Link from 'next/link'
+import { useEffect, useState } from 'react'
 import { Footer } from '@/components/footer'
 import { Navigation } from '@/components/navigation'
 import { Badge } from '@/components/ui/badge'
@@ -10,19 +11,49 @@ import { Button } from '@/components/ui/button'
 import { Card, CardContent } from '@/components/ui/card'
 import { Dialog, DialogContent, DialogTrigger } from '@/components/ui/dialog'
 
+interface GalleryImage {
+  id: string
+  category: string
+  title: string
+  image: string
+}
+
 export default function HandrailsPage() {
   const dotApprovals = ['Florida', 'Virginia', 'New York', 'Alabama', 'Georgia', 'South Carolina']
+  const [installations, setInstallations] = useState<Array<{ name: string; image: string }>>([])
+  const [loading, setLoading] = useState(true)
 
-  const installations = [
-    { name: 'Main Installation', image: '/images/giralt/handrails/main_installation.jpg' },
-    { name: 'Donald Ross Road', image: '/images/giralt/handrails/donald_ross_road.jpg' },
-    { name: 'Atlantic Ave', image: '/images/giralt/handrails/atlantic_ave_handrail.jpg' },
-    { name: 'Lake Park Marina', image: '/images/giralt/handrails/lake_park_marina_handrail.jpg' },
-    { name: 'Long Key Natural Area', image: '/images/giralt/handrails/long_key_natural_area_handrail.jpg' },
-    { name: 'Pinellas Tail (Stairs)', image: '/images/giralt/handrails/pinellas_tail_stair_handrails.jpg' },
-    { name: 'SR70', image: '/images/giralt/handrails/sr70_handrail.jpg' },
-    { name: 'University Drive', image: '/images/giralt/handrails/university_drive_handrail.jpg' },
-  ]
+  useEffect(() => {
+    const fetchImages = async () => {
+      try {
+        const res = await fetch('/api/gallery', {
+          cache: 'no-store',
+          headers: {
+            'Cache-Control': 'no-cache',
+          },
+        })
+        const data = await res.json()
+        const handrailImages = (data.images || []).filter(
+          (img: GalleryImage) => img.category === 'handrails'
+        )
+        
+        // Convert gallery images to installation format
+        const installationData = handrailImages.map((img: GalleryImage) => ({
+          name: img.title,
+          image: img.image,
+        }))
+        
+        setInstallations(installationData)
+      } catch (error) {
+        console.error('Error fetching images:', error)
+        // Fallback to empty array if fetch fails
+        setInstallations([])
+      } finally {
+        setLoading(false)
+      }
+    }
+    fetchImages()
+  }, [])
 
   return (
     <div className="min-h-screen">
@@ -138,8 +169,17 @@ export default function HandrailsPage() {
       <section className="py-20 bg-secondary/30">
         <div className="container mx-auto px-4">
           <h2 className="text-3xl font-bold mb-8 text-center">Installation Examples</h2>
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-            {installations.map((installation) => (
+          {loading ? (
+            <div className="text-center py-12">
+              <p className="text-muted-foreground">Loading installations...</p>
+            </div>
+          ) : installations.length === 0 ? (
+            <div className="text-center py-12">
+              <p className="text-muted-foreground">No installation examples available</p>
+            </div>
+          ) : (
+            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+              {installations.map((installation) => (
               <Dialog key={installation.name}>
                 <DialogTrigger asChild>
                   <Card className="overflow-hidden hover:shadow-xl transition-shadow cursor-pointer">
@@ -171,8 +211,9 @@ export default function HandrailsPage() {
                   </div>
                 </DialogContent>
               </Dialog>
-            ))}
-          </div>
+              ))}
+            </div>
+          )}
         </div>
       </section>
 
