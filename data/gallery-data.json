@@ -269,6 +269,14 @@
       "id": "boardwalks-miramar-pinelands",
       "createdAt": "2025-12-13T17:31:11.568Z",
       "updatedAt": "2025-12-13T17:31:11.568Z"
+    },
+    {
+      "category": "docks",
+      "title": "Miramar Pinelands 6",
+      "image": "/images/giralt/docks/1765835142837_Miramar_Pinelands_6.jpg",
+      "id": "docks-miramar-pinelands-6",
+      "createdAt": "2025-12-15T21:45:43.974Z",
+      "updatedAt": "2025-12-15T21:45:43.974Z"
     }
   ]
 }
