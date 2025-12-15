@@ -164,19 +164,19 @@
     },
     {
       "id": "gangways-marina-gangway",
-      "category": "bridges",
+      "category": "gangways",
       "title": "Marina Gangway",
       "image": "/images/giralt/gangways/long_key_natural_area_gangway.jpg",
       "createdAt": "2025-01-20T00:00:00.000Z",
-      "updatedAt": "2025-12-15T17:28:01.061Z"
+      "updatedAt": "2025-01-20T00:00:00.000Z"
     },
     {
       "id": "gangways-aluminum-ramp",
-      "category": "gangways",
+      "category": "bridges",
       "title": "Aluminum Ramp",
       "image": "/images/giralt/gangways/richardson_park_gangway.jpg",
       "createdAt": "2025-01-20T00:00:00.000Z",
-      "updatedAt": "2025-01-20T00:00:00.000Z"
+      "updatedAt": "2025-12-15T17:28:19.263Z"
     },
     {
       "id": "bullet-railings-detail",
