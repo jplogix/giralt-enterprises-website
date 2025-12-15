@@ -295,28 +295,28 @@
       "updatedAt": "2025-12-15T21:47:42.904Z"
     },
     {
-      "category": "docks",
-      "title": "DSC00585",
-      "image": "/images/giralt/docks/1765835321359_IMG_0440.JPG",
-      "id": "docks-dsc00585",
-      "createdAt": "2025-12-15T21:48:43.269Z",
-      "updatedAt": "2025-12-15T21:48:43.270Z"
+      "category": "floating-docks",
+      "title": "IMG 1151",
+      "image": "/images/giralt/floating_docks/1765835348709_IMG_1151.jpg",
+      "id": "floating-docks-img-1151",
+      "createdAt": "2025-12-15T21:49:09.682Z",
+      "updatedAt": "2025-12-15T21:49:09.682Z"
     },
     {
-      "category": "docks",
-      "title": "IMG 1152",
-      "image": "/images/giralt/docks/1765835388240_IMG_1152.jpg",
-      "id": "docks-img-1152",
-      "createdAt": "2025-12-15T21:49:49.594Z",
-      "updatedAt": "2025-12-15T21:49:49.594Z"
+      "category": "two-three-line-railings",
+      "title": "SW 97 Ave 2",
+      "image": "/images/giralt/two_three_line_railings/1765835423285_SW_97_Ave-2.jpg",
+      "id": "two-three-line-railings-sw-97-ave-2",
+      "createdAt": "2025-12-15T21:50:24.285Z",
+      "updatedAt": "2025-12-15T21:50:24.285Z"
     },
     {
       "category": "handrails",
-      "title": "IMG 0744",
-      "image": "/images/giralt/handrails/1765835446084_IMG_0744.JPG",
-      "id": "handrails-img-0744",
-      "createdAt": "2025-12-15T21:50:47.457Z",
-      "updatedAt": "2025-12-15T21:50:47.457Z"
+      "title": "IMG 0745 Resized",
+      "image": "/images/giralt/handrails/1765835465112_IMG_0745_Resized.jpg",
+      "id": "handrails-img-0745-resized",
+      "createdAt": "2025-12-15T21:51:06.166Z",
+      "updatedAt": "2025-12-15T21:51:06.166Z"
     }
   ]
 }
