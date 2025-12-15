@@ -37,11 +37,11 @@ export default function ProductsPage() {
       features: ['No welding required', 'AA 6061-T6 aluminum', 'DOT approved', 'Award winning']
     },
     {
-      title: 'Docks',
-      description: 'Elite and standard fixed and floating dock systems. Structural members made of aluminum alloy 6061-T6 for high corrosion resistance.',
+      title: 'Docks & Gangways',
+      description: 'Elite and standard fixed and floating dock systems, plus lightweight aluminum gangways and ramps for safe shore access. Structural members made of aluminum alloy 6061-T6 for high corrosion resistance.',
       image: '/images/giralt/docks/woodland_beach_fishing_pier.jpg',
       href: '/products/docks',
-      features: ['Fixed & floating options', 'Multiple deck materials', 'Salt water resistant', 'Custom designs']
+      features: ['Fixed & floating options', 'Gangways & ramps', 'Multiple deck materials', 'Salt water resistant', 'Custom designs']
     },
     {
       title: 'Seawalls',
@@ -63,13 +63,6 @@ export default function ProductsPage() {
       image: '/images/giralt/wave_attenuators/terra_verde.jpg',
       href: '/products/wave-attenuators',
       features: ['4 configurations', 'Custom engineering', 'Energy dissipation', 'Marina protection']
-    },
-    {
-      title: 'Gangways',
-      description: 'Lightweight aluminum gangways and ramps for safe shore access. Custom lengths and handrail options.',
-      image: '/images/giralt/pedestrian_bridges/long_key_natural_area.jpg',
-      href: '/products/gangways',
-      features: ['Custom lengths', 'ADA-compliant options', 'Lightweight aluminum', 'Modular sections']
     },
     {
       title: 'Boardwalks',

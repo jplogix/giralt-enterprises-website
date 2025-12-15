@@ -17,10 +17,6 @@
       "label": "Docks and Gangways"
     },
     {
-      "id": "gangways",
-      "label": "Gangways"
-    },
-    {
       "id": "floating-docks",
       "label": "Floating Docks"
     },
@@ -164,7 +160,7 @@
     },
     {
       "id": "gangways-marina-gangway",
-      "category": "gangways",
+      "category": "docks",
       "title": "Marina Gangway",
       "image": "/images/giralt/gangways/long_key_natural_area_gangway.jpg",
       "createdAt": "2025-01-20T00:00:00.000Z",
@@ -172,7 +168,7 @@
     },
     {
       "id": "gangways-aluminum-ramp",
-      "category": "bridges",
+      "category": "docks",
       "title": "Aluminum Ramp",
       "image": "/images/giralt/gangways/richardson_park_gangway.jpg",
       "createdAt": "2025-01-20T00:00:00.000Z",

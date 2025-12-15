@@ -66,10 +66,10 @@ export default function DocksPage() {
               </Badge>
             </div>
             <h1 className="text-4xl md:text-5xl font-bold mb-6">
-              Aluminum Dock Systems
+              Aluminum Dock Systems & Gangways
             </h1>
             <p className="text-xl text-primary-foreground/90 leading-relaxed">
-              All of our docks have a common element: structural members made of aluminum alloy 6061-T6. This alloy has a unique combination of high corrosion resistance, even in salt water environments, and high strength.
+              All of our docks and gangways have a common element: structural members made of aluminum alloy 6061-T6. This alloy has a unique combination of high corrosion resistance, even in salt water environments, and high strength. Our gangways provide lightweight, modular access solutions for safe shore access.
             </p>
           </div>
         </div>
@@ -186,22 +186,29 @@ export default function DocksPage() {
 
             <TabsContent value="gangways">
               <div className="grid grid-cols-1 md:grid-cols-3 gap-6 max-w-6xl mx-auto">
-                <Card className="overflow-hidden">
-                  <div className="relative h-64">
-                    <Image src="/images/giralt/gangways/long_key_natural_area_gangway.jpg" alt="Long Key Gangway" fill className="object-cover" />
+                {installations.filter(i => 
+                  i.title.toLowerCase().includes('gangway') || 
+                  i.title.toLowerCase().includes('ramp') ||
+                  i.image.includes('gangway')
+                ).map((installation) => (
+                  <Card key={installation.id || installation.title} className="overflow-hidden">
+                    <div className="relative h-64">
+                      <Image src={installation.image || "/placeholder.svg"} alt={installation.title} fill className="object-cover" />
+                    </div>
+                    <CardContent className="pt-4">
+                      <h3 className="font-semibold text-center">{installation.title}</h3>
+                    </CardContent>
+                  </Card>
+                ))}
+                {installations.filter(i => 
+                  i.title.toLowerCase().includes('gangway') || 
+                  i.title.toLowerCase().includes('ramp') ||
+                  i.image.includes('gangway')
+                ).length === 0 && (
+                  <div className="col-span-full text-center py-12">
+                    <p className="text-muted-foreground">No gangway examples available</p>
                   </div>
-                  <CardContent className="pt-4">
-                    <h3 className="font-semibold text-center">Long Key Gangway</h3>
-                  </CardContent>
-                </Card>
-                <Card className="overflow-hidden">
-                  <div className="relative h-64">
-                    <Image src="/images/giralt/gangways/richardson_park_gangway.jpg" alt="Richardson Park Gangway" fill className="object-cover" />
-                  </div>
-                  <CardContent className="pt-4">
-                    <h3 className="font-semibold text-center">Richardson Park Gangway</h3>
-                  </CardContent>
-                </Card>
+                )}
               </div>
             </TabsContent>
           </Tabs>
