@@ -152,7 +152,47 @@ async function commitToGit(message: string): Promise<boolean> {
       }
     )
 
-    return commitResponse.ok
+    if (!commitResponse.ok) {
+      const errorData = await commitResponse.json().catch(() => ({}))
+      // If it's a conflict (422), try once more with fresh SHA
+      if (commitResponse.status === 422 && sha) {
+        // Retry with fresh SHA
+        const retryGetResponse = await fetch(
+          `https://api.github.com/repos/${owner}/${repo}/contents/${filePath}?ref=${encodeURIComponent(process.env.GITHUB_BRANCH || 'main')}`,
+          {
+            headers: {
+              Authorization: `token ${githubToken}`,
+              Accept: 'application/vnd.github.v3+json',
+            },
+          }
+        )
+        
+        if (retryGetResponse.ok) {
+          const retryFileData = await retryGetResponse.json()
+          commitBody.sha = retryFileData.sha
+          
+          const retryCommitResponse = await fetch(
+            `https://api.github.com/repos/${owner}/${repo}/contents/${filePath}`,
+            {
+              method: 'PUT',
+              headers: {
+                Authorization: `token ${githubToken}`,
+                Accept: 'application/vnd.github.v3+json',
+                'Content-Type': 'application/json',
+              },
+              body: JSON.stringify(commitBody),
+            }
+          )
+          
+          return retryCommitResponse.ok
+        }
+      }
+      
+      console.error('Git commit failed:', errorData.message || 'Unknown error')
+      return false
+    }
+
+    return true
   } catch (error) {
     console.error('Auto git commit error:', error)
     return false
