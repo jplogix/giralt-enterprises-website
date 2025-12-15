@@ -17,7 +17,12 @@ export default function DocksPage() {
 
   useEffect(() => {
     const fetchInstallations = async () => {
-      const res = await fetch('/api/admin/images?category=docks')
+      const res = await fetch('/api/admin/images?category=docks', {
+        cache: 'no-store',
+        headers: {
+          'Cache-Control': 'no-cache',
+        },
+      })
       const json = await res.json()
       setInstallations(Array.isArray(json) ? json : [])
     }

@@ -23,7 +23,12 @@ export default function BulletRailingsPage() {
   useEffect(() => {
     const fetchImages = async () => {
       try {
-        const res = await fetch('/api/gallery')
+        const res = await fetch('/api/gallery', {
+          cache: 'no-store',
+          headers: {
+            'Cache-Control': 'no-cache',
+          },
+        })
         const data = await res.json()
         const bulletImages = (data.images || []).filter(
           (img: GalleryImage) => img.category === 'bullet-railings'

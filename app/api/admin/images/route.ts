@@ -23,7 +23,13 @@ export async function GET(request: NextRequest) {
 			if (!image) {
 				return NextResponse.json({ error: "Image not found" }, { status: 404 });
 			}
-			return NextResponse.json(image);
+			return NextResponse.json(image, {
+				headers: {
+					'Cache-Control': 'no-store, no-cache, must-revalidate, proxy-revalidate',
+					'Pragma': 'no-cache',
+					'Expires': '0',
+				},
+			});
 		}
 
 		let images = getImages();
@@ -31,7 +37,13 @@ export async function GET(request: NextRequest) {
 			images = images.filter((img) => img.category === category);
 		}
 
-		return NextResponse.json(images);
+		return NextResponse.json(images, {
+			headers: {
+				'Cache-Control': 'no-store, no-cache, must-revalidate, proxy-revalidate',
+				'Pragma': 'no-cache',
+				'Expires': '0',
+			},
+		});
 	} catch (error) {
 		console.error("Error fetching images:", error);
 		return NextResponse.json(

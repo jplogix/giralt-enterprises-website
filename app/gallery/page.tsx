@@ -221,7 +221,12 @@ export default function GalleryPage() {
 
 	const fetchGalleryData = useCallback(async () => {
 		try {
-			const response = await fetch("/api/gallery");
+			const response = await fetch("/api/gallery", {
+				cache: 'no-store',
+				headers: {
+					'Cache-Control': 'no-cache',
+				},
+			});
 			if (!response.ok) {
 				throw new Error("Failed to fetch gallery data");
 			}

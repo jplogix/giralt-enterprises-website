@@ -25,7 +25,7 @@ import {
   AlertDialogHeader,
   AlertDialogTitle,
 } from '@/components/ui/alert-dialog'
-import { Edit, Trash2, Loader2 } from 'lucide-react'
+import { Edit, Trash2, Loader2, CheckCircle2 } from 'lucide-react'
 import { toast } from 'sonner'
 
 interface GalleryImage {
@@ -78,7 +78,12 @@ export function ImageList({ images, categories, onUpdate }: ImageListProps) {
         throw new Error(error.error || 'Failed to update image')
       }
 
-      toast.success('Image updated successfully')
+      const categoryLabel = getCategoryLabel(editCategory)
+      toast.success('Changes saved and live!', {
+        description: `"${editTitle}" is now visible on the frontend. Changes are reflected immediately across all pages.`,
+        icon: <CheckCircle2 className="h-5 w-5" />,
+        duration: 5000,
+      })
       setEditingImage(null)
       onUpdate()
     } catch (error) {
@@ -102,7 +107,11 @@ export function ImageList({ images, categories, onUpdate }: ImageListProps) {
         throw new Error(error.error || 'Failed to delete image')
       }
 
-      toast.success('Image deleted successfully')
+      toast.success('Image deleted and changes are live!', {
+        description: `"${deletingImage.title}" has been removed. Changes are reflected immediately across all pages.`,
+        icon: <CheckCircle2 className="h-5 w-5" />,
+        duration: 5000,
+      })
       setDeletingImage(null)
       onUpdate()
     } catch (error) {

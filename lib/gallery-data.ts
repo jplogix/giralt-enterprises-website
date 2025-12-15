@@ -27,6 +27,12 @@ const isProduction = process.env.VERCEL === '1' || process.env.NODE_ENV === 'pro
 let memoryCache: GalleryData | null = null
 let memoryCacheInitialized = false
 
+// Function to invalidate the cache
+export function invalidateCache(): void {
+  memoryCache = null
+  memoryCacheInitialized = false
+}
+
 export function getGalleryData(): GalleryData {
   // In production, use memory cache if available, otherwise read from file
   if (isProduction && memoryCache && memoryCacheInitialized) {
@@ -59,9 +65,11 @@ export function saveGalleryData(data: GalleryData): void {
     return
   }
 
-  // In development, write to file
+  // In development, write to file and invalidate cache to force re-read
   try {
     writeFileSync(DATA_FILE_PATH, JSON.stringify(data, null, 2), 'utf8')
+    // Invalidate cache so next read gets fresh data from file
+    invalidateCache()
   } catch (error) {
     console.error('Error saving gallery data:', error)
     throw new Error('Failed to save gallery data')

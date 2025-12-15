@@ -1,6 +1,7 @@
 "use client";
 
-import { Loader2, Upload, X } from "lucide-react";
+import { CheckCircle2, Loader2, Upload, X } from "lucide-react";
+import { toast } from "sonner";
 import Image from "next/image";
 import { useRef, useState } from "react";
 import { Alert, AlertDescription } from "@/components/ui/alert";
@@ -170,6 +171,12 @@ export function ImageUpload({ categories, onSuccess }: ImageUploadProps) {
 			if (fileInputRef.current) {
 				fileInputRef.current.value = "";
 			}
+
+			toast.success('Image uploaded and live!', {
+				description: `"${title}" is now visible on the frontend. Changes are reflected immediately across all pages including the gallery and product pages.`,
+				icon: <CheckCircle2 className="h-5 w-5" />,
+				duration: 5000,
+			});
 
 			if (onSuccess) {
 				onSuccess();

@@ -23,7 +23,12 @@ export default function TwoThreeLineRailingsPage() {
   useEffect(() => {
     const fetchImages = async () => {
       try {
-        const res = await fetch('/api/gallery')
+        const res = await fetch('/api/gallery', {
+          cache: 'no-store',
+          headers: {
+            'Cache-Control': 'no-cache',
+          },
+        })
         const data = await res.json()
         const railingImages = (data.images || []).filter(
           (img: GalleryImage) => img.category === 'two-three-line-railings'

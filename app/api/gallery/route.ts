@@ -11,10 +11,19 @@ export async function GET() {
       ...data.categories,
     ]
 
-    return NextResponse.json({
-      categories,
-      images: data.images,
-    })
+    return NextResponse.json(
+      {
+        categories,
+        images: data.images,
+      },
+      {
+        headers: {
+          'Cache-Control': 'no-store, no-cache, must-revalidate, proxy-revalidate',
+          'Pragma': 'no-cache',
+          'Expires': '0',
+        },
+      }
+    )
   } catch (error) {
     console.error('Error fetching gallery data:', error)
     return NextResponse.json(

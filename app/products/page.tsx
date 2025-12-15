@@ -72,6 +72,14 @@ export default function ProductsPage() {
       features: ['Custom lengths', 'ADA-compliant options', 'Lightweight aluminum', 'Modular sections']
     },
     {
+      title: 'Boardwalks',
+      description: 'Custom aluminum and timber boardwalk systems for parks, shorelines, and public access. Designed to meet site conditions and accessibility requirements.',
+      image: '/images/giralt/boardwalk/boardwalk_01.jpg',
+      href: '/products/boardwalk',
+      features: ['Aluminum & timber options', 'ADA-compliant designs', 'Custom engineering', 'Site-specific solutions'],
+      category: 'boardwalks'
+    },
+    {
       title: 'Bullet Railings',
       description: 'Decorative bullet-style railings for marinas, piers, and boardwalks. Available in marine-grade aluminum and custom finishes.',
       image: '/images/giralt/bullet_railings/bullet_railing_1.jpg',
@@ -92,7 +100,12 @@ export default function ProductsPage() {
   useEffect(() => {
     const fetchImages = async () => {
       try {
-        const res = await fetch('/api/gallery')
+        const res = await fetch('/api/gallery', {
+          cache: 'no-store',
+          headers: {
+            'Cache-Control': 'no-cache',
+          },
+        })
         const data = await res.json()
         const images: GalleryImage[] = data.images || []
 
