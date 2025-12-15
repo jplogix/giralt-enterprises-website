@@ -1,13 +1,56 @@
+'use client'
+
 import { ArrowRight } from 'lucide-react'
 import Image from 'next/image'
 import Link from 'next/link'
+import { useEffect, useState } from 'react'
 import { Footer } from '@/components/footer'
 import { Navigation } from '@/components/navigation'
 import { Badge } from '@/components/ui/badge'
 import { Button } from '@/components/ui/button'
 import { Card, CardContent } from '@/components/ui/card'
+import { Dialog, DialogContent, DialogTrigger } from '@/components/ui/dialog'
+
+interface GalleryImage {
+  id: string
+  category: string
+  title: string
+  image: string
+}
 
 export default function GangwaysPage() {
+    const [installations, setInstallations] = useState<Array<{ name: string; image: string }>>([])
+    const [loading, setLoading] = useState(true)
+
+    useEffect(() => {
+        const fetchImages = async () => {
+            try {
+                const res = await fetch('/api/gallery', {
+                    cache: 'no-store',
+                    headers: {
+                        'Cache-Control': 'no-cache',
+                    },
+                })
+                const data = await res.json()
+                const gangwayImages = (data.images || []).filter(
+                    (img: GalleryImage) => img.category === 'gangways'
+                )
+                
+                const installationData = gangwayImages.map((img: GalleryImage) => ({
+                    name: img.title,
+                    image: img.image,
+                }))
+                
+                setInstallations(installationData)
+            } catch (error) {
+                console.error('Error fetching images:', error)
+                setInstallations([])
+            } finally {
+                setLoading(false)
+            }
+        }
+        fetchImages()
+    }, [])
     return (
         <div className="min-h-screen">
             <Navigation />
@@ -28,11 +71,15 @@ export default function GangwaysPage() {
 
             <section className="py-20">
                 <div className="container mx-auto px-4">
-                    <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
+                    <div className="grid grid-cols-1 md:grid-cols-2 gap-8 mb-12">
                         <Card className="overflow-hidden">
-                            <div className="relative h-64">
-                                <Image src="/images/giralt/pedestrian_bridges/long_key_natural_area.jpg" alt="Gangway" fill className="object-cover" />
-                            </div>
+                            {loading || installations.length === 0 ? (
+                                <div className="relative h-64 bg-secondary animate-pulse" />
+                            ) : (
+                                <div className="relative h-64">
+                                    <Image src={installations[0]?.image || "/placeholder.svg"} alt={installations[0]?.name || "Gangway"} fill className="object-cover" />
+                                </div>
+                            )}
                             <CardContent>
                                 <h2 className="text-2xl font-bold mb-3">Modular Gangways</h2>
                                 <p className="text-muted-foreground mb-4">Available in multiple lengths with optional handrail systems.</p>
@@ -53,6 +100,47 @@ export default function GangwaysPage() {
                             </CardContent>
                         </Card>
                     </div>
+
+                    {installations.length > 1 && (
+                        <div>
+                            <h2 className="text-3xl font-bold mb-8 text-center">Installation Examples</h2>
+                            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 max-w-6xl mx-auto">
+                                {installations.map((installation) => (
+                                    <Dialog key={installation.name}>
+                                        <DialogTrigger asChild>
+                                            <Card className="overflow-hidden hover:shadow-xl transition-shadow cursor-pointer">
+                                                <div className="relative h-64">
+                                                    <Image
+                                                        src={installation.image || "/placeholder.svg"}
+                                                        alt={installation.name}
+                                                        fill
+                                                        className="object-cover"
+                                                    />
+                                                </div>
+                                                <CardContent className="pt-4">
+                                                    <h3 className="font-semibold text-center">{installation.name}</h3>
+                                                </CardContent>
+                                            </Card>
+                                        </DialogTrigger>
+                                        <DialogContent className="max-w-5xl p-0" showCloseButton={true}>
+                                            <div className="relative w-full" style={{ minHeight: '400px', maxHeight: '90vh' }}>
+                                                <Image
+                                                    src={installation.image || "/placeholder.svg"}
+                                                    alt={installation.name}
+                                                    fill
+                                                    className="object-contain"
+                                                    sizes="(max-width: 1280px) 100vw, 1280px"
+                                                />
+                                            </div>
+                                            <div className="p-4 border-t">
+                                                <h3 className="font-semibold text-center text-lg">{installation.name}</h3>
+                                            </div>
+                                        </DialogContent>
+                                    </Dialog>
+                                ))}
+                            </div>
+                        </div>
+                    )}
                 </div>
             </section>
 

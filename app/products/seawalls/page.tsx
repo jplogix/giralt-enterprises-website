@@ -8,14 +8,49 @@ import { Button } from '@/components/ui/button'
 import { Dialog, DialogContent, DialogTrigger } from '@/components/ui/dialog'
 import Link from 'next/link'
 import Image from 'next/image'
+import { useEffect, useState } from 'react'
 import { Shield, AlertCircle } from 'lucide-react'
 
+interface GalleryImage {
+  id: string
+  category: string
+  title: string
+  image: string
+}
+
 export default function SeawallsPage() {
-  const installations = [
-    { name: 'Vero Beach', image: 'https://res.cloudinary.com/jp79/image/upload/v1763522933/giralt/seawalls/vero_beach.jpg' },
-    { name: 'Installation Detail', image: 'https://res.cloudinary.com/jp79/image/upload/v1763531620/giralt/seawalls/installation_detail.jpg' },
-    { name: 'Chula Vista Canal', image: 'https://res.cloudinary.com/jp79/image/upload/v1763531658/giralt/seawalls/chula_vista_canal.jpg' },
-  ]
+  const [installations, setInstallations] = useState<Array<{ name: string; image: string }>>([])
+  const [loading, setLoading] = useState(true)
+
+  useEffect(() => {
+    const fetchImages = async () => {
+      try {
+        const res = await fetch('/api/gallery', {
+          cache: 'no-store',
+          headers: {
+            'Cache-Control': 'no-cache',
+          },
+        })
+        const data = await res.json()
+        const seawallImages = (data.images || []).filter(
+          (img: GalleryImage) => img.category === 'seawalls'
+        )
+        
+        const installationData = seawallImages.map((img: GalleryImage) => ({
+          name: img.title,
+          image: img.image,
+        }))
+        
+        setInstallations(installationData)
+      } catch (error) {
+        console.error('Error fetching images:', error)
+        setInstallations([])
+      } finally {
+        setLoading(false)
+      }
+    }
+    fetchImages()
+  }, [])
 
   const materials = [
     {
@@ -110,8 +145,17 @@ export default function SeawallsPage() {
       <section className="py-20 bg-secondary/30">
         <div className="container mx-auto px-4">
           <h2 className="text-3xl font-bold mb-8 text-center">Installation Examples</h2>
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-6 max-w-6xl mx-auto">
-            {installations.map((installation) => (
+          {loading ? (
+            <div className="text-center py-12">
+              <p className="text-muted-foreground">Loading installations...</p>
+            </div>
+          ) : installations.length === 0 ? (
+            <div className="text-center py-12">
+              <p className="text-muted-foreground">No installation examples available</p>
+            </div>
+          ) : (
+            <div className="grid grid-cols-1 md:grid-cols-3 gap-6 max-w-6xl mx-auto">
+              {installations.map((installation) => (
               <Dialog key={installation.name}>
                 <DialogTrigger asChild>
                   <Card className="overflow-hidden hover:shadow-xl transition-shadow cursor-pointer">
@@ -143,8 +187,9 @@ export default function SeawallsPage() {
                   </div>
                 </DialogContent>
               </Dialog>
-            ))}
-          </div>
+              ))}
+            </div>
+          )}
         </div>
       </section>
 

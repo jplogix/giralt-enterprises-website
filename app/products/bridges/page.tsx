@@ -8,13 +8,49 @@ import { Button } from '@/components/ui/button'
 import { Dialog, DialogContent, DialogTrigger } from '@/components/ui/dialog'
 import Link from 'next/link'
 import Image from 'next/image'
+import { useEffect, useState } from 'react'
 import { Badge as Bridge, Zap, Ruler } from 'lucide-react'
 
+interface GalleryImage {
+  id: string
+  category: string
+  title: string
+  image: string
+}
+
 export default function BridgesPage() {
-  const installations = [
-    { name: 'Long Key Natural Area', image: 'https://res.cloudinary.com/jp79/image/upload/v1763531620/giralt/pedestrian_bridges/long_key_natural_area.jpg' },
-    { name: 'Richardson Park Boardwalk', image: 'https://res.cloudinary.com/jp79/image/upload/v1763531620/giralt/pedestrian_bridges/richardson_park_boardwalk.jpg' },
-  ]
+  const [installations, setInstallations] = useState<Array<{ name: string; image: string }>>([])
+  const [loading, setLoading] = useState(true)
+
+  useEffect(() => {
+    const fetchImages = async () => {
+      try {
+        const res = await fetch('/api/gallery', {
+          cache: 'no-store',
+          headers: {
+            'Cache-Control': 'no-cache',
+          },
+        })
+        const data = await res.json()
+        const bridgeImages = (data.images || []).filter(
+          (img: GalleryImage) => img.category === 'bridges'
+        )
+        
+        const installationData = bridgeImages.map((img: GalleryImage) => ({
+          name: img.title,
+          image: img.image,
+        }))
+        
+        setInstallations(installationData)
+      } catch (error) {
+        console.error('Error fetching images:', error)
+        setInstallations([])
+      } finally {
+        setLoading(false)
+      }
+    }
+    fetchImages()
+  }, [])
 
   const models = [
     { name: 'Atlantis', description: 'Classic design with modern engineering' },
@@ -102,8 +138,17 @@ export default function BridgesPage() {
       <section className="py-20 bg-secondary/30">
         <div className="container mx-auto px-4">
           <h2 className="text-3xl font-bold mb-8 text-center">Installation Examples</h2>
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-6 max-w-4xl mx-auto mb-12">
-            {installations.map((installation) => (
+          {loading ? (
+            <div className="text-center py-12">
+              <p className="text-muted-foreground">Loading installations...</p>
+            </div>
+          ) : installations.length === 0 ? (
+            <div className="text-center py-12">
+              <p className="text-muted-foreground">No installation examples available</p>
+            </div>
+          ) : (
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-6 max-w-4xl mx-auto mb-12">
+              {installations.map((installation) => (
               <Dialog key={installation.name}>
                 <DialogTrigger asChild>
                   <Card className="overflow-hidden hover:shadow-xl transition-shadow cursor-pointer">
@@ -135,8 +180,9 @@ export default function BridgesPage() {
                   </div>
                 </DialogContent>
               </Dialog>
-            ))}
-          </div>
+              ))}
+            </div>
+          )}
         </div>
       </section>
 
