@@ -301,6 +301,14 @@
       "id": "handrails-401235-red",
       "createdAt": "2025-12-15T21:51:23.862Z",
       "updatedAt": "2025-12-17T13:41:03.501Z"
+    },
+    {
+      "category": "bridges",
+      "title": "Palm Beach Pedestrian Bridge",
+      "image": "/images/giralt/bridges/1765993680614_Palm_Beach_Pedestrian_Bridge.jpg",
+      "id": "bridges-palm-beach-pedestrian-bridge",
+      "createdAt": "2025-12-17T17:48:01.440Z",
+      "updatedAt": "2025-12-17T17:48:01.440Z"
     }
   ]
 }
