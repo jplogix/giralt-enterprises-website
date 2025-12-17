@@ -121,10 +121,10 @@
     {
       "id": "bridges-atlantic-village",
       "category": "bridges",
-      "title": "Lafayette Hart Park",
+      "title": "Atlantic Village",
       "image": "/images/giralt/docks/lafayette_hart_park.jpg",
       "createdAt": "2025-01-20T00:00:00.000Z",
-      "updatedAt": "2025-12-17T13:33:14.389Z"
+      "updatedAt": "2025-01-20T00:00:00.000Z"
     },
     {
       "id": "docks-woodland-beach-fishing-pier",
@@ -144,19 +144,11 @@
     },
     {
       "id": "bridges-richardson-park-boardwalk",
-      "category": "boardwalks",
+      "category": "bridges",
       "title": "Richardson Park Boardwalk",
       "image": "/images/giralt/pedestrian_bridges/richardson_park_boardwalk.jpg",
       "createdAt": "2025-01-20T00:00:00.000Z",
-      "updatedAt": "2025-12-17T13:33:53.481Z"
-    },
-    {
-      "id": "gangways-aluminum-ramp",
-      "category": "docks",
-      "title": "Aluminum Ramp",
-      "image": "/images/giralt/gangways/richardson_park_gangway.jpg",
-      "createdAt": "2025-01-20T00:00:00.000Z",
-      "updatedAt": "2025-12-15T17:28:19.263Z"
+      "updatedAt": "2025-01-20T00:00:00.000Z"
     },
     {
       "id": "bullet-railings-detail",
@@ -209,10 +201,10 @@
     {
       "id": "docks-installation-detail",
       "category": "attenuators",
-      "title": "Haulover Park",
+      "title": "Installation Detail",
       "image": "/images/giralt/seawalls/installation_detail.jpg",
       "createdAt": "2025-01-20T00:00:00.000Z",
-      "updatedAt": "2025-12-17T13:34:55.040Z"
+      "updatedAt": "2025-12-15T21:29:00.231Z"
     },
     {
       "id": "seawalls-chula-vista-canal",
@@ -233,10 +225,10 @@
     {
       "id": "attenuators-haulover",
       "category": "attenuators",
-      "title": "Haulover",
+      "title": "Haulover Park",
       "image": "/images/giralt/wave_attenuators/haulover.jpg",
       "createdAt": "2025-01-20T00:00:00.000Z",
-      "updatedAt": "2025-01-20T00:00:00.000Z"
+      "updatedAt": "2025-12-17T13:35:22.593Z"
     },
     {
       "category": "docks",
