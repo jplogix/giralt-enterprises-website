@@ -144,19 +144,19 @@
     },
     {
       "id": "bridges-richardson-park-boardwalk",
-      "category": "boardwalks",
+      "category": "bridges",
       "title": "Richardson Park Boardwalk",
       "image": "/images/giralt/pedestrian_bridges/richardson_park_boardwalk.jpg",
       "createdAt": "2025-01-20T00:00:00.000Z",
-      "updatedAt": "2025-12-17T13:33:53.481Z"
+      "updatedAt": "2025-01-20T00:00:00.000Z"
     },
     {
-      "id": "gangways-aluminum-ramp",
+      "id": "gangways-marina-gangway",
       "category": "docks",
-      "title": "Aluminum Ramp",
-      "image": "/images/giralt/gangways/richardson_park_gangway.jpg",
+      "title": "Marina Gangway",
+      "image": "/images/giralt/gangways/long_key_natural_area_gangway.jpg",
       "createdAt": "2025-01-20T00:00:00.000Z",
-      "updatedAt": "2025-12-15T17:28:19.263Z"
+      "updatedAt": "2025-01-20T00:00:00.000Z"
     },
     {
       "id": "bullet-railings-detail",
