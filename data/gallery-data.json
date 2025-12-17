@@ -121,10 +121,10 @@
     {
       "id": "bridges-atlantic-village",
       "category": "bridges",
-      "title": "Lafayette Hart Park",
+      "title": "Atlantic Village",
       "image": "/images/giralt/docks/lafayette_hart_park.jpg",
       "createdAt": "2025-01-20T00:00:00.000Z",
-      "updatedAt": "2025-12-17T13:33:14.389Z"
+      "updatedAt": "2025-01-20T00:00:00.000Z"
     },
     {
       "id": "docks-woodland-beach-fishing-pier",
@@ -147,14 +147,6 @@
       "category": "bridges",
       "title": "Richardson Park Boardwalk",
       "image": "/images/giralt/pedestrian_bridges/richardson_park_boardwalk.jpg",
-      "createdAt": "2025-01-20T00:00:00.000Z",
-      "updatedAt": "2025-01-20T00:00:00.000Z"
-    },
-    {
-      "id": "gangways-marina-gangway",
-      "category": "docks",
-      "title": "Marina Gangway",
-      "image": "/images/giralt/gangways/long_key_natural_area_gangway.jpg",
       "createdAt": "2025-01-20T00:00:00.000Z",
       "updatedAt": "2025-01-20T00:00:00.000Z"
     },
