@@ -40,19 +40,19 @@
   "images": [
     {
       "id": "handrails-pedestrian-bridge",
-      "category": "handrails",
-      "title": "Pedestrian Bridge",
+      "category": "docks",
+      "title": "Atlantic Village",
       "image": "/images/giralt/handrails/pedestrian_bridge.jpg",
       "createdAt": "2025-01-20T00:00:00.000Z",
-      "updatedAt": "2025-01-20T00:00:00.000Z"
+      "updatedAt": "2025-12-17T13:31:25.461Z"
     },
     {
       "id": "handrails-griffin-road",
-      "category": "handrails",
+      "category": "seawalls",
       "title": "Griffin Road",
       "image": "/images/giralt/handrails/griffin_road.jpg",
       "createdAt": "2025-01-20T00:00:00.000Z",
-      "updatedAt": "2025-01-20T00:00:00.000Z"
+      "updatedAt": "2025-12-15T21:26:06.454Z"
     },
     {
       "id": "handrails-donald-ross-road",
@@ -84,7 +84,7 @@
       "title": "Lake Park Marina",
       "image": "/images/giralt/handrails/lake_park_marina_handrail.jpg",
       "createdAt": "2025-01-20T00:00:00.000Z",
-      "updatedAt": "2025-01-20T00:00:00.000Z"
+      "updatedAt": "2025-12-17T17:20:37.853Z"
     },
     {
       "id": "handrails-long-key-natural-area",
@@ -135,14 +135,6 @@
       "updatedAt": "2025-01-20T00:00:00.000Z"
     },
     {
-      "id": "docks-miramar-floating-gazebo",
-      "category": "docks",
-      "title": "Miramar Floating Gazebo",
-      "image": "/images/giralt/docks/miramar_floating_gazebo.jpg",
-      "createdAt": "2025-01-20T00:00:00.000Z",
-      "updatedAt": "2025-01-20T00:00:00.000Z"
-    },
-    {
       "id": "bridges-long-key-natural-area",
       "category": "bridges",
       "title": "Long Key Natural Area",
@@ -159,36 +151,20 @@
       "updatedAt": "2025-01-20T00:00:00.000Z"
     },
     {
-      "id": "gangways-marina-gangway",
-      "category": "docks",
-      "title": "Marina Gangway",
-      "image": "/images/giralt/gangways/long_key_natural_area_gangway.jpg",
-      "createdAt": "2025-01-20T00:00:00.000Z",
-      "updatedAt": "2025-01-20T00:00:00.000Z"
-    },
-    {
-      "id": "gangways-aluminum-ramp",
-      "category": "docks",
-      "title": "Aluminum Ramp",
-      "image": "/images/giralt/gangways/richardson_park_gangway.jpg",
-      "createdAt": "2025-01-20T00:00:00.000Z",
-      "updatedAt": "2025-12-15T17:28:19.263Z"
-    },
-    {
       "id": "bullet-railings-detail",
       "category": "bullet-railings",
-      "title": "Bullet Railing Detail",
+      "title": "2-Line Bullet Railing ",
       "image": "/Bullet Railing /Painted Bullet Rail.jpg",
       "createdAt": "2025-01-20T00:00:00.000Z",
-      "updatedAt": "2025-01-20T00:00:00.000Z"
+      "updatedAt": "2025-12-17T17:21:54.028Z"
     },
     {
       "id": "bullet-railings-marina",
       "category": "bullet-railings",
-      "title": "Bullet Railing Marina",
+      "title": "3-Line Bullet Railing ",
       "image": "/Bullet Railing /SR-70.jpg",
       "createdAt": "2025-01-20T00:00:00.000Z",
-      "updatedAt": "2025-01-20T00:00:00.000Z"
+      "updatedAt": "2025-12-17T17:33:28.279Z"
     },
     {
       "id": "two-three-line-railings-2-line",
@@ -201,18 +177,10 @@
     {
       "id": "two-three-line-railings-3-line",
       "category": "two-three-line-railings",
-      "title": "3-Line Railing",
+      "title": "2-Line Railing",
       "image": "/2-Line and 3- line rail/IMG_0026.jpg",
       "createdAt": "2025-01-20T00:00:00.000Z",
-      "updatedAt": "2025-12-15T17:31:08.742Z"
-    },
-    {
-      "id": "floating-docks-miramar-floating-gazebo",
-      "category": "floating-docks",
-      "title": "Miramar Floating Gazebo",
-      "image": "/images/giralt/floating_docks/miramar_floating_gazebo.jpg",
-      "createdAt": "2025-01-20T00:00:00.000Z",
-      "updatedAt": "2025-01-20T00:00:00.000Z"
+      "updatedAt": "2025-12-17T17:34:02.280Z"
     },
     {
       "id": "floating-docks-woodland-beach-pier",
@@ -232,11 +200,11 @@
     },
     {
       "id": "docks-installation-detail",
-      "category": "docks",
-      "title": "Installation Detail",
+      "category": "attenuators",
+      "title": "Haulover Park",
       "image": "/images/giralt/seawalls/installation_detail.jpg",
       "createdAt": "2025-01-20T00:00:00.000Z",
-      "updatedAt": "2025-01-20T00:00:00.000Z"
+      "updatedAt": "2025-12-17T17:24:00.398Z"
     },
     {
       "id": "seawalls-chula-vista-canal",
@@ -257,10 +225,10 @@
     {
       "id": "attenuators-haulover",
       "category": "attenuators",
-      "title": "Haulover",
+      "title": "Haulover Park",
       "image": "/images/giralt/wave_attenuators/haulover.jpg",
       "createdAt": "2025-01-20T00:00:00.000Z",
-      "updatedAt": "2025-01-20T00:00:00.000Z"
+      "updatedAt": "2025-12-17T17:22:58.698Z"
     },
     {
       "category": "docks",
@@ -272,11 +240,11 @@
     },
     {
       "category": "boardwalks",
-      "title": "Woodland Beach   Fishing Pier",
+      "title": "Fort DeSoto Fishing Pier",
       "image": "/images/giralt/docks/1765644103458_Shoreline_St_Pete-boardwalks.jpg",
       "id": "docks-woodland-beach-fishing-pier-1",
       "createdAt": "2025-12-13T16:41:44.297Z",
-      "updatedAt": "2025-12-13T16:47:11.328Z"
+      "updatedAt": "2025-12-17T13:54:09.868Z"
     },
     {
       "category": "boardwalks",
@@ -285,6 +253,78 @@
       "id": "boardwalks-miramar-pinelands",
       "createdAt": "2025-12-13T17:31:11.568Z",
       "updatedAt": "2025-12-13T17:31:11.568Z"
+    },
+    {
+      "category": "docks",
+      "title": "Miramar Pinelands ",
+      "image": "/images/giralt/docks/1765835142837_Miramar_Pinelands_6.jpg",
+      "id": "docks-miramar-pinelands-6",
+      "createdAt": "2025-12-15T21:45:43.974Z",
+      "updatedAt": "2025-12-17T13:36:29.316Z"
+    },
+    {
+      "category": "docks",
+      "title": "J.Dewey Hawkings Landing",
+      "image": "/images/giralt/docks/1765835223216_Richardson_Park_0002-Red.jpg",
+      "id": "docks-richardson-park-0002-red",
+      "createdAt": "2025-12-15T21:47:04.185Z",
+      "updatedAt": "2025-12-17T13:38:12.251Z"
+    },
+    {
+      "category": "docks",
+      "title": "J.Dewey Hawkings Landing",
+      "image": "/images/giralt/docks/1765835261708_IMG_0438.JPG",
+      "id": "docks-richardson-park-0003",
+      "createdAt": "2025-12-15T21:47:42.904Z",
+      "updatedAt": "2025-12-17T13:38:19.758Z"
+    },
+    {
+      "category": "floating-docks",
+      "title": "Port Everglades",
+      "image": "/images/giralt/floating_docks/1765835348709_IMG_1151.jpg",
+      "id": "floating-docks-img-1151",
+      "createdAt": "2025-12-15T21:49:09.682Z",
+      "updatedAt": "2025-12-16T13:52:47.838Z"
+    },
+    {
+      "category": "two-three-line-railings",
+      "title": "SW 97 Ave ",
+      "image": "/images/giralt/two_three_line_railings/1765835423285_SW_97_Ave-2.jpg",
+      "id": "two-three-line-railings-sw-97-ave-2",
+      "createdAt": "2025-12-15T21:50:24.285Z",
+      "updatedAt": "2025-12-16T13:53:12.523Z"
+    },
+    {
+      "category": "handrails",
+      "title": "Pinellas Trail",
+      "image": "/images/giralt/handrails/1765835482923_401235-Red.jpg",
+      "id": "handrails-401235-red",
+      "createdAt": "2025-12-15T21:51:23.862Z",
+      "updatedAt": "2025-12-17T13:41:03.501Z"
+    },
+    {
+      "category": "bridges",
+      "title": "Palm Beach Pedestrian Bridge",
+      "image": "/images/giralt/bridges/1765993680614_Palm_Beach_Pedestrian_Bridge.jpg",
+      "id": "bridges-palm-beach-pedestrian-bridge",
+      "createdAt": "2025-12-17T17:48:01.440Z",
+      "updatedAt": "2025-12-17T17:48:01.440Z"
+    },
+    {
+      "category": "bridges",
+      "title": "PHOTO 2025 02 25 11 58 31",
+      "image": "/images/giralt/bridges/1766006757010_PHOTO-2025-02-25-11-58-31.jpg",
+      "id": "bridges-photo-2025-02-25-11-58-31",
+      "createdAt": "2025-12-17T21:25:57.915Z",
+      "updatedAt": "2025-12-17T21:25:57.915Z"
+    },
+    {
+      "category": "bridges",
+      "title": "Dr. Von Mitzell Jetty",
+      "image": "/images/giralt/bridges/1766007112257_PHOTO-2025-02-25-11-58-27.jpg",
+      "id": "bridges-photo-2025-02-25-11-58-27",
+      "createdAt": "2025-12-17T21:31:53.219Z",
+      "updatedAt": "2025-12-17T21:33:12.374Z"
     }
   ]
 }
