@@ -260,9 +260,9 @@ export default function GalleryPage() {
 	const fetchGalleryData = useCallback(async () => {
 		try {
 			const response = await fetch("/api/gallery", {
-				cache: 'no-store',
+				cache: "no-store",
 				headers: {
-					'Cache-Control': 'no-cache',
+					"Cache-Control": "no-cache",
 				},
 			});
 			if (!response.ok) {
@@ -379,25 +379,28 @@ export default function GalleryPage() {
 	};
 
 	// Handle image load to detect and scale small images
-	const handleImageLoad = (e: React.SyntheticEvent<HTMLImageElement>, imageUrl: string) => {
+	const handleImageLoad = (
+		e: React.SyntheticEvent<HTMLImageElement>,
+		imageUrl: string,
+	) => {
 		const img = e.currentTarget;
 		const viewportHeight = window.innerHeight;
 		const viewportWidth = window.innerWidth;
 		const minViewportSize = Math.min(viewportHeight, viewportWidth);
 		const minDisplaySize = minViewportSize * 0.6; // 60% of smaller viewport dimension
-		
+
 		const naturalHeight = img.naturalHeight;
 		const naturalWidth = img.naturalWidth;
 		const naturalSize = Math.min(naturalHeight, naturalWidth);
-		
+
 		// If image is smaller than minimum display size, calculate scale factor
 		if (naturalSize > 0 && naturalSize < minDisplaySize) {
 			const scale = minDisplaySize / naturalSize;
 			// Cap scale at 3x to avoid excessive upscaling
 			const cappedScale = Math.min(scale, 3);
-			setImageScales(prev => ({ ...prev, [imageUrl]: cappedScale }));
+			setImageScales((prev) => ({ ...prev, [imageUrl]: cappedScale }));
 		} else {
-			setImageScales(prev => ({ ...prev, [imageUrl]: 1 }));
+			setImageScales((prev) => ({ ...prev, [imageUrl]: 1 }));
 		}
 	};
 
@@ -405,23 +408,26 @@ export default function GalleryPage() {
 	const renderItem = (item: { original: string; originalAlt?: string }) => {
 		const scale = imageScales[item.original] || 1;
 		const needsScaling = scale > 1;
-		
+
 		return (
-			<div className="relative w-full h-full flex items-center justify-center" style={{ minHeight: '100%' }}>
+			<div
+				className="relative w-full h-full flex items-center justify-center"
+				style={{ minHeight: "100%" }}
+			>
 				<img
 					src={item.original}
 					alt={item.originalAlt || ""}
 					className="object-contain"
 					style={{
-						maxHeight: '100%',
-						maxWidth: '100%',
-						minHeight: needsScaling ? '60vh' : 'auto',
-						minWidth: needsScaling ? '60vw' : 'auto',
-						width: needsScaling ? 'auto' : 'auto',
-						height: needsScaling ? 'auto' : 'auto',
-						transform: needsScaling ? `scale(${scale})` : 'none',
-						imageRendering: needsScaling ? 'high-quality' : 'auto',
-						position: 'relative',
+						maxHeight: "100%",
+						maxWidth: "100%",
+						minHeight: needsScaling ? "60vh" : "auto",
+						minWidth: needsScaling ? "60vw" : "auto",
+						width: needsScaling ? "auto" : "auto",
+						height: needsScaling ? "auto" : "auto",
+						transform: needsScaling ? `scale(${scale})` : "none",
+						imageRendering: needsScaling ? "high-quality" : "auto",
+						position: "relative",
 					}}
 					onLoad={(e) => handleImageLoad(e, item.original)}
 				/>

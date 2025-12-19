@@ -1,9 +1,9 @@
 "use client";
 
 import { CheckCircle2, Loader2, Upload, X } from "lucide-react";
-import { toast } from "sonner";
 import Image from "next/image";
 import { useRef, useState } from "react";
+import { toast } from "sonner";
 import { Alert, AlertDescription } from "@/components/ui/alert";
 import { Button } from "@/components/ui/button";
 import {
@@ -107,9 +107,9 @@ export function ImageUpload({ categories, onSuccess }: ImageUploadProps) {
 		setUploading(true);
 		setError("");
 		setSuccess(false);
-		
-		const loadingToast = toast.loading('Uploading image...', {
-			description: 'Please wait while we upload and commit your image.',
+
+		const loadingToast = toast.loading("Uploading image...", {
+			description: "Please wait while we upload and commit your image.",
 		});
 
 		try {
@@ -122,6 +122,16 @@ export function ImageUpload({ categories, onSuccess }: ImageUploadProps) {
 				method: "POST",
 				body: formData,
 			});
+
+			// Check if the response is JSON before trying to parse it
+			const contentType = uploadResponse.headers.get("content-type");
+			if (!contentType || !contentType.includes("application/json")) {
+				const textResponse = await uploadResponse.text();
+				console.error("Non-JSON response:", textResponse.substring(0, 500));
+				throw new Error(
+					`Server returned non-JSON response (${uploadResponse.status}). This might be an authentication or server error. Check browser console for details.`,
+				);
+			}
 
 			if (!uploadResponse.ok) {
 				const errorData = await uploadResponse.json();
@@ -168,10 +178,10 @@ export function ImageUpload({ categories, onSuccess }: ImageUploadProps) {
 			}
 
 			const result = await createResponse.json();
-			
+
 			// Dismiss loading toast
 			toast.dismiss(loadingToast);
-			
+
 			setSuccess(true);
 			setFile(null);
 			setPreview(null);
@@ -182,13 +192,13 @@ export function ImageUpload({ categories, onSuccess }: ImageUploadProps) {
 			}
 
 			if (result.commitSuccess) {
-				toast.success('Image uploaded and live!', {
+				toast.success("Image uploaded and live!", {
 					description: `"${title}" is now visible on the frontend. Changes are reflected immediately across all pages including the gallery and product pages.`,
 					icon: <CheckCircle2 className="h-5 w-5" />,
 					duration: 5000,
 				});
 			} else {
-				toast.warning('Image uploaded locally', {
+				toast.warning("Image uploaded locally", {
 					description: `"${title}" has been uploaded but may take a few minutes to appear on the frontend.`,
 					duration: 5000,
 				});

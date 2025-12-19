@@ -1,283 +1,345 @@
-'use client'
+"use client";
 
-import { Navigation } from '@/components/navigation'
-import { Footer } from '@/components/footer'
-import { Card, CardContent } from '@/components/ui/card'
-import { Badge } from '@/components/ui/badge'
-import { Button } from '@/components/ui/button'
-import { Dialog, DialogContent, DialogTrigger } from '@/components/ui/dialog'
-import Link from 'next/link'
-import Image from 'next/image'
-import { useEffect, useState } from 'react'
-import { Shield, AlertCircle } from 'lucide-react'
+import { AlertCircle, Shield } from "lucide-react";
+import Image from "next/image";
+import Link from "next/link";
+import { useEffect, useState } from "react";
+import { Footer } from "@/components/footer";
+import { Navigation } from "@/components/navigation";
+import { Badge } from "@/components/ui/badge";
+import { Button } from "@/components/ui/button";
+import { Card, CardContent } from "@/components/ui/card";
+import { Dialog, DialogContent, DialogTrigger } from "@/components/ui/dialog";
 
 interface GalleryImage {
-  id: string
-  category: string
-  title: string
-  image: string
+	id: string;
+	category: string;
+	title: string;
+	image: string;
 }
 
 export default function SeawallsPage() {
-  const [installations, setInstallations] = useState<Array<{ name: string; image: string }>>([])
-  const [loading, setLoading] = useState(true)
+	const [installations, setInstallations] = useState<
+		Array<{ name: string; image: string }>
+	>([]);
+	const [loading, setLoading] = useState(true);
 
-  useEffect(() => {
-    const fetchImages = async () => {
-      try {
-        const res = await fetch('/api/gallery', {
-          cache: 'no-store',
-          headers: {
-            'Cache-Control': 'no-cache',
-          },
-        })
-        const data = await res.json()
-        const seawallImages = (data.images || []).filter(
-          (img: GalleryImage) => img.category === 'seawalls'
-        )
-        
-        const installationData = seawallImages.map((img: GalleryImage) => ({
-          name: img.title,
-          image: img.image,
-        }))
-        
-        setInstallations(installationData)
-      } catch (error) {
-        console.error('Error fetching images:', error)
-        setInstallations([])
-      } finally {
-        setLoading(false)
-      }
-    }
-    fetchImages()
-  }, [])
+	useEffect(() => {
+		const fetchImages = async () => {
+			try {
+				const res = await fetch("/api/gallery", {
+					cache: "no-store",
+					headers: {
+						"Cache-Control": "no-cache",
+					},
+				});
+				const data = await res.json();
+				const seawallImages = (data.images || []).filter(
+					(img: GalleryImage) => img.category === "seawalls",
+				);
 
-  const materials = [
-    {
-      name: 'Aluminum',
-      description: 'Superior corrosion resistance and strength for harsh environments',
-      features: ['High durability', 'Low maintenance', 'Lightweight installation']
-    },
-    {
-      name: 'Vinyl',
-      description: 'Cost-effective solution with excellent chemical resistance',
-      features: ['Budget friendly', 'Chemical resistant', 'Easy installation']
-    },
-    {
-      name: 'FRP (Fiber Reinforced Plastic)',
-      description: 'High strength-to-weight ratio with superior corrosion resistance',
-      features: ['Extremely durable', 'Corrosion proof', 'Long lifespan']
-    },
-  ]
+				const installationData = seawallImages.map((img: GalleryImage) => ({
+					name: img.title,
+					image: img.image,
+				}));
 
-  return (
-    <div className="min-h-screen">
-      <Navigation />
+				setInstallations(installationData);
+			} catch (error) {
+				console.error("Error fetching images:", error);
+				setInstallations([]);
+			} finally {
+				setLoading(false);
+			}
+		};
+		fetchImages();
+	}, []);
 
-      {/* Hero */}
-      <section className="relative bg-gradient-to-br from-primary to-accent text-primary-foreground py-20">
-        <div className="container mx-auto px-4">
-          <div className="max-w-4xl">
-            <div className="flex items-center gap-2 mb-4">
-              <Shield size={32} />
-              <Badge variant="secondary" className="bg-primary-foreground/10 text-primary-foreground border-primary-foreground/20">
-                Marine Protection
-              </Badge>
-            </div>
-            <h1 className="text-4xl md:text-5xl font-bold mb-6">
-              Seawall Materials & Systems
-            </h1>
-            <p className="text-xl text-primary-foreground/90 leading-relaxed">
-              We have 3 types of seawall materials available: Aluminum, Vinyl and FRP (Fiber Reinforced Plastic). Normally the site conditions will determine the best material to use.
-            </p>
-          </div>
-        </div>
-      </section>
+	const materials = [
+		{
+			name: "Aluminum",
+			description:
+				"Superior corrosion resistance and strength for harsh environments",
+			features: [
+				"High durability",
+				"Low maintenance",
+				"Lightweight installation",
+			],
+		},
+		{
+			name: "Vinyl",
+			description: "Cost-effective solution with excellent chemical resistance",
+			features: ["Budget friendly", "Chemical resistant", "Easy installation"],
+		},
+		{
+			name: "FRP (Fiber Reinforced Plastic)",
+			description:
+				"High strength-to-weight ratio with superior corrosion resistance",
+			features: ["Extremely durable", "Corrosion proof", "Long lifespan"],
+		},
+	];
 
-      {/* Important Notice */}
-      <section className="py-12 bg-destructive/10">
-        <div className="container mx-auto px-4">
-          <Card className="border-2 border-destructive/30 max-w-4xl mx-auto">
-            <CardContent className="pt-6">
-              <div className="flex items-start gap-4">
-                <AlertCircle className="text-destructive flex-shrink-0 mt-1" size={24} />
-                <div>
-                  <h3 className="font-semibold text-lg mb-2">Important: Soils Information Required</h3>
-                  <p className="text-muted-foreground leading-relaxed">
-                    Good soils information is essential to a good seawall design. Without it, we are only guessing. We strongly urge you to obtain reliable soils information before attempting to design and/or install any seawall or sheet piling retaining wall.
-                  </p>
-                </div>
-              </div>
-            </CardContent>
-          </Card>
-        </div>
-      </section>
+	return (
+		<div className="min-h-screen">
+			<Navigation />
 
-      {/* Materials */}
-      <section className="py-20">
-        <div className="container mx-auto px-4">
-          <h2 className="text-3xl font-bold mb-8 text-center">Material Options</h2>
-          <p className="text-xl text-muted-foreground text-center mb-12 max-w-3xl mx-auto">
-            We can make recommendations based on engineering analysis and years of experience
-          </p>
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-6 max-w-6xl mx-auto">
-            {materials.map((material) => (
-              <Card key={material.name} className="border-2 hover:shadow-xl transition-shadow">
-                <CardContent className="pt-6">
-                  <h3 className="text-2xl font-bold mb-3">{material.name}</h3>
-                  <p className="text-muted-foreground mb-6">{material.description}</p>
-                  <div className="space-y-2">
-                    {material.features.map((feature) => (
-                      <div key={feature} className="flex items-center text-sm">
-                        <div className="w-1.5 h-1.5 rounded-full bg-primary mr-2" />
-                        {feature}
-                      </div>
-                    ))}
-                  </div>
-                </CardContent>
-              </Card>
-            ))}
-          </div>
-        </div>
-      </section>
+			{/* Hero */}
+			<section className="relative bg-gradient-to-br from-primary to-accent text-primary-foreground py-20">
+				<div className="container mx-auto px-4">
+					<div className="max-w-4xl">
+						<div className="flex items-center gap-2 mb-4">
+							<Shield size={32} />
+							<Badge
+								variant="secondary"
+								className="bg-primary-foreground/10 text-primary-foreground border-primary-foreground/20"
+							>
+								Marine Protection
+							</Badge>
+						</div>
+						<h1 className="text-4xl md:text-5xl font-bold mb-6">
+							Seawall Materials & Systems
+						</h1>
+						<p className="text-xl text-primary-foreground/90 leading-relaxed">
+							We have 3 types of seawall materials available: Aluminum, Vinyl
+							and FRP (Fiber Reinforced Plastic). Normally the site conditions
+							will determine the best material to use.
+						</p>
+					</div>
+				</div>
+			</section>
 
-      {/* Installation Gallery */}
-      <section className="py-20 bg-secondary/30">
-        <div className="container mx-auto px-4">
-          <h2 className="text-3xl font-bold mb-8 text-center">Installation Examples</h2>
-          {loading ? (
-            <div className="text-center py-12">
-              <p className="text-muted-foreground">Loading installations...</p>
-            </div>
-          ) : installations.length === 0 ? (
-            <div className="text-center py-12">
-              <p className="text-muted-foreground">No installation examples available</p>
-            </div>
-          ) : (
-            <div className="grid grid-cols-1 md:grid-cols-3 gap-6 max-w-6xl mx-auto">
-              {installations.map((installation) => (
-              <Dialog key={installation.name}>
-                <DialogTrigger asChild>
-                  <Card className="overflow-hidden hover:shadow-xl transition-shadow cursor-pointer">
-                    <div className="relative h-64">
-                      <Image
-                        src={installation.image || "/placeholder.svg"}
-                        alt={installation.name}
-                        fill
-                        className="object-cover"
-                      />
-                    </div>
-                    <CardContent className="pt-4">
-                      <h3 className="font-semibold text-center">{installation.name}</h3>
-                    </CardContent>
-                  </Card>
-                </DialogTrigger>
-                <DialogContent className="max-w-5xl p-0" showCloseButton={true}>
-                  <div className="relative w-full" style={{ minHeight: '400px', maxHeight: '90vh' }}>
-                    <Image
-                      src={installation.image || "/placeholder.svg"}
-                      alt={installation.name}
-                      fill
-                      className="object-contain"
-                      sizes="(max-width: 1280px) 100vw, 1280px"
-                    />
-                  </div>
-                  <div className="p-4 border-t">
-                    <h3 className="font-semibold text-center text-lg">{installation.name}</h3>
-                  </div>
-                </DialogContent>
-              </Dialog>
-              ))}
-            </div>
-          )}
-        </div>
-      </section>
+			{/* Important Notice */}
+			<section className="py-12 bg-destructive/10">
+				<div className="container mx-auto px-4">
+					<Card className="border-2 border-destructive/30 max-w-4xl mx-auto">
+						<CardContent className="pt-6">
+							<div className="flex items-start gap-4">
+								<AlertCircle
+									className="text-destructive flex-shrink-0 mt-1"
+									size={24}
+								/>
+								<div>
+									<h3 className="font-semibold text-lg mb-2">
+										Important: Soils Information Required
+									</h3>
+									<p className="text-muted-foreground leading-relaxed">
+										Good soils information is essential to a good seawall
+										design. Without it, we are only guessing. We strongly urge
+										you to obtain reliable soils information before attempting
+										to design and/or install any seawall or sheet piling
+										retaining wall.
+									</p>
+								</div>
+							</div>
+						</CardContent>
+					</Card>
+				</div>
+			</section>
 
-      {/* Product Systems */}
-      <section className="py-20 bg-secondary/30">
-        <div className="container mx-auto px-4">
-          <div className="max-w-4xl mx-auto">
-            <h2 className="text-3xl font-bold mb-8">Available Systems</h2>
-            <div className="space-y-6">
-              <Card>
-                <CardContent className="pt-6">
-                  <h3 className="text-xl font-semibold mb-3">Elite Wall Facing System</h3>
-                  <p className="text-muted-foreground mb-4">
-                    Premium seawall system with advanced engineering and superior performance
-                  </p>
-                </CardContent>
-              </Card>
-              <Card>
-                <CardContent className="pt-6">
-                  <h3 className="text-xl font-semibold mb-3">Shoreguard Sheet Piling</h3>
-                  <p className="text-muted-foreground mb-4">
-                    Reliable sheet piling solutions for various site conditions
-                  </p>
-                </CardContent>
-              </Card>
-            </div>
-            <div className="mt-8">
-              <Card>
-                <CardContent className="pt-6">
-                  <p className="text-muted-foreground mb-6">
-                    For technical specifications, assembly details, and drawings for our seawall systems, please contact us:
-                  </p>
-                  <Button size="lg" className="w-full" asChild>
-                    <Link href="/contact">Contact Us for Technical Resources</Link>
-                  </Button>
-                </CardContent>
-              </Card>
-            </div>
-          </div>
-        </div>
-      </section>
+			{/* Materials */}
+			<section className="py-20">
+				<div className="container mx-auto px-4">
+					<h2 className="text-3xl font-bold mb-8 text-center">
+						Material Options
+					</h2>
+					<p className="text-xl text-muted-foreground text-center mb-12 max-w-3xl mx-auto">
+						We can make recommendations based on engineering analysis and years
+						of experience
+					</p>
+					<div className="grid grid-cols-1 md:grid-cols-3 gap-6 max-w-6xl mx-auto">
+						{materials.map((material) => (
+							<Card
+								key={material.name}
+								className="border-2 hover:shadow-xl transition-shadow"
+							>
+								<CardContent className="pt-6">
+									<h3 className="text-2xl font-bold mb-3">{material.name}</h3>
+									<p className="text-muted-foreground mb-6">
+										{material.description}
+									</p>
+									<div className="space-y-2">
+										{material.features.map((feature) => (
+											<div key={feature} className="flex items-center text-sm">
+												<div className="w-1.5 h-1.5 rounded-full bg-primary mr-2" />
+												{feature}
+											</div>
+										))}
+									</div>
+								</CardContent>
+							</Card>
+						))}
+					</div>
+				</div>
+			</section>
 
-      {/* Engineering Support */}
-      <section className="py-20">
-        <div className="container mx-auto px-4">
-          <div className="max-w-4xl mx-auto text-center">
-            <h2 className="text-3xl font-bold mb-6">Complete Engineering Support</h2>
-            <p className="text-xl text-muted-foreground mb-8">
-              Site conditions determine the best material to use. Our engineering analysis and decades of experience ensure optimal seawall performance for your specific location.
-            </p>
-            <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
-              <Card>
-                <CardContent className="pt-6">
-                  <h3 className="font-semibold mb-2">Site Analysis</h3>
-                  <p className="text-sm text-muted-foreground">Comprehensive evaluation of site conditions</p>
-                </CardContent>
-              </Card>
-              <Card>
-                <CardContent className="pt-6">
-                  <h3 className="font-semibold mb-2">Material Selection</h3>
-                  <p className="text-sm text-muted-foreground">Expert recommendations based on requirements</p>
-                </CardContent>
-              </Card>
-              <Card>
-                <CardContent className="pt-6">
-                  <h3 className="font-semibold mb-2">Design Support</h3>
-                  <p className="text-sm text-muted-foreground">Full engineering design and specifications</p>
-                </CardContent>
-              </Card>
-            </div>
-          </div>
-        </div>
-      </section>
+			{/* Installation Gallery */}
+			<section className="py-20 bg-secondary/30">
+				<div className="container mx-auto px-4">
+					<h2 className="text-3xl font-bold mb-8 text-center">
+						Installation Examples
+					</h2>
+					{loading ? (
+						<div className="text-center py-12">
+							<p className="text-muted-foreground">Loading installations...</p>
+						</div>
+					) : installations.length === 0 ? (
+						<div className="text-center py-12">
+							<p className="text-muted-foreground">
+								No installation examples available
+							</p>
+						</div>
+					) : (
+						<div className="grid grid-cols-1 md:grid-cols-3 gap-6 max-w-6xl mx-auto">
+							{installations.map((installation) => (
+								<Dialog key={installation.name}>
+									<DialogTrigger asChild>
+										<Card className="overflow-hidden hover:shadow-xl transition-shadow cursor-pointer">
+											<div className="relative h-64">
+												<Image
+													src={installation.image || "/placeholder.svg"}
+													alt={installation.name}
+													fill
+													className="object-cover"
+												/>
+											</div>
+											<CardContent className="pt-4">
+												<h3 className="font-semibold text-center">
+													{installation.name}
+												</h3>
+											</CardContent>
+										</Card>
+									</DialogTrigger>
+									<DialogContent
+										className="max-w-5xl p-0"
+										showCloseButton={true}
+									>
+										<div
+											className="relative w-full"
+											style={{ minHeight: "400px", maxHeight: "90vh" }}
+										>
+											<Image
+												src={installation.image || "/placeholder.svg"}
+												alt={installation.name}
+												fill
+												className="object-contain"
+												sizes="(max-width: 1280px) 100vw, 1280px"
+											/>
+										</div>
+										<div className="p-4 border-t">
+											<h3 className="font-semibold text-center text-lg">
+												{installation.name}
+											</h3>
+										</div>
+									</DialogContent>
+								</Dialog>
+							))}
+						</div>
+					)}
+				</div>
+			</section>
 
-      {/* CTA */}
-      <section className="py-20 bg-gradient-to-r from-primary to-accent text-primary-foreground">
-        <div className="container mx-auto px-4 text-center">
-          <h2 className="text-3xl font-bold mb-4">Need a Seawall Solution?</h2>
-          <p className="text-xl text-primary-foreground/90 mb-8 max-w-2xl mx-auto">
-            Contact us for engineering analysis and material recommendations
-          </p>
-          <Button size="lg" variant="secondary" asChild>
-            <Link href="/contact">Request Consultation</Link>
-          </Button>
-        </div>
-      </section>
+			{/* Product Systems */}
+			<section className="py-20 bg-secondary/30">
+				<div className="container mx-auto px-4">
+					<div className="max-w-4xl mx-auto">
+						<h2 className="text-3xl font-bold mb-8">Available Systems</h2>
+						<div className="space-y-6">
+							<Card>
+								<CardContent className="pt-6">
+									<h3 className="text-xl font-semibold mb-3">
+										Elite Wall Facing System
+									</h3>
+									<p className="text-muted-foreground mb-4">
+										Premium seawall system with advanced engineering and
+										superior performance
+									</p>
+								</CardContent>
+							</Card>
+							<Card>
+								<CardContent className="pt-6">
+									<h3 className="text-xl font-semibold mb-3">
+										Shoreguard Sheet Piling
+									</h3>
+									<p className="text-muted-foreground mb-4">
+										Reliable sheet piling solutions for various site conditions
+									</p>
+								</CardContent>
+							</Card>
+						</div>
+						<div className="mt-8">
+							<Card>
+								<CardContent className="pt-6">
+									<p className="text-muted-foreground mb-6">
+										For technical specifications, assembly details, and drawings
+										for our seawall systems, please contact us:
+									</p>
+									<Button size="lg" className="w-full" asChild>
+										<Link href="/contact">
+											Contact Us for Technical Resources
+										</Link>
+									</Button>
+								</CardContent>
+							</Card>
+						</div>
+					</div>
+				</div>
+			</section>
 
-      <Footer />
-    </div>
-  )
+			{/* Engineering Support */}
+			<section className="py-20">
+				<div className="container mx-auto px-4">
+					<div className="max-w-4xl mx-auto text-center">
+						<h2 className="text-3xl font-bold mb-6">
+							Complete Engineering Support
+						</h2>
+						<p className="text-xl text-muted-foreground mb-8">
+							Site conditions determine the best material to use. Our
+							engineering analysis and decades of experience ensure optimal
+							seawall performance for your specific location.
+						</p>
+						<div className="grid grid-cols-1 md:grid-cols-3 gap-6">
+							<Card>
+								<CardContent className="pt-6">
+									<h3 className="font-semibold mb-2">Site Analysis</h3>
+									<p className="text-sm text-muted-foreground">
+										Comprehensive evaluation of site conditions
+									</p>
+								</CardContent>
+							</Card>
+							<Card>
+								<CardContent className="pt-6">
+									<h3 className="font-semibold mb-2">Material Selection</h3>
+									<p className="text-sm text-muted-foreground">
+										Expert recommendations based on requirements
+									</p>
+								</CardContent>
+							</Card>
+							<Card>
+								<CardContent className="pt-6">
+									<h3 className="font-semibold mb-2">Design Support</h3>
+									<p className="text-sm text-muted-foreground">
+										Full engineering design and specifications
+									</p>
+								</CardContent>
+							</Card>
+						</div>
+					</div>
+				</div>
+			</section>
+
+			{/* CTA */}
+			<section className="py-20 bg-gradient-to-r from-primary to-accent text-primary-foreground">
+				<div className="container mx-auto px-4 text-center">
+					<h2 className="text-3xl font-bold mb-4">Need a Seawall Solution?</h2>
+					<p className="text-xl text-primary-foreground/90 mb-8 max-w-2xl mx-auto">
+						Contact us for engineering analysis and material recommendations
+					</p>
+					<Button size="lg" variant="secondary" asChild>
+						<Link href="/contact">Request Consultation</Link>
+					</Button>
+				</div>
+			</section>
+
+			<Footer />
+		</div>
+	);
 }

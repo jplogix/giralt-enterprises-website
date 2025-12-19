@@ -25,9 +25,10 @@ export async function GET(request: NextRequest) {
 			}
 			return NextResponse.json(image, {
 				headers: {
-					'Cache-Control': 'no-store, no-cache, must-revalidate, proxy-revalidate',
-					'Pragma': 'no-cache',
-					'Expires': '0',
+					"Cache-Control":
+						"no-store, no-cache, must-revalidate, proxy-revalidate",
+					Pragma: "no-cache",
+					Expires: "0",
 				},
 			});
 		}
@@ -39,9 +40,10 @@ export async function GET(request: NextRequest) {
 
 		return NextResponse.json(images, {
 			headers: {
-				'Cache-Control': 'no-store, no-cache, must-revalidate, proxy-revalidate',
-				'Pragma': 'no-cache',
-				'Expires': '0',
+				"Cache-Control":
+					"no-store, no-cache, must-revalidate, proxy-revalidate",
+				Pragma: "no-cache",
+				Expires: "0",
 			},
 		});
 	} catch (error) {
@@ -70,10 +72,13 @@ export async function POST(request: NextRequest) {
 		}
 
 		const result = await addImage({ category, title, image });
-		return NextResponse.json({
-			...result.image,
-			commitSuccess: result.commitSuccess,
-		}, { status: 201 });
+		return NextResponse.json(
+			{
+				...result.image,
+				commitSuccess: result.commitSuccess,
+			},
+			{ status: 201 },
+		);
 	} catch (error) {
 		console.error("Error creating image:", error);
 		return NextResponse.json(
@@ -138,7 +143,7 @@ export async function DELETE(request: NextRequest) {
 			return NextResponse.json({ error: "Image not found" }, { status: 404 });
 		}
 
-		return NextResponse.json({ 
+		return NextResponse.json({
 			success: true,
 			commitSuccess: result.commitSuccess,
 		});

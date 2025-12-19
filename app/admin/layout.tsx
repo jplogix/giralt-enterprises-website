@@ -1,28 +1,27 @@
-'use client'
+"use client";
 
-import { usePathname } from 'next/navigation'
-import { Navigation } from '@/components/navigation'
-import { AuthWrapper } from '@/components/admin/auth-wrapper'
+import { usePathname } from "next/navigation";
+import { AuthWrapper } from "@/components/admin/auth-wrapper";
+import { Navigation } from "@/components/navigation";
 
 export default function AdminLayout({
-  children,
+	children,
 }: {
-  children: React.ReactNode
+	children: React.ReactNode;
 }) {
-  const pathname = usePathname()
-  const isLoginPage = pathname === '/admin/login'
+	const pathname = usePathname();
+	const isLoginPage = pathname === "/admin/login";
 
-  return (
-    <AuthWrapper>
-      {isLoginPage ? (
-        <>{children}</>
-      ) : (
-        <div className="min-h-screen">
-          <Navigation />
-          {children}
-        </div>
-      )}
-    </AuthWrapper>
-  )
+	return (
+		<AuthWrapper>
+			{isLoginPage ? (
+				children
+			) : (
+				<div className="min-h-screen">
+					<Navigation />
+					{children}
+				</div>
+			)}
+		</AuthWrapper>
+	);
 }
-

@@ -9,11 +9,20 @@ const ALLOWED_TYPES = ["image/jpeg", "image/jpg", "image/png", "image/webp"];
 
 export async function POST(request: NextRequest) {
 	try {
-		if (!(await isAuthenticated())) {
+		// Check authentication first
+		const authenticated = await isAuthenticated();
+		if (!authenticated) {
 			return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
 		}
 
-		const formData = await request.formData();
+		// Parse form data with error handling
+		let formData: FormData;
+		try {
+			formData = await request.formData();
+		} catch (error) {
+			console.error("Error parsing form data:", error);
+			return NextResponse.json({ error: "Invalid form data" }, { status: 400 });
+		}
 		const file = formData.get("file") as File;
 		const category = formData.get("category") as string;
 
@@ -109,15 +118,27 @@ export async function POST(request: NextRequest) {
 					? `Bearer ${githubToken}`
 					: `token ${githubToken}`;
 
-			const repoCheckResponse = await fetch(
-				`https://api.github.com/repos/${owner}/${repo}`,
-				{
-					headers: {
-						Authorization: authHeader,
-						Accept: "application/vnd.github.v3+json",
+			let repoCheckResponse: Response;
+			try {
+				repoCheckResponse = await fetch(
+					`https://api.github.com/repos/${owner}/${repo}`,
+					{
+						headers: {
+							Authorization: authHeader,
+							Accept: "application/vnd.github.v3+json",
+						},
 					},
-				},
-			);
+				);
+			} catch (networkError) {
+				console.error("GitHub API network error:", networkError);
+				return NextResponse.json(
+					{
+						error: "Failed to connect to GitHub API. Network error occurred.",
+						details: networkError instanceof Error ? networkError.message : String(networkError),
+					},
+					{ status: 503 },
+				);
+			}
 
 			if (!repoCheckResponse.ok) {
 				const repoError = await repoCheckResponse
@@ -139,8 +160,15 @@ export async function POST(request: NextRequest) {
 				) {
 					return NextResponse.json(
 						{
-							error:
-								"GitHub authentication failed. Please verify GITHUB_TOKEN has access to this repository.",
+							error: "GitHub authentication failed. Check GITHUB_TOKEN permissions.",
+							details: repoError.message,
+						},
+						{ status: repoCheckResponse.status },
+					);
+				} else {
+					return NextResponse.json(
+						{
+							error: "GitHub repository access failed",
 							details: repoError.message,
 						},
 						{ status: repoCheckResponse.status },
@@ -208,18 +236,30 @@ export async function POST(request: NextRequest) {
 				commitBody.sha = sha;
 			}
 
-			const commitResponse = await fetch(
-				`https://api.github.com/repos/${owner}/${repo}/contents/${filePath}`,
-				{
-					method: "PUT",
-					headers: {
-						Authorization: authHeader,
-						Accept: "application/vnd.github.v3+json",
-						"Content-Type": "application/json",
+			let commitResponse: Response;
+			try {
+				commitResponse = await fetch(
+					`https://api.github.com/repos/${owner}/${repo}/contents/${filePath}`,
+					{
+						method: "PUT",
+						headers: {
+							Authorization: authHeader,
+							Accept: "application/vnd.github.v3+json",
+							"Content-Type": "application/json",
+						},
+						body: JSON.stringify(commitBody),
 					},
-					body: JSON.stringify(commitBody),
-				},
-			);
+				);
+			} catch (networkError) {
+				console.error("GitHub API network error (commit):", networkError);
+				return NextResponse.json(
+					{
+						error: "Failed to commit image to GitHub. Network error occurred.",
+						details: networkError instanceof Error ? networkError.message : String(networkError),
+					},
+					{ status: 503 },
+				);
+			}
 
 			if (!commitResponse.ok) {
 				const error = await commitResponse
@@ -305,8 +345,12 @@ export async function POST(request: NextRequest) {
 		}
 	} catch (error) {
 		console.error("Upload error:", error);
+		const errorMessage = error instanceof Error ? error.message : String(error);
 		return NextResponse.json(
-			{ error: "Failed to upload file" },
+			{
+				error: "Failed to upload file",
+				details: errorMessage,
+			},
 			{ status: 500 },
 		);
 	}
