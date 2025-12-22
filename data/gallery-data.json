@@ -39,10 +39,6 @@
     {
       "id": "2-line-railing",
       "label": "2-Line Railing"
-    },
-    {
-      "id": "3-line-railing",
-      "label": "3-Line Railing"
     }
   ],
   "images": [
@@ -180,7 +176,7 @@
       "title": "2-Line Railing",
       "image": "/2-Line and 3- line rail/IMG_0025.jpg",
       "createdAt": "2025-01-20T00:00:00.000Z",
-      "updatedAt": "2025-01-20T00:00:00.000Z"
+      "updatedAt": "2025-12-22T17:16:36.793Z"
     },
     {
       "id": "two-three-line-railings-3-line",
