@@ -35,6 +35,10 @@
     {
       "id": "boardwalks",
       "label": "Boardwalks"
+    },
+    {
+      "id": "2-line-railing",
+      "label": "2-Line Railing"
     }
   ],
   "images": [
