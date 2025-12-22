@@ -39,6 +39,10 @@
     {
       "id": "2-line-railing",
       "label": "2-Line Railing"
+    },
+    {
+      "id": "3-line-railing",
+      "label": "3-Line Railing"
     }
   ],
   "images": [
