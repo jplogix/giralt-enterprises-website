@@ -21,7 +21,18 @@ export default function BlogCard({ post }: { post: Partial<Post> }) {
 					<div className="flex items-center space-x-2 text-sm text-muted-foreground mb-2">
 						{post.date && (
 							<time dateTime={post.date}>
-								{format(parseISO(post.date), "MMMM d, yyyy")}
+								{(() => {
+									try {
+										return format(
+											typeof post.date === "string"
+												? parseISO(post.date)
+												: (post.date as unknown as Date),
+											"MMMM d, yyyy",
+										);
+									} catch (e) {
+										return post.date;
+									}
+								})()}
 							</time>
 						)}
 					</div>

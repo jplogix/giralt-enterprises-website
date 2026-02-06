@@ -67,11 +67,24 @@ export function getPostBySlug(slug: string, fields: string[] = []) {
       items[field] = content;
     }
 
+    if (field === 'slug' && !items[field]) {
+      items[field] = realSlug;
+    }
+
     if (typeof data[field] !== 'undefined') {
-      // If the field is slug, only overwrite if we haven't set it yet or if it's special
-      items[field] = data[field];
+      // If the date is a Date object (common in YAML), convert it to an ISO string
+      if (data[field] instanceof Date) {
+        items[field] = data[field].toISOString().split('T')[0];
+      } else {
+        items[field] = data[field];
+      }
     }
   });
+
+  // Ensure slug is set even if not in fields
+  if (!items['slug']) {
+    items['slug'] = realSlug;
+  }
 
   return items as Partial<Post>;
 }

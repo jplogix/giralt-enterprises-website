@@ -83,7 +83,18 @@ export default async function PostPage({ params }: PostPageProps) {
 							<div className="flex items-center gap-2">
 								<Calendar className="h-4 w-4" />
 								<time dateTime={post.date}>
-									{format(parseISO(post.date), "MMMM d, yyyy")}
+									{(() => {
+										try {
+											return format(
+												typeof post.date === "string"
+													? parseISO(post.date)
+													: (post.date as unknown as Date),
+												"MMMM d, yyyy",
+											);
+										} catch (e) {
+											return post.date;
+										}
+									})()}
 								</time>
 							</div>
 						)}
