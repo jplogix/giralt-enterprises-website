@@ -56,35 +56,44 @@ export async function GET(request: Request) {
             
             // Function to send the message
             function send(origin) {
-               console.log("Sending token to origin:", origin);
+               console.log("Attempting to send token to opener at origin:", origin);
                var msgString = JSON.stringify(message);
-               window.opener.postMessage(msgString, origin);
                
-               // Also broadcast to * as a fallback for cross-subdomain/domain edge cases
-               if (origin !== "*") {
-                 window.opener.postMessage(msgString, "*");
+               try {
+                 window.opener.postMessage(msgString, origin);
+                 // Some old versions of Netlify/Decap CMS look for the raw object, not stringified
+                 window.opener.postMessage(message, origin);
+                 
+                 console.log("Messages sent.");
+               } catch (err) {
+                 console.error("Error sending postMessage:", err);
                }
                
-               document.getElementById('status').innerText = 'Authorized! Closing window...';
-               setTimeout(function() { window.close(); }, 1000);
+               document.getElementById('status').innerText = 'Authorized! Success message sent. If this window doesn\\'t close, please close it manually.';
+               setTimeout(function() { 
+                 console.log("Closing window...");
+                 window.close(); 
+               }, 2000);
             }
 
             // Standard handshake
             window.addEventListener("message", function(e) {
-               console.log("Handshake received from:", e.origin);
+               console.log("Handshake received from opener:", e.origin, e.data);
                send(e.origin);
             }, false);
 
             // Trigger the ready state
+            console.log("Pinging opener...");
             window.opener.postMessage("authorizing:github", "*");
             
             // Fallback for some browsers or configurations
             setTimeout(function() {
                if (document.getElementById('status').innerText === 'Authorizing...') {
-                  console.log(" हैंडशेक Timeout - trying fallback send to current origin");
+                  console.log("Handshake Timeout - trying fallback send to current origin and wildcard");
                   send(window.location.origin);
+                  send("*");
                }
-            }, 3000);
+            }, 4000);
           })()
         </script>
       </body>
