@@ -9,7 +9,7 @@ const nextConfig = {
   async rewrites() {
     return [
       {
-        source: '/blog-admin',
+        source: '/blog-admin/:path*',
         destination: '/blog-admin/index.html',
       },
     ];

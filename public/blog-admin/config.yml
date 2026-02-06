@@ -1,7 +1,7 @@
 backend:
   name: github
   repo: jplogix/giralt-enterprises-website
-  branch: mdx
+  branch: main
   auth_endpoint: api/auth/login
 
 media_folder: "public/images/blog"
