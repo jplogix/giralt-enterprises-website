@@ -19,12 +19,16 @@ export function getPostSlugs() {
   if (!fs.existsSync(postsDirectory)) {
     return [];
   }
-  return fs.readdirSync(postsDirectory);
+  return fs.readdirSync(postsDirectory).filter(file => file.endsWith('.mdx') || file.endsWith('.md'));
 }
 
 export function getPostBySlug(slug: string, fields: string[] = []) {
-  const realSlug = slug.replace(/\.mdx$/, '');
-  const fullPath = path.join(postsDirectory, `${realSlug}.mdx`);
+  const realSlug = slug.replace(/\.(mdx|md)$/, '');
+  let fullPath = path.join(postsDirectory, `${realSlug}.mdx`);
+  
+  if (!fs.existsSync(fullPath)) {
+    fullPath = path.join(postsDirectory, `${realSlug}.md`);
+  }
   
   if (!fs.existsSync(fullPath)) {
     throw new Error(`Post not found: ${slug}`);

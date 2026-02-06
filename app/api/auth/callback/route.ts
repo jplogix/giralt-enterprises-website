@@ -74,7 +74,11 @@ export async function GET(request: Request) {
                  console.error("Error sending formal postMessage:", err);
                }
                
-               document.getElementById('status').innerText = 'Authorized! Login message sent. You can now close this window.';
+               document.getElementById('status').innerText = 'Authorized! Closing window...';
+               setTimeout(function() { 
+                 console.log("Closing window...");
+                 window.close(); 
+               }, 1000);
             }
 
             window.addEventListener("message", function(e) {
@@ -91,7 +95,7 @@ export async function GET(request: Request) {
                   send(window.location.origin);
                   send("*");
                }
-            }, 6000);
+            }, 5000);
           })()
         </script>
       </body>

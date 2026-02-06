@@ -12,6 +12,8 @@ collections:
   - name: "blog"
     label: "Blog"
     folder: "content/blog"
+    extension: "mdx"
+    format: "frontmatter"
     create: true
     slug: "{{slug}}"
     fields:
