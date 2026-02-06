@@ -61,39 +61,36 @@ export async function GET(request: Request) {
                
                try {
                  window.opener.postMessage(msgString, origin);
-                 // Some old versions of Netlify/Decap CMS look for the raw object, not stringified
                  window.opener.postMessage(message, origin);
-                 
                  console.log("Messages sent.");
                } catch (err) {
                  console.error("Error sending postMessage:", err);
                }
                
-               document.getElementById('status').innerText = 'Authorized! Success message sent. If this window doesn\\'t close, please close it manually.';
+               document.getElementById('status').innerText = 'Authorized! Success message sent. PLEASE CLOSE THIS WINDOW MANUALLY TO FINALIZE LOGIN.';
+               /*
                setTimeout(function() { 
                  console.log("Closing window...");
                  window.close(); 
                }, 2000);
+               */
             }
 
-            // Standard handshake
             window.addEventListener("message", function(e) {
                console.log("Handshake received from opener:", e.origin, e.data);
                send(e.origin);
             }, false);
 
-            // Trigger the ready state
             console.log("Pinging opener...");
             window.opener.postMessage("authorizing:github", "*");
             
-            // Fallback for some browsers or configurations
             setTimeout(function() {
                if (document.getElementById('status').innerText === 'Authorizing...') {
                   console.log("Handshake Timeout - trying fallback send to current origin and wildcard");
                   send(window.location.origin);
                   send("*");
                }
-            }, 4000);
+            }, 6000);
           })()
         </script>
       </body>
