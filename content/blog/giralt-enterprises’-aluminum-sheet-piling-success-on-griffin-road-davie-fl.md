@@ -1,0 +1,41 @@
+---
+title: Giralt Enterprises’ Aluminum Sheet Piling Success on Griffin Road, Davie FL
+slug: Griffin Road Aluminum sheet piling
+date: 2026-02-06
+excerpt: In the early 2000s, Giralt Enterprises, Inc. played a key role in the
+  Griffin Road project west of University Drive in Davie, Florida, delivering a
+  cost‑effective and innovative solution for Florida Department of
+  Transportation (FDOT) infrastructure.
+author: Giralt Team
+published: true
+---
+In the early 2000s, [Giralt Enterprises](https://www.giraltenterprises.com/), Inc. played a key role in the Griffin Road project west of University Drive in Davie, Florida, delivering a cost‑effective and innovative solution for Florida Department of Transportation (FDOT) infrastructure.
+
+Originally designed using traditional concrete sheet piling, the project shifted to approximately 3,600 linear feet (LF) of aluminum sheet piling after the team proposed an approved material alternate to FDOT. This change, championed by Giralt Enterprises, reduced the project’s installed cost while maintaining structural integrity and constructability, with the work successfully completed in 2002.
+
+Why Aluminum Sheet Piling?
+Giralt Enterprises specializes in civil‑engineering construction products, including marine and coastal infrastructure materials such as sheet piling, [seawalls](https://www.giraltenterprises.com/products/seawalls), and shoreline‑protection systems. Their expertise in aluminum‑based products made them well‑positioned to demonstrate that aluminum sheet piling was a viable alternative to concrete on the Griffin Road alignment.
+
+Key advantages of aluminum sheet piling, as leveraged on this project, include:
+
+Lightweight and fast installation, which is ideal for urban corridors like Griffin Road in Davie, FL.
+
+Lower installed cost compared to traditional concrete or steel sheet piling in certain soil and water‑table conditions.
+
+Corrosion resistance in Florida’s coastal and high‑moisture environments, especially when alloys and coatings meet ASTM and Aluminum Association standards.
+
+By presenting these technical and economic benefits, Giralt Enterprises helped FDOT approve the aluminum‑piling alternate, demonstrating that innovation in materials selection can align with both safety and budget goals.
+
+Giralt Enterprises’ Role in the Davie Project
+Giralt Enterprises, based in Miami, Florida, has served as a manufacturer representative and distributor of civil‑engineering construction products since 1988, focusing on solutions for handrails, docks, piers, boardwalks, and sheet‑piling systems. Their product line includes aluminum sheet piling systems such as the ShoreGuard® Sheet Piling series, which are engineered to meet ASTM testing standards and standard engineering practice.
+
+On the Griffin Road project west of University Drive, Giralt Enterprises’ experience with aluminum and composite sheet piling allowed them to:
+
+* Provide technical data and design‑support documentation to justify the aluminum alternate.
+* Coordinate with contractors and FDOT to ensure constructability and compliance with Florida design standards.
+* Deliver a 3,600‑LF aluminum sheet‑piling solution that performed reliably over time, validating the long‑term suitability of aluminum in Florida roadway and drainage applications.
+
+**Conclusion: A Case Study in Material Innovation**
+The Griffin Road aluminum sheet‑piling project west of University Drive in Davie, FL, stands as a practical example of how Giralt Enterprises combines engineering expertise, product knowledge, and value‑engineering insight to improve Florida infrastructure.
+
+By successfully shifting from the originally designed concrete sheet piling to 3,600 LF of aluminum sheet piling, Giralt Enterprises helped the project achieve lower installed cost, faster construction, and long‑term performance, all within FDOT’s regulatory framework. This case can be referenced in future proposals, project narratives, and marketing content to showcase Giralt Enterprises’ capability in aluminum‑based sheet‑piling solutions for roadways, drainage, and coastal‑zone projects across Florida.
