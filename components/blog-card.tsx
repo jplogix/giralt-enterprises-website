@@ -1,34 +1,39 @@
-import Link from 'next/link';
-import { format, parseISO } from 'date-fns';
-import { Post } from '@/lib/blog';
+import Link from "next/link";
+import Image from "next/image";
+import { format, parseISO } from "date-fns";
+import { Post } from "@/lib/blog";
+import { Card, CardContent } from "@/components/ui/card";
+import { ArrowRight } from "lucide-react";
 
 export default function BlogCard({ post }: { post: Partial<Post> }) {
-  return (
-    <div className="group flex flex-col space-y-3">
-      {post.coverImage && (
-        <Link href={`/blog/${post.slug}`} className="overflow-hidden rounded-md">
-          <img
-            src={post.coverImage}
-            alt={post.title}
-            className="aspect-video w-full object-cover transition-transform duration-300 group-hover:scale-105"
-          />
-        </Link>
-      )}
-      <div className="space-y-2">
-        <div className="flex items-center space-x-2 text-sm text-muted-foreground">
-          {post.date && (
-            <time dateTime={post.date}>
-              {format(parseISO(post.date), 'MMMM d, yyyy')}
-            </time>
-          )}
-        </div>
-        <Link href={`/blog/${post.slug}`} className="block">
-          <h2 className="text-xl font-semibold tracking-tight group-hover:underline">
-            {post.title}
-          </h2>
-        </Link>
-        <p className="line-clamp-2 text-muted-foreground">{post.excerpt}</p>
-      </div>
-    </div>
-  );
+	return (
+		<Link href={`/blog/${post.slug}`}>
+			<Card className="h-full hover:shadow-xl transition-all duration-300 hover:-translate-y-1 overflow-hidden group">
+				<div className="relative h-48 overflow-hidden">
+					<Image
+						src={post.coverImage || "/images/giralt/handrails/main_installation.jpg"}
+						alt={post.title || "Blog Post"}
+						fill
+						className="object-cover group-hover:scale-110 transition-transform duration-300"
+					/>
+				</div>
+				<CardContent className="pt-6">
+					<div className="flex items-center space-x-2 text-sm text-muted-foreground mb-2">
+						{post.date && (
+							<time dateTime={post.date}>
+								{format(parseISO(post.date), "MMMM d, yyyy")}
+							</time>
+						)}
+					</div>
+					<h3 className="text-xl font-semibold mb-2 group-hover:text-primary transition-colors">
+						{post.title}
+					</h3>
+					<p className="line-clamp-3 text-muted-foreground mb-4">{post.excerpt}</p>
+					<div className="flex items-center text-primary font-medium mt-auto">
+						Read More <ArrowRight className="ml-2" size={16} />
+					</div>
+				</CardContent>
+			</Card>
+		</Link>
+	);
 }
