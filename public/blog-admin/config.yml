@@ -2,6 +2,8 @@ backend:
   name: github
   repo: jplogix/giralt-enterprises-website
   branch: main
+  site_domain: www.giraltenterprises.com
+  base_url: https://www.giraltenterprises.com
   auth_endpoint: api/auth/login
 
 media_folder: "public/images/blog"
