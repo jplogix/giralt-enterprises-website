@@ -23,13 +23,28 @@ export function getPostSlugs() {
 }
 
 export function getPostBySlug(slug: string, fields: string[] = []) {
-  const realSlug = slug.replace(/\.(mdx|md)$/, '');
+  // Decode slug in case it contains %20 etc.
+  const decodedSlug = decodeURIComponent(slug);
+  const realSlug = decodedSlug.replace(/\.(mdx|md)$/, '');
   let fullPath = path.join(postsDirectory, `${realSlug}.mdx`);
   
   if (!fs.existsSync(fullPath)) {
     fullPath = path.join(postsDirectory, `${realSlug}.md`);
   }
   
+  if (!fs.existsSync(fullPath)) {
+    // If not found by direct filename, try to find by searching all files for a matching 'slug' in frontmatter
+    const allSlugs = getPostSlugs();
+    for (const s of allSlugs) {
+       const content = fs.readFileSync(path.join(postsDirectory, s), 'utf8');
+       const { data } = matter(content);
+       if (data.slug === decodedSlug) {
+          fullPath = path.join(postsDirectory, s);
+          break;
+       }
+    }
+  }
+
   if (!fs.existsSync(fullPath)) {
     throw new Error(`Post not found: ${slug}`);
   }
@@ -43,16 +58,17 @@ export function getPostBySlug(slug: string, fields: string[] = []) {
 
   const items: Items = {};
 
-  // Ensure only the minimal needed data is exposed
+  // Standardize: slug is ALWAYS based on the filename unless specifically requested otherwise
+  // but we prefer it to match the requested slug
+  items['slug'] = realSlug;
+
   fields.forEach((field) => {
-    if (field === 'slug') {
-      items[field] = realSlug;
-    }
     if (field === 'content') {
       items[field] = content;
     }
 
     if (typeof data[field] !== 'undefined') {
+      // If the field is slug, only overwrite if we haven't set it yet or if it's special
       items[field] = data[field];
     }
   });
