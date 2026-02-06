@@ -1,0 +1,24 @@
+backend:
+  name: github
+  repo: jplogix/giralt-enterprises-website
+  branch: mdx
+  auth_endpoint: api/auth/login
+
+media_folder: "public/images/blog"
+public_folder: "/images/blog"
+
+collections:
+  - name: "blog"
+    label: "Blog"
+    folder: "content/blog"
+    create: true
+    slug: "{{slug}}"
+    fields:
+      - {label: "Title", name: "title", widget: "string"}
+      - {label: "Slug", name: "slug", widget: "string"}
+      - {label: "Publish Date", name: "date", widget: "datetime", format: "YYYY-MM-DD", dateFormat: "YYYY-MM-DD", timeFormat: false}
+      - {label: "Excerpt", name: "excerpt", widget: "text"}
+      - {label: "Cover Image", name: "coverImage", widget: "image", required: false}
+      - {label: "Author", name: "author", widget: "string", default: "Giralt Team"}
+      - {label: "Published", name: "published", widget: "boolean", default: true}
+      - {label: "Body", name: "body", widget: "markdown"}
