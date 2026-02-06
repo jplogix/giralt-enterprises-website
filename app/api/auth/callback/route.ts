@@ -44,48 +44,39 @@ export async function GET(request: Request) {
         <div id="status">Authorizing...</div>
         <script>
           (function() {
-            function receiveMessage(e) {
-              console.log("Handshake received from origin:", e.origin);
-              
-              var token = "${data.access_token}";
-              var message = {
-                action: "github",
-                status: "success",
-                data: {
-                  token: token,
-                  provider: "github"
-                }
-              };
-              
-              // Send the message back to the opener
-              window.opener.postMessage(JSON.stringify(message), e.origin);
-              
-              document.getElementById('status').innerText = 'Authorized! Closing window...';
-              
-              // Close the popup
-              setTimeout(function() {
-                window.close();
-              }, 500);
+            var token = "${data.access_token}";
+            var message = {
+              action: "github",
+              status: "success",
+              data: {
+                token: token,
+                provider: "github"
+              }
+            };
+            
+            // Function to send the message
+            function send(origin) {
+               window.opener.postMessage(JSON.stringify(message), origin);
+               document.getElementById('status').innerText = 'Authorized! Closing window...';
+               setTimeout(function() { window.close(); }, 500);
             }
 
-            window.addEventListener("message", receiveMessage, false);
+            // Standard handshake
+            window.addEventListener("message", function(e) {
+               console.log("Handshake received from:", e.origin);
+               send(e.origin);
+            }, false);
 
-            // Tell the Opener that we are ready
-            console.log("Sending ready message to opener");
+            // Trigger the ready state
             window.opener.postMessage("authorizing:github", "*");
             
-            // Fallback for some browsers/configs: if no message received in 5s, try sending anyway to common origins
+            // Fallback for some browsers or configurations
             setTimeout(function() {
-              if (document.getElementById('status').innerText === 'Authorizing...') {
-                console.log(" हैंडशेक Timeout - trying fallback");
-                window.opener.postMessage(JSON.stringify({
-                  action: "github",
-                  status: "success",
-                  data: { token: "${data.access_token}", provider: "github" }
-                }), "*");
-                window.close();
-              }
-            }, 5000);
+               if (document.getElementById('status').innerText === 'Authorizing...') {
+                  console.log(" हैंडशेक Timeout - trying fallback send to current origin");
+                  send(window.location.origin);
+               }
+            }, 3000);
           })()
         </script>
       </body>
