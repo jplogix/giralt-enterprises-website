@@ -56,24 +56,25 @@ export async function GET(request: Request) {
             
             // Function to send the message
             function send(origin) {
-               console.log("Attempting to send token to opener at origin:", origin);
-               var msgString = JSON.stringify(message);
+               console.log("Sending formal authorization string to opener at origin:", origin);
+               
+               // Decap CMS/Netlify Auth expects this exact string format for GitHub
+               // authorization:github:success:{"token":"...","provider":"github"}
+               var messagePayload = JSON.stringify({
+                 token: "${data.access_token}",
+                 provider: "github"
+               });
+               
+               var formalMessage = "authorization:github:success:" + messagePayload;
                
                try {
-                 window.opener.postMessage(msgString, origin);
-                 window.opener.postMessage(message, origin);
-                 console.log("Messages sent.");
+                 window.opener.postMessage(formalMessage, origin);
+                 console.log("Formal message sent.");
                } catch (err) {
-                 console.error("Error sending postMessage:", err);
+                 console.error("Error sending formal postMessage:", err);
                }
                
-               document.getElementById('status').innerText = 'Authorized! Success message sent. PLEASE CLOSE THIS WINDOW MANUALLY TO FINALIZE LOGIN.';
-               /*
-               setTimeout(function() { 
-                 console.log("Closing window...");
-                 window.close(); 
-               }, 2000);
-               */
+               document.getElementById('status').innerText = 'Authorized! Login message sent. You can now close this window.';
             }
 
             window.addEventListener("message", function(e) {
