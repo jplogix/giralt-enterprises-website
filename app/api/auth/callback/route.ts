@@ -56,9 +56,17 @@ export async function GET(request: Request) {
             
             // Function to send the message
             function send(origin) {
-               window.opener.postMessage(JSON.stringify(message), origin);
+               console.log("Sending token to origin:", origin);
+               var msgString = JSON.stringify(message);
+               window.opener.postMessage(msgString, origin);
+               
+               // Also broadcast to * as a fallback for cross-subdomain/domain edge cases
+               if (origin !== "*") {
+                 window.opener.postMessage(msgString, "*");
+               }
+               
                document.getElementById('status').innerText = 'Authorized! Closing window...';
-               setTimeout(function() { window.close(); }, 500);
+               setTimeout(function() { window.close(); }, 1000);
             }
 
             // Standard handshake
