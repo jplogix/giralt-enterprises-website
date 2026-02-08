@@ -51,179 +51,48 @@ const customStyles = `
     height: 100%;
     width: 100%;
     background: #000;
-    position: relative;
   }
 
   .custom-image-gallery .image-gallery-content,
   .custom-image-gallery .image-gallery-slide-wrapper,
   .custom-image-gallery .image-gallery-swipe,
-  .custom-image-gallery .image-gallery-slides {
-    height: 100%;
-    width: 100%;
-    position: relative;
-  }
-
+  .custom-image-gallery .image-gallery-slides,
   .custom-image-gallery .image-gallery-slide {
     height: 100%;
     width: 100%;
+  }
+
+  .custom-image-gallery .image-gallery-slide {
     display: flex;
     align-items: center;
     justify-content: center;
     background: transparent;
-    position: relative;
   }
 
-  .custom-image-gallery .image-gallery-slide .image-gallery-image {
-    max-height: 100%;
-    max-width: 100%;
-    width: auto;
-    height: auto;
-    object-fit: contain;
-    display: block;
-    position: absolute;
-    top: 50%;
-    left: 50%;
-    transform: translate(-50%, -50%);
-  }
-  
-  /* Custom rendered images */
+  /* Target the span/div wrapper that react-image-gallery sometimes inserts */
   .custom-image-gallery .image-gallery-slide > div {
-    width: 100%;
     height: 100%;
+    width: 100%;
     display: flex;
     align-items: center;
     justify-content: center;
-    position: relative;
   }
-  
-  .custom-image-gallery .image-gallery-slide > div > img {
-    max-height: 100%;
-    max-width: 100%;
+
+  /* The actual image */
+  .custom-image-gallery .image-gallery-image {
+    max-height: 90vh; /* Leave room for thumbnails/nav */
+    max-width: 90vw;
+    width: auto !important;
+    height: auto !important;
     object-fit: contain;
   }
-
-  .custom-image-gallery .image-gallery-nav {
-    position: absolute;
-    top: 50%;
-    transform: translateY(-50%);
-    z-index: 4;
-  }
-
+  
+  /* Navigation buttons */
   .custom-image-gallery .image-gallery-left-nav,
   .custom-image-gallery .image-gallery-right-nav {
-    padding: 0;
-    background: rgba(0, 0, 0, 0.5);
-    border: none;
-    border-radius: 50%;
-    width: 48px;
-    height: 48px;
-    margin: 0 20px;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    transition: all 0.2s ease;
-  }
-
-  .custom-image-gallery .image-gallery-left-nav:hover,
-  .custom-image-gallery .image-gallery-right-nav:hover {
-    background: rgba(0, 0, 0, 0.8);
-    transform: scale(1.1);
-  }
-
-  .custom-image-gallery .image-gallery-left-nav {
-    left: 0;
-  }
-
-  .custom-image-gallery .image-gallery-right-nav {
-    right: 0;
-  }
-
-  .custom-image-gallery .image-gallery-left-nav::before,
-  .custom-image-gallery .image-gallery-right-nav::before {
-    content: '';
-    border: solid white;
-    border-width: 0 3px 3px 0;
-    display: inline-block;
-    padding: 7px;
-  }
-
-  .custom-image-gallery .image-gallery-left-nav::before {
-    transform: rotate(135deg);
-    -webkit-transform: rotate(135deg);
-    margin-left: 4px;
-  }
-
-  .custom-image-gallery .image-gallery-right-nav::before {
-    transform: rotate(-45deg);
-    -webkit-transform: rotate(-45deg);
-    margin-right: 4px;
-  }
-
-  .custom-image-gallery .image-gallery-bullets {
-    bottom: 20px;
-    position: absolute;
-    left: 0;
-    right: 0;
-    transform: none;
-    z-index: 5;
-    display: flex;
-    justify-content: center;
-    pointer-events: none;
-  }
-
-  .custom-image-gallery .image-gallery-bullets .image-gallery-bullets-container {
-    display: flex;
-    align-items: center;
-    gap: 8px;
-    pointer-events: auto;
-  }
-
-  .custom-image-gallery .image-gallery-bullet {
-    border: 2px solid #fff;
-    background: rgba(255, 255, 255, 0.3);
-    width: 12px;
-    height: 12px;
-    transition: all 0.2s ease;
-  }
-
-  .custom-image-gallery .image-gallery-bullet:hover {
-    background: rgba(255, 255, 255, 0.6);
-  }
-
-  .custom-image-gallery .image-gallery-bullet.active {
-    background: #fff;
-    transform: scale(1.2);
-  }
-
-  .custom-image-gallery .image-gallery-fullscreen-button {
-    background: rgba(0, 0, 0, 0.5);
-    border: none;
-    border-radius: 50%;
-    width: 44px;
-    height: 44px;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    padding: 0;
-    position: absolute;
-    top: 10px;
-    right: 10px;
-    z-index: 5;
-    transition: all 0.2s ease;
-  }
-
-  .custom-image-gallery .image-gallery-fullscreen-button:hover {
-    background: rgba(0, 0, 0, 0.8);
-    transform: scale(1.1);
-  }
-
-  .custom-image-gallery .image-gallery-fullscreen-button::before {
-    content: '';
-    display: block;
-    width: 18px;
-    height: 18px;
-    border: 2px solid white;
-    border-radius: 2px;
+    padding: 10px;
+    font-size: 2em; /* Ensure icons are large enough */
+    z-index: 10;
   }
 `;
 
@@ -352,18 +221,25 @@ export default function GalleryPage() {
 
 	// Custom render function for images
 	const renderItem = (item: { original: string; originalAlt?: string }) => {
-		const encodedUrl = item.original
-			.split("/")
-			.map((segment) => encodeURIComponent(segment))
-			.join("/")
-			.replace(/%3A/g, ":"); // Restore colon for absolute URLs if any
+		// Robust URL encoding:
+		// 1. Decode first to avoid double-encoding if mixed
+		// 2. Encode each segment to handle spaces/special chars
+		// 3. Reconstruct path, preserving leading slash
+        const rawPath = item.original;
+        
+        // Handle fully or partially encoded URLs by decoding first
+        const safeDecoded = decodeURI(rawPath);
+        
+        // Encode special characters including spaces, but keep the structure
+        const encodedUrl = encodeURI(safeDecoded);
 
 		return (
-			<div className="relative w-full h-full flex items-center justify-center bg-black">
+			<div className="flex items-center justify-center w-full h-full">
 				<img
 					src={encodedUrl}
 					alt={item.originalAlt || ""}
-					className="max-h-full max-w-full object-contain"
+					className="image-gallery-image"
+                    style={{ objectFit: 'contain', maxHeight: '100%', maxWidth: '100%' }}
 					loading="eager"
 				/>
 			</div>
