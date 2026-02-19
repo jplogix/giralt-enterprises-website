@@ -1,48 +1,18 @@
-"use client";
-
-import Image from "next/image";
+import type { Metadata } from "next";
 import Link from "next/link";
-import { useEffect, useState } from "react";
 import { Footer } from "@/components/footer";
 import { Navigation } from "@/components/navigation";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
-import { Card, CardContent } from "@/components/ui/card";
+import { ProductGalleryClient } from "@/components/ProductGalleryClient";
 
-interface GalleryImage {
-	id: string;
-	category: string;
-	title: string;
-	image: string;
-}
+export const metadata: Metadata = {
+	title: "Decorative Bullet Railings",
+	description:
+		"Decorative bullet-style railings in marine-grade aluminum for piers, boardwalks, and marinas. Durable and attractive safety solutions.",
+};
 
 export default function BulletRailingsPage() {
-	const [images, setImages] = useState<GalleryImage[]>([]);
-	const [loading, setLoading] = useState(true);
-
-	useEffect(() => {
-		const fetchImages = async () => {
-			try {
-				const res = await fetch("/api/gallery", {
-					cache: "no-store",
-					headers: {
-						"Cache-Control": "no-cache",
-					},
-				});
-				const data = await res.json();
-				const bulletImages = (data.images || []).filter(
-					(img: GalleryImage) => img.category === "bullet-railings",
-				);
-				setImages(bulletImages);
-			} catch (error) {
-				console.error("Error fetching images:", error);
-			} finally {
-				setLoading(false);
-			}
-		};
-		fetchImages();
-	}, []);
-
 	return (
 		<div className="min-h-screen">
 			<Navigation />
@@ -68,74 +38,48 @@ export default function BulletRailingsPage() {
 				</div>
 			</section>
 
-			<section className="py-12">
+			<section className="py-20">
 				<div className="container mx-auto px-4">
-					<div className="grid grid-cols-1 md:grid-cols-2 gap-8 items-start">
-						<div>
-							{loading ? (
-								<div className="relative h-80 rounded-lg overflow-hidden shadow bg-secondary animate-pulse" />
-							) : images.length > 0 ? (
-								<div className="relative h-80 rounded-lg overflow-hidden shadow">
-									<Image
-										src={images[0].image || "/placeholder.svg"}
-										alt={images[0].title || "Bullet Railing"}
-										fill
-										className="object-cover"
-									/>
-								</div>
-							) : (
-								<div className="relative h-80 rounded-lg overflow-hidden shadow bg-secondary flex items-center justify-center">
-									<p className="text-muted-foreground">No images available</p>
-								</div>
-							)}
+					<div className="max-w-6xl mx-auto">
+						<div className="grid grid-cols-1 md:grid-cols-2 gap-12 items-center mb-20">
+							<div className="space-y-6">
+								<h2 className="text-3xl font-bold">Durable & Attractive</h2>
+								<p className="text-lg text-muted-foreground leading-relaxed">
+									Our bullet railings combine a traditional look with modern
+									corrosion-resistant materials. Custom spacing and finishes are
+									available to match your project's aesthetic.
+								</p>
+								<ul className="space-y-3">
+									{[
+										"Marine-grade aluminum construction",
+										"Custom finishes (Powder coat, Anodized)",
+										"Easy field installation",
+										"Meets safety and aesthetic requirements",
+									].map((item) => (
+										<li key={item} className="flex items-center gap-2">
+											<div className="w-1.5 h-1.5 rounded-full bg-accent" />
+											<span>{item}</span>
+										</li>
+									))}
+								</ul>
+								<Button size="lg" asChild>
+									<Link href="/contact">Request Detailed Specifications</Link>
+								</Button>
+							</div>
+							<div className="bg-secondary/30 rounded-2xl p-4 aspect-square flex items-center justify-center border-2 border-dashed border-muted-foreground/20">
+								<p className="text-muted-foreground text-center italic">
+									Custom configurations available for every site
+								</p>
+							</div>
 						</div>
-						<div>
-							<h2 className="text-2xl font-bold mb-4">Durable & Attractive</h2>
-							<p className="text-muted-foreground mb-4">
-								Our bullet railings combine a traditional look with modern
-								corrosion-resistant materials. Custom spacing and finishes are
-								available.
-							</p>
-							<ul className="list-disc pl-5 mb-6">
-								<li>Marine-grade aluminum construction</li>
-								<li>Custom finishes available</li>
-								<li>Easy field installation</li>
-								<li>Meets safety and aesthetic requirements</li>
-							</ul>
-							<Button asChild>
-								<Link href="/contact">Request Quote</Link>
-							</Button>
-						</div>
-					</div>
-				</div>
-			</section>
 
-			{images.length > 1 && (
-				<section className="py-20 bg-secondary/30">
-					<div className="container mx-auto px-4">
 						<h2 className="text-3xl font-bold mb-8 text-center">
 							Installation Examples
 						</h2>
-						<div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 max-w-6xl mx-auto">
-							{images.map((image) => (
-								<Card key={image.id} className="overflow-hidden">
-									<div className="relative h-64">
-										<Image
-											src={image.image || "/placeholder.svg"}
-											alt={image.title}
-											fill
-											className="object-cover"
-										/>
-									</div>
-									<CardContent className="pt-4">
-										<h3 className="font-semibold text-center">{image.title}</h3>
-									</CardContent>
-								</Card>
-							))}
-						</div>
+						<ProductGalleryClient category="bullet-railings" />
 					</div>
-				</section>
-			)}
+				</div>
+			</section>
 
 			<Footer />
 		</div>

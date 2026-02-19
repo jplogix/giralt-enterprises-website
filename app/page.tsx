@@ -13,6 +13,13 @@ import { Navigation } from "@/components/navigation";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent } from "@/components/ui/card";
+import type { Metadata } from "next";
+
+export const metadata: Metadata = {
+	title: "Giralt Enterprises - Home",
+	description:
+		"Manufacturer representation and distribution for quality Civil Engineering construction products since 1988.",
+};
 
 export default function HomePage() {
 	const products: Array<{

@@ -1,5 +1,6 @@
-import { getAllPosts } from "@/lib/blog";
+import { getAllPosts, getAllTags } from "@/lib/blog";
 import BlogCard from "@/components/blog-card";
+import Link from "next/link";
 import { Metadata } from "next";
 import { Badge } from "@/components/ui/badge";
 
@@ -38,6 +39,27 @@ export default function BlogIndexPage() {
 						Insights from our 35+ years of experience in civil engineering and
 						construction products.
 					</p>
+				</div>
+			</section>
+
+			{/* Topics Section */}
+			<section className="py-8 bg-secondary/30 border-b">
+				<div className="container mx-auto px-4 text-center">
+					<p className="text-sm font-medium text-muted-foreground mb-4">
+						Browse by Topic
+					</p>
+					<div className="flex flex-wrap justify-center gap-2">
+						{getAllTags().map((tag) => (
+							<Link key={tag} href={`/blog/tag/${tag}`}>
+								<Badge
+									variant="outline"
+									className="hover:bg-primary hover:text-primary-foreground transition-colors cursor-pointer capitalize"
+								>
+									{tag}
+								</Badge>
+							</Link>
+						))}
+					</div>
 				</div>
 			</section>
 

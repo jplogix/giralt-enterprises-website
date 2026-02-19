@@ -1,33 +1,20 @@
-"use client";
-
+import type { Metadata } from "next";
 import { Anchor, CheckCircle2 } from "lucide-react";
-import Image from "next/image";
 import Link from "next/link";
-import { useEffect, useState } from "react";
 import { Footer } from "@/components/footer";
 import { Navigation } from "@/components/navigation";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent } from "@/components/ui/card";
-import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
+import { DocksClient } from "./DocksClient";
+
+export const metadata: Metadata = {
+	title: "Aluminum Dock Systems & Gangways",
+	description:
+		"Structural aluminum dock systems and gangways using high-strength 6061-T6 alloy. Custom fixed and floating dock solutions for marine environments.",
+};
 
 export default function DocksPage() {
-	const [installations, setInstallations] = useState<any[]>([]);
-
-	useEffect(() => {
-		const fetchInstallations = async () => {
-			const res = await fetch("/api/admin/images?category=docks", {
-				cache: "no-store",
-				headers: {
-					"Cache-Control": "no-cache",
-				},
-			});
-			const json = await res.json();
-			setInstallations(Array.isArray(json) ? json : []);
-		};
-		fetchInstallations();
-	}, []);
-
 	const dockTypes = [
 		{
 			name: "Elite Fixed Piers",
@@ -49,20 +36,6 @@ export default function DocksPage() {
 			name: "Standard Floating Docks",
 			description: "Cost-effective floating dock options",
 		},
-	];
-
-	const deckOptions = [
-		"Aluminum",
-		"Pressure Treated Lumber",
-		"High Density Lumber (Ipe)",
-		"Plastic Lumber",
-		"Concrete",
-	];
-
-	const flotationOptions = [
-		"Polystyrene Tubs",
-		"Aluminum-Encased Polyurethane",
-		"Full Foam Polyurethane",
 	];
 
 	return (
@@ -127,180 +100,11 @@ export default function DocksPage() {
 								</CardContent>
 							</Card>
 						</div>
-
-						{/* Customization */}
-						<Card className="bg-secondary/30 border-2">
-							<CardContent className="pt-6">
-								<h2 className="text-2xl font-bold mb-4">
-									Complete Customization
-								</h2>
-								<p className="text-muted-foreground mb-6">
-									Beyond the structural members, pretty much all the other
-									choices are yours. All we need from you is a list of your
-									needs.
-								</p>
-
-								<div className="space-y-6">
-									<div>
-										<h3 className="font-semibold text-lg mb-3">
-											Deck Material Options
-										</h3>
-										<div className="flex flex-wrap gap-2">
-											{deckOptions.map((option) => (
-												<Badge
-													key={option}
-													variant="outline"
-													className="text-sm py-1.5"
-												>
-													{option}
-												</Badge>
-											))}
-										</div>
-									</div>
-
-									<div>
-										<h3 className="font-semibold text-lg mb-3">
-											Flotation Options (Floating Docks)
-										</h3>
-										<div className="flex flex-wrap gap-2">
-											{flotationOptions.map((option) => (
-												<Badge
-													key={option}
-													variant="outline"
-													className="text-sm py-1.5"
-												>
-													{option}
-												</Badge>
-											))}
-										</div>
-									</div>
-								</div>
-							</CardContent>
-						</Card>
 					</div>
 				</div>
 			</section>
 
-			<section className="py-20 bg-secondary/30">
-				<div className="container mx-auto px-4">
-					<h2 className="text-3xl font-bold mb-8 text-center">
-						Installation Examples
-					</h2>
-					<Tabs defaultValue="fixed">
-						<TabsList className="mx-auto mb-6 w-full max-w-md">
-							<TabsTrigger value="fixed">Fixed Docks</TabsTrigger>
-							<TabsTrigger value="floating">Floating Docks</TabsTrigger>
-							<TabsTrigger value="gangways">Gangways</TabsTrigger>
-						</TabsList>
-
-						<TabsContent value="fixed">
-							<div className="grid grid-cols-1 md:grid-cols-3 gap-6 max-w-6xl mx-auto">
-								{installations
-									.filter((i) => i.title === "Atlantic Village")
-									.map((installation) => (
-										<Card
-											key={installation.id || installation.title}
-											className="overflow-hidden"
-										>
-											<div className="relative h-64">
-												<Image
-													src={installation.image || "/placeholder.svg"}
-													alt={installation.title}
-													fill
-													className="object-cover"
-												/>
-											</div>
-											<CardContent className="pt-4">
-												<h3 className="font-semibold text-center">
-													{installation.title}
-												</h3>
-											</CardContent>
-										</Card>
-									))}
-							</div>
-						</TabsContent>
-
-						<TabsContent value="floating">
-							<div className="grid grid-cols-1 md:grid-cols-3 gap-6 max-w-6xl mx-auto">
-								<Card className="overflow-hidden">
-									<div className="relative h-64">
-										<Image
-											src="/images/giralt/floating_docks/miramar_floating_gazebo.jpg"
-											alt="Miramar Floating Gazebo"
-											fill
-											className="object-cover"
-										/>
-									</div>
-									<CardContent className="pt-4">
-										<h3 className="font-semibold text-center">
-											Miramar Floating Gazebo
-										</h3>
-									</CardContent>
-								</Card>
-								<Card className="overflow-hidden">
-									<div className="relative h-64">
-										<Image
-											src="/images/giralt/floating_docks/woodland_beach_fishing_pier.jpg"
-											alt="Woodland Beach Fishing Pier"
-											fill
-											className="object-cover"
-										/>
-									</div>
-									<CardContent className="pt-4">
-										<h3 className="font-semibold text-center">
-											Woodland Beach Fishing Pier
-										</h3>
-									</CardContent>
-								</Card>
-							</div>
-						</TabsContent>
-
-						<TabsContent value="gangways">
-							<div className="grid grid-cols-1 md:grid-cols-3 gap-6 max-w-6xl mx-auto">
-								{installations
-									.filter(
-										(i) =>
-											i.title.toLowerCase().includes("gangway") ||
-											i.title.toLowerCase().includes("ramp") ||
-											i.image.includes("gangway"),
-									)
-									.map((installation) => (
-										<Card
-											key={installation.id || installation.title}
-											className="overflow-hidden"
-										>
-											<div className="relative h-64">
-												<Image
-													src={installation.image || "/placeholder.svg"}
-													alt={installation.title}
-													fill
-													className="object-cover"
-												/>
-											</div>
-											<CardContent className="pt-4">
-												<h3 className="font-semibold text-center">
-													{installation.title}
-												</h3>
-											</CardContent>
-										</Card>
-									))}
-								{installations.filter(
-									(i) =>
-										i.title.toLowerCase().includes("gangway") ||
-										i.title.toLowerCase().includes("ramp") ||
-										i.image.includes("gangway"),
-								).length === 0 && (
-									<div className="col-span-full text-center py-12">
-										<p className="text-muted-foreground">
-											No gangway examples available
-										</p>
-									</div>
-								)}
-							</div>
-						</TabsContent>
-					</Tabs>
-				</div>
-			</section>
+			<DocksClient />
 
 			{/* Dock Types */}
 			<section className="py-20">

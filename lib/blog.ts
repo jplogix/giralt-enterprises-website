@@ -13,6 +13,13 @@ export type Post = {
   author?: string;
   content: string;
   published: boolean;
+  tags?: string[];
+  seo?: {
+    title?: string;
+    description?: string;
+    image?: string;
+    noindex?: boolean;
+  };
 };
 
 export function getPostSlugs() {
@@ -96,4 +103,32 @@ export function getAllPosts(fields: string[] = []) {
     // sort posts by date in descending order
     .sort((post1, post2) => (post1.date! > post2.date! ? -1 : 1));
   return posts;
+}
+
+export function getRelatedPosts(currentSlug: string, tags: string[] = [], limit = 3) {
+  const allPosts = getAllPosts(["slug", "title", "coverImage", "date", "tags", "excerpt"]);
+  
+  return allPosts
+    .filter((post) => post.slug !== currentSlug) // Exclude current post
+    .map((post) => {
+      // Calculate relevance score
+      const intersection = post.tags?.filter((tag) => tags.includes(tag)) || [];
+      return { ...post, score: intersection.length };
+    })
+    .sort((a, b) => b.score - a.score) // Sort by relevance
+    .slice(0, limit); // Take top N
+}
+
+export function getPostsByTag(tag: string) {
+  const posts = getAllPosts(["slug", "title", "date", "coverImage", "excerpt", "tags", "author"]);
+  return posts.filter((post) => post.tags?.includes(tag));
+}
+
+export function getAllTags() {
+  const posts = getAllPosts(["tags"]);
+  const tags = new Set<string>();
+  posts.forEach((post) => {
+    post.tags?.forEach((tag) => tags.add(tag));
+  });
+  return Array.from(tags);
 }

@@ -1,59 +1,20 @@
-"use client";
-
+import type { Metadata } from "next";
 import { AlertTriangle, Waves } from "lucide-react";
-import Image from "next/image";
 import Link from "next/link";
-import { useEffect, useState } from "react";
 import { Footer } from "@/components/footer";
 import { Navigation } from "@/components/navigation";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent } from "@/components/ui/card";
-import { Dialog, DialogContent, DialogTrigger } from "@/components/ui/dialog";
+import { ProductGalleryClient } from "@/components/ProductGalleryClient";
 
-interface GalleryImage {
-	id: string;
-	category: string;
-	title: string;
-	image: string;
-}
+export const metadata: Metadata = {
+	title: "Wave Attenuators",
+	description:
+		"Energy dissipating systems for wind-generated waves and boat wakes. Custom solutions for marina protection and shoreline stabilization.",
+};
 
 export default function WaveAttenuatorsPage() {
-	const [installations, setInstallations] = useState<
-		Array<{ name: string; image: string }>
-	>([]);
-	const [loading, setLoading] = useState(true);
-
-	useEffect(() => {
-		const fetchImages = async () => {
-			try {
-				const res = await fetch("/api/gallery", {
-					cache: "no-store",
-					headers: {
-						"Cache-Control": "no-cache",
-					},
-				});
-				const data = await res.json();
-				const attenuatorImages = (data.images || []).filter(
-					(img: GalleryImage) => img.category === "attenuators",
-				);
-
-				const installationData = attenuatorImages.map((img: GalleryImage) => ({
-					name: img.title,
-					image: img.image,
-				}));
-
-				setInstallations(installationData);
-			} catch (error) {
-				console.error("Error fetching images:", error);
-				setInstallations([]);
-			} finally {
-				setLoading(false);
-			}
-		};
-		fetchImages();
-	}, []);
-
 	const configurations = [
 		{
 			name: "Vertical Slats",
@@ -86,7 +47,7 @@ export default function WaveAttenuatorsPage() {
 			<Navigation />
 
 			{/* Hero */}
-			<section className="relative bg-gradient-to-br from-primary to-accent text-primary-foreground py-20">
+			<section className="relative bg-linear-to-br from-primary to-accent text-primary-foreground py-20">
 				<div className="container mx-auto px-4">
 					<div className="max-w-4xl">
 						<div className="flex items-center gap-2 mb-4">
@@ -115,63 +76,9 @@ export default function WaveAttenuatorsPage() {
 					<h2 className="text-3xl font-bold mb-8 text-center">
 						Installation Examples
 					</h2>
-					{loading ? (
-						<div className="text-center py-12">
-							<p className="text-muted-foreground">Loading installations...</p>
-						</div>
-					) : installations.length === 0 ? (
-						<div className="text-center py-12">
-							<p className="text-muted-foreground">
-								No installation examples available
-							</p>
-						</div>
-					) : (
-						<div className="grid grid-cols-1 md:grid-cols-2 gap-6 max-w-4xl mx-auto mb-12">
-							{installations.map((installation) => (
-								<Dialog key={installation.name}>
-									<DialogTrigger asChild>
-										<Card className="overflow-hidden hover:shadow-xl transition-shadow cursor-pointer">
-											<div className="relative h-64">
-												<Image
-													src={installation.image || "/placeholder.svg"}
-													alt={installation.name}
-													fill
-													className="object-cover"
-												/>
-											</div>
-											<CardContent className="pt-4">
-												<h3 className="font-semibold text-center">
-													{installation.name}
-												</h3>
-											</CardContent>
-										</Card>
-									</DialogTrigger>
-									<DialogContent
-										className="max-w-5xl p-0"
-										showCloseButton={true}
-									>
-										<div
-											className="relative w-full"
-											style={{ minHeight: "400px", maxHeight: "90vh" }}
-										>
-											<Image
-												src={installation.image || "/placeholder.svg"}
-												alt={installation.name}
-												fill
-												className="object-contain"
-												sizes="(max-width: 1280px) 100vw, 1280px"
-											/>
-										</div>
-										<div className="p-4 border-t">
-											<h3 className="font-semibold text-center text-lg">
-												{installation.name}
-											</h3>
-										</div>
-									</DialogContent>
-								</Dialog>
-							))}
-						</div>
-					)}
+					<div className="max-w-4xl mx-auto">
+						<ProductGalleryClient category="attenuators" />
+					</div>
 				</div>
 			</section>
 
@@ -271,7 +178,7 @@ export default function WaveAttenuatorsPage() {
 						<CardContent className="pt-6">
 							<div className="flex items-start gap-4">
 								<AlertTriangle
-									className="text-destructive flex-shrink-0 mt-1"
+									className="text-destructive shrink-0 mt-1"
 									size={32}
 								/>
 								<div>
@@ -383,7 +290,7 @@ export default function WaveAttenuatorsPage() {
 			</section>
 
 			{/* CTA */}
-			<section className="py-20 bg-gradient-to-r from-primary to-accent text-primary-foreground">
+			<section className="py-20 bg-linear-to-r from-primary to-accent text-primary-foreground">
 				<div className="container mx-auto px-4 text-center">
 					<h2 className="text-3xl font-bold mb-4">Need Wave Protection?</h2>
 					<p className="text-xl text-primary-foreground/90 mb-8 max-w-2xl mx-auto">

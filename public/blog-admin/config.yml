@@ -24,4 +24,13 @@ collections:
       - {label: "Cover Image", name: "coverImage", widget: "image", required: false}
       - {label: "Author", name: "author", widget: "string", default: "Giralt Team"}
       - {label: "Published", name: "published", widget: "boolean", default: true}
+      - label: "SEO"
+        name: "seo"
+        widget: "object"
+        collapsed: true
+        fields:
+          - {label: "Meta Title", name: "title", widget: "string", required: false, hint: "Overrides the main title for search engines"}
+          - {label: "Meta Description", name: "description", widget: "text", required: false, hint: "Optimal length: 150-160 characters"}
+          - {label: "OG Image", name: "image", widget: "image", required: false, hint: "Social sharing image (1200x630px recommended). Defaults to cover image."}
+          - {label: "No Index", name: "noindex", widget: "boolean", default: false, required: false, hint: "Hide this post from search engines"}
       - {label: "Body", name: "body", widget: "markdown"}

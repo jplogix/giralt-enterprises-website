@@ -3,6 +3,13 @@ import { Footer } from "@/components/footer";
 import { Navigation } from "@/components/navigation";
 import { Badge } from "@/components/ui/badge";
 import { Card, CardContent } from "@/components/ui/card";
+import type { Metadata } from "next";
+
+export const metadata: Metadata = {
+	title: "About Us",
+	description:
+		"Learn about Giralt Enterprises' 35+ years of experience in civil engineering products and innovation.",
+};
 
 export default function AboutPage() {
 	const achievements = [
@@ -49,9 +56,9 @@ export default function AboutPage() {
 			<Navigation />
 
 			{/* Hero */}
-			<section className="bg-gradient-to-br from-[oklch(0.15_0.12_253)] to-[oklch(0.18_0.12_253)] text-primary-foreground py-20 relative overflow-hidden">
+			<section className="bg-linear-to-br from-[oklch(0.15_0.12_253)] to-[oklch(0.18_0.12_253)] text-primary-foreground py-20 relative overflow-hidden">
 				<div className="absolute inset-0 bg-[url('/blueprint-pattern.jpg')] opacity-20 bg-repeat invert" />
-				<div className="absolute inset-0 bg-gradient-to-b from-transparent to-[oklch(0.15_0.12_253)]/50" />
+				<div className="absolute inset-0 bg-linear-to-b from-transparent to-[oklch(0.15_0.12_253)]/50" />
 				<div className="container mx-auto px-4 relative z-10">
 					<div className="max-w-3xl">
 						<Badge
@@ -119,7 +126,7 @@ export default function AboutPage() {
 								<div className="grid grid-cols-1 md:grid-cols-2 gap-6 mt-8">
 									<div className="flex gap-4">
 										<CheckCircle
-											className="text-accent flex-shrink-0"
+											className="text-accent shrink-0"
 											size={24}
 										/>
 										<div>
@@ -134,7 +141,7 @@ export default function AboutPage() {
 									</div>
 									<div className="flex gap-4">
 										<CheckCircle
-											className="text-accent flex-shrink-0"
+											className="text-accent shrink-0"
 											size={24}
 										/>
 										<div>
@@ -164,7 +171,7 @@ export default function AboutPage() {
 							{achievements.map((achievement, index) => (
 								<div key={index} className="flex gap-6 group">
 									<div className="flex flex-col items-center">
-										<div className="w-16 h-16 rounded-full bg-primary text-primary-foreground flex items-center justify-center font-bold text-sm flex-shrink-0 group-hover:scale-110 transition-transform">
+										<div className="w-16 h-16 rounded-full bg-primary text-primary-foreground flex items-center justify-center font-bold text-sm shrink-0 group-hover:scale-110 transition-transform">
 											{achievement.year}
 										</div>
 										{index < achievements.length - 1 && (
@@ -250,7 +257,7 @@ export default function AboutPage() {
 			</section>
 
 			{/* Licensing */}
-			<section className="py-20 bg-gradient-to-r from-[oklch(0.15_0.12_253)] to-[oklch(0.18_0.12_253)] text-primary-foreground relative overflow-hidden">
+			<section className="bg-linear-to-r from-[oklch(0.15_0.12_253)] to-[oklch(0.18_0.12_253)] text-primary-foreground relative overflow-hidden">
 				<div className="absolute inset-0 bg-[url('/blueprint-pattern.jpg')] opacity-20 bg-repeat invert" />
 				<div className="container mx-auto px-4 text-center relative z-10">
 					<h2 className="text-3xl font-bold mb-4">

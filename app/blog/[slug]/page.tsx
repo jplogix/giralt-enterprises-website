@@ -1,11 +1,13 @@
 import { format, parseISO } from "date-fns";
-import { getAllPosts, getPostBySlug } from "@/lib/blog";
+import { getAllPosts, getPostBySlug, getRelatedPosts } from "@/lib/blog";
 import { notFound } from "next/navigation";
 import { MDXRemote } from "next-mdx-remote/rsc";
 import { Metadata } from "next";
+import Image from "next/image";
 import Link from "next/link";
-import { ArrowLeft, Calendar, User } from "lucide-react";
+import { ArrowLeft, Calendar, User, Tag } from "lucide-react";
 import { Badge } from "@/components/ui/badge";
+import BlogCard from "@/components/blog-card";
 
 interface PostPageProps {
 	params: Promise<{
@@ -17,19 +19,57 @@ export async function generateMetadata({
 	params,
 }: PostPageProps): Promise<Metadata> {
 	const { slug } = await params;
-	const post = getPostBySlug(slug, ["title", "excerpt", "coverImage"]);
+	const post = getPostBySlug(slug, [
+		"title",
+		"excerpt",
+		"coverImage",
+		"seo",
+		"date",
+		"author",
+	]);
 
 	if (!post) {
 		return {};
 	}
 
+	const baseUrl = "https://giralt-enterprises.vercel.app";
+	const ogImage = post.seo?.image || post.coverImage || "/logo.jpg";
+	const title = post.seo?.title || post.title;
+	const description = post.seo?.description || post.excerpt;
+	const publishedTime = post.date ? new Date(post.date).toISOString() : undefined;
+
 	return {
-		title: `${post.title} | Giralt Enterprises`,
-		description: post.excerpt,
+		metadataBase: new URL(baseUrl),
+		title: title,
+		description: description,
+		robots: {
+			index: !post.seo?.noindex,
+			follow: !post.seo?.noindex,
+		},
 		openGraph: {
-			title: post.title,
-			description: post.excerpt,
-			images: post.coverImage ? [post.coverImage] : [],
+			title: title,
+			description: description,
+			url: `/blog/${post.slug}`,
+			type: "article",
+			publishedTime,
+			authors: post.author ? [post.author] : ["Giralt Enterprises"],
+			images: [
+				{
+					url: ogImage,
+					width: 1200,
+					height: 630,
+					alt: title,
+				},
+			],
+		},
+		twitter: {
+			card: "summary_large_image",
+			title: title,
+			description: description,
+			images: [ogImage],
+		},
+		alternates: {
+			canonical: `/blog/${post.slug}`,
 		},
 	};
 }
@@ -51,14 +91,52 @@ export default async function PostPage({ params }: PostPageProps) {
 		"author",
 		"content",
 		"coverImage",
+		"tags",
 	]);
+
+	const relatedPosts = getRelatedPosts(slug, post.tags, 3);
 
 	if (!post?.content) {
 		notFound();
 	}
 
+	const baseUrl = "https://giralt-enterprises.vercel.app";
+	const jsonLd = {
+		"@context": "https://schema.org",
+		"@type": "BlogPosting",
+		headline: post.title,
+		description: post.excerpt,
+		image: post.coverImage
+			? [`${baseUrl}${post.coverImage}`]
+			: [`${baseUrl}/logo.jpg`],
+		datePublished: post.date,
+		dateModified: post.date,
+		author: [
+			{
+				"@type": "Person",
+				name: post.author || "Giralt Enterprises",
+			},
+		],
+		publisher: {
+			"@type": "Organization",
+			name: "Giralt Enterprises",
+			logo: {
+				"@type": "ImageObject",
+				url: `${baseUrl}/logo.jpg`,
+			},
+		},
+		mainEntityOfPage: {
+			"@type": "WebPage",
+			"@id": `${baseUrl}/blog/${post.slug}`,
+		},
+	};
+
 	return (
 		<main className="flex flex-col">
+			<script
+				type="application/ld+json"
+				dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }}
+			/>
 			{/* Simple Branded Header */}
 			<section className="bg-linear-to-r from-[oklch(0.15_0.12_253)] to-[oklch(0.18_0.12_253)] text-primary-foreground py-12">
 				<div className="container mx-auto px-4">
@@ -77,6 +155,16 @@ export default async function PostPage({ params }: PostPageProps) {
 							<div className="flex items-center gap-2">
 								<User className="h-4 w-4" />
 								<span>{post.author}</span>
+							</div>
+						)}
+						{post.tags && post.tags.length > 0 && (
+							<div className="flex items-center gap-2">
+								<Tag className="h-4 w-4" />
+								<div className="flex gap-2">
+									{post.tags.map((tag) => (
+										<span key={tag} className="capitalize">{tag}</span>
+									))}
+								</div>
 							</div>
 						)}
 						{post.date && (
@@ -107,10 +195,13 @@ export default async function PostPage({ params }: PostPageProps) {
 				<div className="container mx-auto px-4 max-w-4xl">
 					{post.coverImage && (
 						<div className="relative aspect-video mb-12 rounded-xl overflow-hidden shadow-2xl border">
-							<img
-								src={post.coverImage}
+							<Image
+								src={post.coverImage || ""}
 								alt={post.title}
-								className="object-cover w-full h-full"
+								fill
+								priority
+								className="object-cover"
+								sizes="(max-width: 768px) 100vw, (max-width: 1200px) 90vw, 800px"
 							/>
 						</div>
 					)}
@@ -132,6 +223,20 @@ export default async function PostPage({ params }: PostPageProps) {
 					</div>
 				</div>
 			</article>
+
+			{/* Related Posts */}
+			{relatedPosts.length > 0 && (
+				<section className="py-12 bg-secondary/30 border-t">
+					<div className="container mx-auto px-4 max-w-6xl">
+						<h2 className="text-2xl font-bold mb-8">Related Articles</h2>
+						<div className="grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
+							{relatedPosts.map((post) => (
+								<BlogCard key={post.slug} post={post} />
+							))}
+						</div>
+					</div>
+				</section>
+			)}
 		</main>
 	);
 }

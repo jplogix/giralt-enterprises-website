@@ -1,48 +1,18 @@
-"use client";
-
-import Image from "next/image";
+import type { Metadata } from "next";
 import Link from "next/link";
-import { useEffect, useState } from "react";
 import { Footer } from "@/components/footer";
 import { Navigation } from "@/components/navigation";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
-import { Card, CardContent } from "@/components/ui/card";
+import { ProductGalleryClient } from "@/components/ProductGalleryClient";
 
-interface GalleryImage {
-	id: string;
-	category: string;
-	title: string;
-	image: string;
-}
+export const metadata: Metadata = {
+	title: "2-Line & 3-Line Railings",
+	description:
+		"Flexible 2-line and 3-line aluminum railing systems for docks and walkways. Economical safety solutions with unobstructed views.",
+};
 
 export default function TwoThreeLineRailingsPage() {
-	const [images, setImages] = useState<GalleryImage[]>([]);
-	const [loading, setLoading] = useState(true);
-
-	useEffect(() => {
-		const fetchImages = async () => {
-			try {
-				const res = await fetch("/api/gallery", {
-					cache: "no-store",
-					headers: {
-						"Cache-Control": "no-cache",
-					},
-				});
-				const data = await res.json();
-				const railingImages = (data.images || []).filter(
-					(img: GalleryImage) => img.category === "two-three-line-railings",
-				);
-				setImages(railingImages);
-			} catch (error) {
-				console.error("Error fetching images:", error);
-			} finally {
-				setLoading(false);
-			}
-		};
-		fetchImages();
-	}, []);
-
 	return (
 		<div className="min-h-screen">
 			<Navigation />
@@ -68,74 +38,49 @@ export default function TwoThreeLineRailingsPage() {
 				</div>
 			</section>
 
-			<section className="py-12">
+			<section className="py-20">
 				<div className="container mx-auto px-4">
-					<div className="grid grid-cols-1 md:grid-cols-2 gap-8 items-start">
-						<div>
-							{loading ? (
-								<div className="relative h-80 rounded-lg overflow-hidden shadow bg-secondary animate-pulse" />
-							) : images.length > 0 ? (
-								<div className="relative h-80 rounded-lg overflow-hidden shadow">
-									<Image
-										src={images[0].image || "/placeholder.svg"}
-										alt={images[0].title || "2-Line Railing"}
-										fill
-										className="object-cover"
-									/>
-								</div>
-							) : (
-								<div className="relative h-80 rounded-lg overflow-hidden shadow bg-secondary flex items-center justify-center">
-									<p className="text-muted-foreground">No images available</p>
-								</div>
-							)}
+					<div className="max-w-6xl mx-auto">
+						<div className="grid grid-cols-1 md:grid-cols-2 gap-12 items-center mb-20">
+							<div className="space-y-6">
+								<h2 className="text-3xl font-bold">Simple & Effective</h2>
+								<p className="text-lg text-muted-foreground leading-relaxed">
+									Our 2-line and 3-line systems provide a clean, nautical look
+									while maintaining safety. They are economical and quick to
+									install, making them ideal for long stretches of shoreline or
+									dockage.
+								</p>
+								<ul className="space-y-3">
+									{[
+										"2-line and 3-line configurations",
+										"Adjustable tension and spacing",
+										"High-strength, corrosion resistant materials",
+										"Customizable end fittings and posts",
+									].map((item) => (
+										<li key={item} className="flex items-center gap-2">
+											<div className="w-1.5 h-1.5 rounded-full bg-accent" />
+											<span>{item}</span>
+										</li>
+									))}
+								</ul>
+								<Button size="lg" asChild>
+									<Link href="/contact">Get a Quote</Link>
+								</Button>
+							</div>
+							<div className="bg-secondary/30 rounded-2xl p-4 aspect-video flex items-center justify-center border-2 border-dashed border-muted-foreground/20">
+								<p className="text-muted-foreground text-center italic">
+									Ideal for marinas, parks, and residential docks
+								</p>
+							</div>
 						</div>
-						<div>
-							<h2 className="text-2xl font-bold mb-4">Simple & Effective</h2>
-							<p className="text-muted-foreground mb-4">
-								Our 2-line and 3-line systems provide a clean, nautical look
-								while maintaining safety. They are economical and quick to
-								install.
-							</p>
-							<ul className="list-disc pl-5 mb-6">
-								<li>2-line and 3-line configurations</li>
-								<li>Adjustable tension and spacing</li>
-								<li>Corrosion resistant materials</li>
-								<li>Customizable end fittings</li>
-							</ul>
-							<Button asChild>
-								<Link href="/contact">Request Quote</Link>
-							</Button>
-						</div>
-					</div>
-				</div>
-			</section>
 
-			{images.length > 1 && (
-				<section className="py-20 bg-secondary/30">
-					<div className="container mx-auto px-4">
 						<h2 className="text-3xl font-bold mb-8 text-center">
 							Installation Examples
 						</h2>
-						<div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 max-w-6xl mx-auto">
-							{images.map((image) => (
-								<Card key={image.id} className="overflow-hidden">
-									<div className="relative h-64">
-										<Image
-											src={image.image || "/placeholder.svg"}
-											alt={image.title}
-											fill
-											className="object-cover"
-										/>
-									</div>
-									<CardContent className="pt-4">
-										<h3 className="font-semibold text-center">{image.title}</h3>
-									</CardContent>
-								</Card>
-							))}
-						</div>
+						<ProductGalleryClient category="two-three-line-railings" />
 					</div>
-				</section>
-			)}
+				</div>
+			</section>
 
 			<Footer />
 		</div>
