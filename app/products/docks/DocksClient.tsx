@@ -5,7 +5,7 @@ import Image from "next/image";
 import { Badge } from "@/components/ui/badge";
 import { Card, CardContent } from "@/components/ui/card";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
-import { Dialog, DialogContent, DialogTrigger } from "@/components/ui/dialog";
+import { Dialog, DialogClose, DialogContent, DialogTrigger } from "@/components/ui/dialog";
 
 interface GalleryImage {
 	id: string;
@@ -85,15 +85,17 @@ export function DocksClient() {
 							</Card>
 						</DialogTrigger>
 						<DialogContent className="max-w-5xl p-0" showCloseButton={true}>
-							<div className="relative w-full" style={{ minHeight: "400px", maxHeight: "90vh" }}>
-								<Image
-									src={img.image || "/placeholder.svg"}
-									alt={img.title}
-									fill
-									className="object-contain"
-                                    sizes="(max-width: 1280px) 100vw, 1280px"
-								/>
-							</div>
+							<DialogClose asChild>
+								<div className="relative w-full cursor-pointer" style={{ minHeight: "400px", maxHeight: "90vh" }}>
+									<Image
+										src={img.image || "/placeholder.svg"}
+										alt={img.title}
+										fill
+										className="object-contain"
+										sizes="(max-width: 1280px) 100vw, 1280px"
+									/>
+								</div>
+							</DialogClose>
 							<div className="p-4 border-t">
 								<h3 className="font-semibold text-center text-lg">{img.title}</h3>
 							</div>
